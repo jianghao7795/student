@@ -49,3 +49,31 @@ func (r *studentRepo) CreateStudent(ctx context.Context, s *biz.StudentForm) (*b
 		Message: "Create student success",
 	}, err
 }
+
+func (r *studentRepo) UpdateStudent(ctx context.Context, id int32, s *biz.StudentForm) (*biz.UpdateStudentMessage, error) {
+	// TODO: implement the logic of updating student
+	var stu biz.Student
+	err := r.data.gormDB.First(&stu, id).Error
+	if err != nil {
+		return nil, err
+	}
+	stu.Name = s.Name
+	stu.Info = s.Info
+	stu.Status = s.Status
+	stu.Age = s.Age
+	err = r.data.gormDB.Save(&stu).Error
+	r.log.WithContext(ctx).Info("gormDB: UpdateStudent, id: %d, student: %v", id, stu)
+	return &biz.UpdateStudentMessage{
+		Message: "Update student success",
+	}, err
+}
+
+func (r *studentRepo) DeleteStudent(ctx context.Context, id int32) (*biz.DeleteStudentMessage, error) {
+	// TODO: implement the logic of deleting student
+	var stu biz.Student
+	err := r.data.gormDB.Delete(&stu, id).Error
+	r.log.WithContext(ctx).Info("gormDB: DeleteStudent, id: %d", id)
+	return &biz.DeleteStudentMessage{
+		Message: "Delete student success",
+	}, err
+}

@@ -55,3 +55,33 @@ func (s *StudentService) CreateStudent(ctx context.Context, req *pb.CreateStuden
 		Message: stu.Message,
 	}, nil
 }
+
+func (s *StudentService) UpdateStudent(ctx context.Context, req *pb.UpdateStudentRequest) (*pb.UpdateStudentReply, error) {
+	s.log.Info("update student", req.Id, req.Name, req.Age, req.Status, req.Info)
+	stu, err := s.student.Update(ctx, req.Id, &biz.StudentForm{
+		Name:   req.Name,
+		Info:   req.Info,
+		Status: int(req.Status),
+		Age:    int(req.Age),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	s.log.Info("update student", stu.Message)
+	return &pb.UpdateStudentReply{
+		Message: stu.Message,
+	}, nil
+}
+
+func (s *StudentService) DeleteStudent(ctx context.Context, req *pb.DeleteStudentRequest) (*pb.DeleteStudentReply, error) {
+	s.log.Info("delete student", req.Id)
+	_, err := s.student.Delete(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+	s.log.Info("delete student success")
+	return &pb.DeleteStudentReply{
+		Message: "delete student success",
+	}, nil
+}

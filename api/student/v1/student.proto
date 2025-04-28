@@ -20,6 +20,17 @@ service Student {
       body: "*"
     };
   }
+  rpc UpdateStudent (UpdateStudentRequest) returns (UpdateStudentReply) {
+    option (google.api.http) = {
+      put: "/student/{id}"
+      body: "*"
+    };
+  }
+  rpc DeleteStudent (DeleteStudentRequest) returns (DeleteStudentReply) {
+    option (google.api.http) = {
+      delete: "/student/{id}"
+    };
+  }
 }
 
 // The request message containing the user's name.
@@ -42,5 +53,23 @@ message CreateStudentRequest {
   string info = 4;
 }
 message CreateStudentReply {
+  string message = 1;
+}
+
+message UpdateStudentRequest {
+  int32 id = 1;
+  string name = 2;
+  int32 age = 3;
+  int32 status = 4;
+  string info = 5;
+}
+message UpdateStudentReply {
+  string message = 1;
+}
+
+message DeleteStudentRequest {
+  int32 id = 1;
+}
+message DeleteStudentReply {
   string message = 1;
 }

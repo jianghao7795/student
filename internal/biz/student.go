@@ -24,6 +24,15 @@ type StudentForm struct {
 }
 
 type CreateStudentMessage struct {
+	ID      int32
+	Message string
+}
+
+type UpdateStudentMessage struct {
+	Message string
+}
+
+type DeleteStudentMessage struct {
 	Message string
 }
 
@@ -31,6 +40,8 @@ type CreateStudentMessage struct {
 type StudentRepo interface {
 	GetStudent(ctx context.Context, id int32) (*Student, error)
 	CreateStudent(ctx context.Context, s *StudentForm) (*CreateStudentMessage, error)
+	UpdateStudent(ctx context.Context, id int32, s *StudentForm) (*UpdateStudentMessage, error)
+	DeleteStudent(ctx context.Context, id int32) (*DeleteStudentMessage, error)
 }
 
 type StudentUsecase struct {
@@ -56,4 +67,12 @@ func (uc *StudentUsecase) Get(ctx context.Context, id int32) (*Student, error) {
 func (uc *StudentUsecase) Create(ctx context.Context, s *StudentForm) (*CreateStudentMessage, error) {
 	uc.log.Info("create student", s)
 	return uc.repo.CreateStudent(ctx, s)
+}
+
+func (uc *StudentUsecase) Update(ctx context.Context, id int32, s *StudentForm) (*UpdateStudentMessage, error) {
+	return uc.repo.UpdateStudent(ctx, id, s)
+}
+
+func (uc *StudentUsecase) Delete(ctx context.Context, id int32) (*DeleteStudentMessage, error) {
+	return uc.repo.DeleteStudent(ctx, id)
 }
