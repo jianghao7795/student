@@ -83,6 +83,6 @@ wire:
 	cd cmd/student && wire
 # run
 run:
-	go run ./cmd/ngsdata/... -conf ./configs
+	go run ./cmd/student/... -conf ./configs
 
 .DEFAULT_GOAL := help
