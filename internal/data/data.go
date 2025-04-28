@@ -23,8 +23,8 @@ type Data struct {
 	redis *redis.Client
 }
 
-func NewGormDB(c *conf.Data) (*gorm.DB, error) {
-	dsn := c.Database.Source
+func NewGormDB(c *conf.Bootstrap) (*gorm.DB, error) {
+	dsn := c.Data.Database.Source
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err
@@ -40,11 +40,11 @@ func NewGormDB(c *conf.Data) (*gorm.DB, error) {
 	return db, err
 }
 
-func NewRedis(c *conf.Data) (*redis.Client, error) {
+func NewRedis(c *conf.Bootstrap) (*redis.Client, error) {
 	client := redis.NewClient(&redis.Options{
-		Addr:            c.Redis.Addr, // use default Addr
+		Addr:            c.Data.Redis.Addr, // use default Addr
 		Password:        "",
-		ConnMaxIdleTime: c.Redis.ReadTimeout.AsDuration(),
+		ConnMaxIdleTime: c.Data.Redis.ReadTimeout.AsDuration(),
 	})
 
 	ctx := context.Background()

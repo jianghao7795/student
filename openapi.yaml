@@ -77,7 +77,8 @@ components:
                     type: integer
                     format: int32
                 info:
-                    type: string
+                    type: integer
+                    format: int32
             description: The response message containing the greetings
 tags:
     - name: Student
