@@ -96,13 +96,11 @@ paths:
                 - name: pageSize
                   in: query
                   schema:
-                    type: integer
-                    format: int32
+                    type: string
                 - name: page
                   in: query
                   schema:
-                    type: integer
-                    format: int32
+                    type: string
                 - name: name
                   in: query
                   schema:

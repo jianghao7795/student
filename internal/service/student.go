@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	pb "student/api/student/v1"
 	"student/internal/biz"
@@ -89,7 +90,29 @@ func (s *StudentService) DeleteStudent(ctx context.Context, req *pb.DeleteStuden
 
 func (s *StudentService) ListStudents(ctx context.Context, req *pb.ListStudentsRequest) (*pb.ListStudentsReply, error) {
 	s.log.Info("list student")
-	students, total, err := s.student.List(ctx, req.PageSize, req.Page, req.Name)
+	var err error
+	var pageSize int
+	var total int32
+	var students []*biz.Student
+	if req.PageSize != "" {
+		pageSize, err = strconv.Atoi(req.PageSize)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		pageSize = 10
+
+	}
+	var page int
+	if req.Page != "" {
+		page, err = strconv.Atoi(req.Page)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		page = 1
+	}
+	students, total, err = s.student.List(ctx, int32(pageSize), int32(page), req.Name)
 	if err != nil {
 		return nil, err
 	}

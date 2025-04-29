@@ -78,8 +78,8 @@ message Students {
 }
 
 message ListStudentsRequest {
-  int32 page_size = 1;
-  int32 page = 2;
+  string page_size = 1;
+  string page = 2;
   string name = 3;
 }
 
