@@ -9,34 +9,32 @@ option go_package = "student/api/student/v1;v1";
 // The greeting service definition.
 service Student {
   // Sends a greeting
-  rpc GetStudent (GetStudentRequest) returns (GetStudentReply) {
+  rpc GetStudent(GetStudentRequest) returns (GetStudentReply) {
     option (google.api.http) = {
-      get: "/student/{id}"
+      get : "/student/{id}"
     };
   }
-  rpc CreateStudent (CreateStudentRequest) returns (CreateStudentReply) {
+  rpc CreateStudent(CreateStudentRequest) returns (CreateStudentReply) {
     option (google.api.http) = {
-      post: "/student"
-      body: "*"
+      post : "/student"
+      body : "*"
     };
   }
-  rpc UpdateStudent (UpdateStudentRequest) returns (UpdateStudentReply) {
+  rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentReply) {
     option (google.api.http) = {
-      put: "/student/{id}"
-      body: "*"
+      put : "/student/{id}"
+      body : "*"
     };
   }
-  rpc DeleteStudent (DeleteStudentRequest) returns (DeleteStudentReply) {
+  rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentReply) {
     option (google.api.http) = {
-      delete: "/student/{id}"
+      delete : "/student/{id}"
     };
   }
 }
 
 // The request message containing the user's name.
-message GetStudentRequest {
-  int32 id = 1;
-}
+message GetStudentRequest { int32 id = 1; }
 
 // The response message containing the greetings
 message GetStudentReply {
@@ -52,9 +50,7 @@ message CreateStudentRequest {
   int32 status = 3;
   string info = 4;
 }
-message CreateStudentReply {
-  string message = 1;
-}
+message CreateStudentReply { string message = 1; }
 
 message UpdateStudentRequest {
   int32 id = 1;
@@ -63,13 +59,7 @@ message UpdateStudentRequest {
   int32 status = 4;
   string info = 5;
 }
-message UpdateStudentReply {
-  string message = 1;
-}
+message UpdateStudentReply { string message = 1; }
 
-message DeleteStudentRequest {
-  int32 id = 1;
-}
-message DeleteStudentReply {
-  string message = 1;
-}
+message DeleteStudentRequest { int32 id = 1; }
+message DeleteStudentReply { string message = 1; }
