@@ -149,6 +149,8 @@ components:
                     type: integer
                     format: int32
                 info:
+                    type: string
+                age:
                     type: integer
                     format: int32
             description: The response message containing the greetings

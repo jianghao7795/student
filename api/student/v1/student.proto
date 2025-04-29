@@ -46,7 +46,8 @@ message GetStudentReply {
   string name = 1;
   int32 status = 2;
   int32 id = 3;
-  int32 info = 4;
+  string info = 4;
+  int32 age = 5;
 }
 
 message CreateStudentRequest {

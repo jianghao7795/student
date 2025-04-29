@@ -37,6 +37,8 @@ func (s *StudentService) GetStudent(ctx context.Context, req *pb.GetStudentReque
 		Id:     int32(stu.ID),
 		Name:   stu.Name,
 		Status: int32(stu.Status),
+		Info:   stu.Info,
+		Age:    int32(stu.Age),
 	}, nil
 }
 
