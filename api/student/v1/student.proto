@@ -10,30 +10,30 @@ option go_package = "student/api/student/v1;v1";
 service Student {
   // Sends a greeting
   rpc GetStudent(GetStudentRequest) returns (GetStudentReply) {
-    option (google.api.http) = {
-      get : "/student/{id}"
+    option(google.api.http) = {
+      get: "/student/{id}"
     };
   }
   rpc CreateStudent(CreateStudentRequest) returns (CreateStudentReply) {
-    option (google.api.http) = {
-      post : "/student"
-      body : "*"
+    option(google.api.http) = {
+      post: "/student"
+      body: "*"
     };
   }
   rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentReply) {
-    option (google.api.http) = {
-      put : "/student/{id}"
-      body : "*"
+    option(google.api.http) = {
+      put: "/student/{id}" 
+      body: "*"
     };
   }
   rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentReply) {
-    option (google.api.http) = {
-      delete : "/student/{id}"
+    option(google.api.http) = {
+      delete: "/student/{id}"
     };
   }
   rpc ListStudents(ListStudentsRequest) returns (ListStudentsReply) {
-    option (google.api.http) = {
-      get : "/students"
+    option(google.api.http) = {
+      get: "/students"
     };
   }
 }
