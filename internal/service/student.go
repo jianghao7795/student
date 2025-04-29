@@ -8,6 +8,7 @@ import (
 	"student/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 type StudentService struct {
@@ -83,5 +84,22 @@ func (s *StudentService) DeleteStudent(ctx context.Context, req *pb.DeleteStuden
 	s.log.Info("delete student success")
 	return &pb.DeleteStudentReply{
 		Message: "delete student success",
+	}, nil
+}
+
+func (s *StudentService) ListStudents(ctx context.Context, req *pb.ListStudentsRequest) (*pb.ListStudentsReply, error) {
+	s.log.Info("list student")
+	students, total, err := s.student.List(ctx, req.PageSize, req.Page, req.Name)
+	if err != nil {
+		return nil, err
+	}
+	var data []*pb.Students
+	err = gconv.Structs(students, &data)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.ListStudentsReply{
+		Data:  data,
+		Total: int32(total),
 	}, nil
 }

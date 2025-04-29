@@ -77,3 +77,24 @@ func (r *studentRepo) DeleteStudent(ctx context.Context, id int32) (*biz.DeleteS
 		Message: "Delete student success",
 	}, err
 }
+
+func (r *studentRepo) ListStudents(ctx context.Context, page int32, pageSize int32, name string) ([]*biz.Student, int32, error) {
+	var stus []*biz.Student
+	var total int64
+	var err error
+	if name == "" {
+		err = r.data.gormDB.Model(&biz.Student{}).Count(&total).Error
+	} else {
+		err = r.data.gormDB.Model(&biz.Student{}).Where("name LIKE ?", "%"+name+"%").Count(&total).Error
+	}
+	if err != nil {
+		return nil, 0, err
+	}
+	if name == "" {
+		err = r.data.gormDB.Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Find(&stus).Error
+	} else {
+		err = r.data.gormDB.Where("name LIKE ?", "%"+name+"%").Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Find(&stus).Error
+	}
+
+	return stus, int32(total), err
+}

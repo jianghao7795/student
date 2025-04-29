@@ -87,6 +87,33 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/student.v1.DeleteStudentReply'
+    /students:
+        get:
+            tags:
+                - Student
+            operationId: Student_ListStudents
+            parameters:
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: name
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/student.v1.ListStudentsReply'
 components:
     schemas:
         student.v1.CreateStudentReply:
@@ -127,6 +154,32 @@ components:
                     type: integer
                     format: int32
             description: The response message containing the greetings
+        student.v1.ListStudentsReply:
+            type: object
+            properties:
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/student.v1.Students'
+                total:
+                    type: integer
+                    format: int32
+        student.v1.Students:
+            type: object
+            properties:
+                name:
+                    type: string
+                age:
+                    type: integer
+                    format: int32
+                status:
+                    type: integer
+                    format: int32
+                info:
+                    type: string
+                id:
+                    type: integer
+                    format: int32
         student.v1.UpdateStudentReply:
             type: object
             properties:

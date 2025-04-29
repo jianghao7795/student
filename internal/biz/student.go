@@ -42,6 +42,7 @@ type StudentRepo interface {
 	CreateStudent(ctx context.Context, s *StudentForm) (*CreateStudentMessage, error)
 	UpdateStudent(ctx context.Context, id int32, s *StudentForm) (*UpdateStudentMessage, error)
 	DeleteStudent(ctx context.Context, id int32) (*DeleteStudentMessage, error)
+	ListStudents(ctx context.Context, page int32, pageSize int32, name string) ([]*Student, int32, error)
 }
 
 type StudentUsecase struct {
@@ -75,4 +76,14 @@ func (uc *StudentUsecase) Update(ctx context.Context, id int32, s *StudentForm) 
 
 func (uc *StudentUsecase) Delete(ctx context.Context, id int32) (*DeleteStudentMessage, error) {
 	return uc.repo.DeleteStudent(ctx, id)
+}
+
+func (uc *StudentUsecase) List(ctx context.Context, page int32, pageSize int32, name string) ([]*Student, int32, error) {
+	if page == 0 {
+		page = 1
+	}
+	if pageSize == 0 {
+		pageSize = 10
+	}
+	return uc.repo.ListStudents(ctx, page, pageSize, name)
 }
