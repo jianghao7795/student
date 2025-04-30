@@ -15,24 +15,24 @@ service Student {
     };
   }
   rpc CreateStudent(CreateStudentRequest) returns (CreateStudentReply) {
-    option(google.api.http) = {
+    option (google.api.http) = {
       post: "/student"
       body: "*"
     };
   }
   rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentReply) {
-    option(google.api.http) = {
+    option (google.api.http) = {
       put: "/student/{id}" 
       body: "*"
     };
   }
   rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentReply) {
-    option(google.api.http) = {
+    option (google.api.http) = {
       delete: "/student/{id}"
     };
   }
   rpc ListStudents(ListStudentsRequest) returns (ListStudentsReply) {
-    option(google.api.http) = {
+    option (google.api.http) = {
       get: "/students"
     };
   }
