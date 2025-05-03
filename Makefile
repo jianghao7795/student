@@ -84,5 +84,7 @@ wire:
 # run
 run:
 	go run ./cmd/student/... -conf ./configs
+air:
+	air -c .air.toml
 
 .DEFAULT_GOAL := help
