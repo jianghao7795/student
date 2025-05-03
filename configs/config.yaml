@@ -9,6 +9,7 @@ data:
   database:
     driver: mysql
     source: root:123456@tcp(192.168.10.121:3306)/student?parseTime=True&loc=Local
+    debug: true
   redis:
     addr: 192.168.10.121:6379
     read_timeout: 0.2s

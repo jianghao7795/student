@@ -25,7 +25,10 @@ type Data struct {
 
 func NewGormDB(c *conf.Bootstrap) (*gorm.DB, error) {
 	dsn := c.Data.Database.Source
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		// Logger: &logger.Recorderr.New(log.With(log.NewHelper(log.DefaultLogger), "gorm", "")),
+
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -37,6 +40,9 @@ func NewGormDB(c *conf.Bootstrap) (*gorm.DB, error) {
 	sqlDB.SetMaxIdleConns(50)
 	sqlDB.SetMaxOpenConns(150)
 	sqlDB.SetConnMaxLifetime(time.Second * 25)
+	if c.Data.Database.Debug {
+		db = db.Debug()
+	}
 	return db, err
 }
 

@@ -4,6 +4,8 @@ import (
 	"context"
 	"student/internal/biz"
 
+	logger "log"
+
 	"github.com/go-kratos/kratos/v2/log"
 )
 
@@ -90,8 +92,9 @@ func (r *studentRepo) ListStudents(ctx context.Context, page int32, pageSize int
 	if err != nil {
 		return nil, 0, err
 	}
+	logger.Println(page, pageSize)
 	if name == "" {
-		err = r.data.gormDB.Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Find(&stus).Error
+		err = r.data.gormDB.Limit(int(pageSize)).Offset(int((page - 1) * pageSize)).Find(&stus).Error
 	} else {
 		err = r.data.gormDB.Where("name LIKE ?", "%"+name+"%").Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Find(&stus).Error
 	}

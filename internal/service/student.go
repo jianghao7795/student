@@ -114,7 +114,7 @@ func (s *StudentService) ListStudents(ctx context.Context, req *pb.ListStudentsR
 	} else {
 		page = 1
 	}
-	students, total, err = s.student.List(ctx, int32(pageSize), int32(page), req.Name)
+	students, total, err = s.student.List(ctx, int32(page), int32(pageSize), req.Name)
 	if err != nil {
 		return nil, err
 	}
