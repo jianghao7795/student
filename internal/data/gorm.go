@@ -1,14 +1,15 @@
 package data
 
 import (
-	"context"
+	"log"
+	"os"
 	"student/internal/conf"
 	"time"
 
-	"github.com/go-kratos/kratos/v2/log"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 // Data
@@ -20,11 +21,26 @@ type Data struct {
 }
 
 func NewGormDB(c *conf.Bootstrap) (*gorm.DB, error) {
-	dsn := c.Data.Database.Source
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
-		// Logger: &logger.Recorderr.New(log.With(log.NewHelper(log.DefaultLogger), "gorm", "")),
-
+	// config mysql
+	mysqlConfig := mysql.Config{
+		DSN:                       c.Data.Database.Source,
+		DefaultStringSize:         256,
+		SkipInitializeWithVersion: false,
+	}
+	_default := logger.New(NewWriter(log.New(os.Stdout, "\n", log.LstdFlags)), logger.Config{
+		SlowThreshold: 200 * time.Millisecond,
+		LogLevel:      logger.Warn,
+		Colorful:      false,
 	})
+	gormConfig := &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
+		QueryFields:                              true,
+		PrepareStmt:                              true,
+		SkipDefaultTransaction:                   false,
+		Logger:                                   _default.LogMode(logger.Silent),
+	}
+
+	db, err := gorm.Open(mysql.New(mysqlConfig), gormConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -33,8 +49,8 @@ func NewGormDB(c *conf.Bootstrap) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	sqlDB.SetMaxIdleConns(50)
-	sqlDB.SetMaxOpenConns(150)
+	sqlDB.SetMaxIdleConns(int(c.Data.Database.MaxIdleConns))
+	sqlDB.SetMaxOpenConns(int(c.Data.Database.MaxOpenConns))
 	sqlDB.SetConnMaxLifetime(time.Second * 25)
 	if c.Data.Database.Debug {
 		db = db.Debug()
@@ -42,27 +58,18 @@ func NewGormDB(c *conf.Bootstrap) (*gorm.DB, error) {
 	return db, err
 }
 
-func NewRedis(c *conf.Bootstrap) (*redis.Client, error) {
-	client := redis.NewClient(&redis.Options{
-		Addr:            c.Data.Redis.Addr, // use default Addr
-		Password:        "",
-		ConnMaxIdleTime: c.Data.Redis.ReadTimeout.AsDuration(),
-	})
-
-	ctx := context.Background()
-	pong, err := client.Ping(ctx).Result()
-	if err != nil {
-		log.Fatal("redis erros is: ", err.Error())
-	} else {
-		log.Infow(pong)
-	}
-	return client, err
+type Writer struct {
+	logger.Writer
 }
 
-// NewData .
-func NewData(logger log.Logger, db *gorm.DB, redis *redis.Client) (*Data, func(), error) {
-	cleanup := func() {
-		log.NewHelper(logger).Info("closing the data resources")
-	}
-	return &Data{gormDB: db, redis: redis}, cleanup, nil
+// NewWriter writer 构造函数
+
+func NewWriter(w logger.Writer) *Writer {
+	return &Writer{Writer: w}
+}
+
+// Printf 格式化打印日志
+
+func (w *Writer) Printf(message string, data ...any) {
+	w.Writer.Printf(message, data...)
 }

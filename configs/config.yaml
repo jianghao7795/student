@@ -8,9 +8,12 @@ server:
 data:
   database:
     driver: mysql
-    source: root:123456@tcp(192.168.10.121:3306)/student?parseTime=True&loc=Local
+    source: root:123456@tcp(192.168.56.162:3306)/student?parseTime=True&loc=Local
     debug: true
+    max_idle_conns: 10
+    max_open_conns: 50
   redis:
-    addr: 192.168.10.121:6379
+    addr: 192.168.56.162:6379
+    dial_timeout: 0.2s
     read_timeout: 0.2s
     write_timeout: 0.2s
