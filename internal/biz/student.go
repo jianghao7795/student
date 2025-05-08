@@ -8,11 +8,14 @@ import (
 
 // Student is a Student model.
 type Student struct {
-	MODEL
-	Name   string
-	Info   string
-	Status int
-	Age    int
+	// MODEL
+	ID        uint
+	Name      string
+	Info      string
+	Status    int
+	Age       int
+	CreatedAt string
+	UpdatedAt string
 }
 
 type StudentForm struct {
@@ -20,7 +23,8 @@ type StudentForm struct {
 	Info   string
 	Status int
 	Age    int
-	MODEL
+	ID     uint
+	// MODEL
 }
 
 type CreateStudentMessage struct {

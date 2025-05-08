@@ -25,14 +25,12 @@ func (r *studentRepo) GetStudent(ctx context.Context, id int32) (*biz.Student, e
 	err := r.data.gormDB.First(&stu, id).Error
 	r.log.WithContext(ctx).Info("gormDB: GetStudent, id: %d, result: %v", id, stu)
 	return &biz.Student{
-		Name:   stu.Name,
-		Status: stu.Status,
-		Info:   stu.Info,
-		MODEL: biz.MODEL{
-			ID:        stu.ID,
-			UpdatedAt: stu.UpdatedAt,
-			CreatedAt: stu.CreatedAt,
-		},
+		Name:      stu.Name,
+		Status:    stu.Status,
+		Info:      stu.Info,
+		ID:        stu.ID,
+		CreatedAt: stu.CreatedAt,
+		UpdatedAt: stu.UpdatedAt,
 	}, err
 }
 
