@@ -34,11 +34,13 @@ func (s *StudentService) GetStudent(ctx context.Context, req *pb.GetStudentReque
 	s.log.Info("get student", stu.CreatedAt, stu.UpdatedAt)
 	fmt.Println("bbs to bbs", stu.CreatedAt, stu.UpdatedAt)
 	return &pb.GetStudentReply{
-		Id:     int32(stu.ID),
-		Name:   stu.Name,
-		Status: int32(stu.Status),
-		Info:   stu.Info,
-		Age:    int32(stu.Age),
+		Id:        int32(stu.ID),
+		Name:      stu.Name,
+		Status:    int32(stu.Status),
+		Info:      stu.Info,
+		Age:       int32(stu.Age),
+		CreatedAt: stu.CreatedAt.Format("2006-01-02 15:04:05"),
+		UpdatedAt: stu.UpdatedAt.Format("2006-01-02 15:04:05"),
 	}, nil
 }
 

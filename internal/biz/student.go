@@ -2,6 +2,7 @@ package biz
 
 import (
 	"context"
+	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
 )
@@ -14,8 +15,8 @@ type Student struct {
 	Info      string
 	Status    int
 	Age       int
-	CreatedAt string
-	UpdatedAt string
+	CreatedAt time.Time `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"`
 }
 
 type StudentForm struct {

@@ -153,6 +153,10 @@ components:
                 age:
                     type: integer
                     format: int32
+                createdAt:
+                    type: string
+                updatedAt:
+                    type: string
             description: The response message containing the greetings
         student.v1.ListStudentsReply:
             type: object
@@ -180,6 +184,10 @@ components:
                 id:
                     type: integer
                     format: int32
+                createdAt:
+                    type: string
+                updatedAt:
+                    type: string
         student.v1.UpdateStudentReply:
             type: object
             properties:

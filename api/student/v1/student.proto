@@ -48,6 +48,8 @@ message GetStudentReply {
   int32 id = 3;
   string info = 4;
   int32 age = 5;
+  string created_at = 6;
+  string updated_at = 7;
 }
 
 message CreateStudentRequest {
@@ -76,6 +78,8 @@ message Students {
   int32 status = 3;
   string info = 4;
   int32 id = 5;
+  string created_at = 6;
+  string updated_at = 7;
 }
 
 message ListStudentsRequest {
