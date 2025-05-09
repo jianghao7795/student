@@ -24,9 +24,6 @@ func (r *studentRepo) GetStudent(ctx context.Context, id int32) (*biz.Student, e
 	// TODO: implement the logic of getting student by id
 	var stu biz.Student
 	err := r.data.gormDB.Where("deleted_at IS NULL").First(&stu, id).Error
-	if err != nil {
-		return nil, err
-	}
 	r.log.WithContext(ctx).Info("gormDB: GetStudent, id: %d, result: %v", id, stu)
 	fmt.Printf("gormDB: GetStudent, id: %d, result: %v", id, stu.UpdatedAt)
 	return &biz.Student{
