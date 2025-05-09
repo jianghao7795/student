@@ -23,7 +23,10 @@ func NewStudentRepo(data *Data, logger log.Logger) biz.StudentRepo {
 func (r *studentRepo) GetStudent(ctx context.Context, id int32) (*biz.Student, error) {
 	// TODO: implement the logic of getting student by id
 	var stu biz.Student
-	err := r.data.gormDB.First(&stu, id).Error
+	err := r.data.gormDB.Where("deleted_at IS NULL").First(&stu, id).Error
+	if err != nil {
+		return nil, err
+	}
 	r.log.WithContext(ctx).Info("gormDB: GetStudent, id: %d, result: %v", id, stu)
 	fmt.Printf("gormDB: GetStudent, id: %d, result: %v", id, stu.UpdatedAt)
 	return &biz.Student{
@@ -83,18 +86,18 @@ func (r *studentRepo) ListStudents(ctx context.Context, page int32, pageSize int
 	var total int64
 	var err error
 	if name == "" {
-		err = r.data.gormDB.Model(&biz.Student{}).Count(&total).Error
+		err = r.data.gormDB.Model(&biz.Student{}).Where("deleted_at IS NULL").Count(&total).Error
 	} else {
-		err = r.data.gormDB.Model(&biz.Student{}).Where("name LIKE ?", "%"+name+"%").Count(&total).Error
+		err = r.data.gormDB.Model(&biz.Student{}).Where("deleted_at IS NULL").Where("name LIKE ?", "%"+name+"%").Count(&total).Error
 	}
 	if err != nil {
 		return nil, 0, err
 	}
 	// logger.Println(page, pageSize)
 	if name == "" {
-		err = r.data.gormDB.Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Find(&stus).Error
+		err = r.data.gormDB.Where("deleted_at IS NULL").Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Find(&stus).Error
 	} else {
-		err = r.data.gormDB.Where("name LIKE ?", "%"+name+"%").Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Find(&stus).Error
+		err = r.data.gormDB.Where("deleted_at IS NULL").Where("name LIKE ?", "%"+name+"%").Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Find(&stus).Error
 	}
 
 	return stus, int32(total), err

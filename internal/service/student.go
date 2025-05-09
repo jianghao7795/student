@@ -41,6 +41,7 @@ func (s *StudentService) GetStudent(ctx context.Context, req *pb.GetStudentReque
 		Age:       int32(stu.Age),
 		CreatedAt: stu.CreatedAt.Format("2006-01-02 15:04:05"),
 		UpdatedAt: stu.UpdatedAt.Format("2006-01-02 15:04:05"),
+		DeletedAt: stu.DeletedAt.Format("2006-01-02 15:04:05"),
 	}, nil
 }
 

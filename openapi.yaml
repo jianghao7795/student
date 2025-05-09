@@ -157,6 +157,8 @@ components:
                     type: string
                 updatedAt:
                     type: string
+                deletedAt:
+                    type: string
             description: The response message containing the greetings
         student.v1.ListStudentsReply:
             type: object
@@ -187,6 +189,8 @@ components:
                 createdAt:
                     type: string
                 updatedAt:
+                    type: string
+                deletedAt:
                     type: string
         student.v1.UpdateStudentReply:
             type: object
