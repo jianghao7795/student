@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"gorm.io/gorm"
 )
 
 // Student is a Student model.
@@ -15,9 +16,9 @@ type Student struct {
 	Info      string
 	Status    int
 	Age       int
-	CreatedAt *time.Time `gorm:"column:created_at" json:"created_at"`
-	UpdatedAt *time.Time `gorm:"column:updated_at" json:"updated_at"`
-	DeletedAt *time.Time `gorm:"column:deleted_at" json:"deleted_at"`
+	CreatedAt *time.Time     `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt *time.Time     `gorm:"column:updated_at" json:"updated_at"`
+	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
 }
 
 type StudentForm struct {

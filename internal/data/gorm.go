@@ -6,19 +6,10 @@ import (
 	"student/internal/conf"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
-
-// Data
-type Data struct {
-	// TODO wrapped database client
-	gormDB *gorm.DB
-	// TODO redis
-	redis *redis.Client
-}
 
 func NewGormDB(c *conf.Bootstrap) (*gorm.DB, error) {
 	// config mysql

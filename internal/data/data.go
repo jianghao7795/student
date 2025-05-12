@@ -10,6 +10,14 @@ import (
 // ProviderSet is data providers.
 var ProviderSet = wire.NewSet(NewGormDB, NewData, NewRedis, NewStudentRepo)
 
+// Data
+type Data struct {
+	// TODO wrapped database client
+	gormDB *gorm.DB
+	// TODO redis
+	redis *redis.Client
+}
+
 // NewData .
 func NewData(logger log.Logger, db *gorm.DB, redis *redis.Client) (*Data, func(), error) {
 	cleanup := func() {
