@@ -18,7 +18,7 @@ func NewGormDB(c *conf.Bootstrap) (*gorm.DB, error) {
 		DefaultStringSize:         256,
 		SkipInitializeWithVersion: false,
 	}
-	_default := logger.New(NewWriter(log.New(os.Stdout, "\n", log.LstdFlags)), logger.Config{
+	loggerConfig := logger.New(NewWriter(log.New(os.Stdout, "\n", log.LstdFlags)), logger.Config{
 		SlowThreshold: 200 * time.Millisecond,
 		LogLevel:      logger.Warn,
 		Colorful:      false,
@@ -28,7 +28,7 @@ func NewGormDB(c *conf.Bootstrap) (*gorm.DB, error) {
 		QueryFields:                              true,
 		PrepareStmt:                              true,
 		SkipDefaultTransaction:                   false,
-		Logger:                                   _default.LogMode(logger.Silent),
+		Logger:                                   loggerConfig.LogMode(logger.Info),
 	}
 
 	db, err := gorm.Open(mysql.New(mysqlConfig), gormConfig)

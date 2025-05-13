@@ -10,6 +10,9 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/gogf/gf/v2/util/gconv"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+	"gorm.io/gorm"
 )
 
 type StudentService struct {
@@ -29,20 +32,15 @@ func NewStudentService(student *biz.StudentUsecase, logger log.Logger) *StudentS
 func (s *StudentService) GetStudent(ctx context.Context, req *pb.GetStudentRequest) (*pb.GetStudentReply, error) {
 	stu, err := s.student.Get(ctx, req.Id)
 	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, status.Error(codes.NotFound, fmt.Sprintf("student not found: %v", req.Id))
+		}
 		return nil, err
 	}
 	s.log.Info("get student", stu.CreatedAt, stu.UpdatedAt)
-	fmt.Println("bbs to bbs", stu.CreatedAt, stu.UpdatedAt)
-	return &pb.GetStudentReply{
-		Id:        int32(stu.ID),
-		Name:      stu.Name,
-		Status:    int32(stu.Status),
-		Info:      stu.Info,
-		Age:       int32(stu.Age),
-		CreatedAt: stu.CreatedAt.Format("2006-01-02 15:04:05"),
-		UpdatedAt: stu.UpdatedAt.Format("2006-01-02 15:04:05"),
-		// DeletedAt: stu.DeletedAt.Format("2006-01-02 15:04:05"),
-	}, nil
+	var student pb.GetStudentReply
+	err = gconv.Struct(stu, &student)
+	return &student, err
 }
 
 func (s *StudentService) CreateStudent(ctx context.Context, req *pb.CreateStudentRequest) (*pb.CreateStudentReply, error) {
