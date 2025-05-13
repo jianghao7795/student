@@ -11,7 +11,6 @@ COPY . /app
 RUN go mod download
 RUN make build
 
-
 FROM rockylinux:9-minimal AS runner
 WORKDIR /app
 
