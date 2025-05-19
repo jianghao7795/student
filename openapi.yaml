@@ -153,11 +153,9 @@ components:
                 age:
                     type: integer
                     format: int32
-                createdAt:
+                created_at:
                     type: string
-                updatedAt:
-                    type: string
-                deletedAt:
+                updated_at:
                     type: string
             description: The response message containing the greetings
         student.v1.ListStudentsReply:
@@ -189,8 +187,6 @@ components:
                 createdAt:
                     type: string
                 updatedAt:
-                    type: string
-                deletedAt:
                     type: string
         student.v1.UpdateStudentReply:
             type: object

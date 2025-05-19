@@ -10,7 +10,7 @@ option go_package = "student/api/student/v1;v1";
 service Student {
   // Sends a greeting
   rpc GetStudent(GetStudentRequest) returns (GetStudentReply) {
-    option(google.api.http) = {
+    option (google.api.http) = {
       get: "/student/{id}"
     };
   }
@@ -48,9 +48,8 @@ message GetStudentReply {
   int32 id = 3;
   string info = 4;
   int32 age = 5;
-  string created_at = 6;
-  string updated_at = 7;
-  string deleted_at = 8;
+  string created_at = 6 [json_name = "created_at"];
+  string updated_at = 7 [json_name = "updated_at"];
 }
 
 message CreateStudentRequest {
@@ -70,7 +69,7 @@ message UpdateStudentRequest {
 }
 message UpdateStudentReply { string message = 1; }
 
-message DeleteStudentRequest { int32 id = 1; 
+message DeleteStudentRequest { int32 id = 1; } 
 message DeleteStudentReply { string message = 1; }
 
 message Students {
@@ -81,7 +80,6 @@ message Students {
   int32 id = 5;
   string created_at = 6;
   string updated_at = 7;
-  string deleted_at = 8;
 }
 
 message ListStudentsRequest {

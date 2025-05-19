@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	"fmt"
 	"student/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -25,12 +24,12 @@ func (r *studentRepo) GetStudent(ctx context.Context, id int32) (*biz.Student, e
 	var stu biz.Student
 	err := r.data.gormDB.First(&stu, id).Error
 	r.log.WithContext(ctx).Info("gormDB: GetStudent, id: %d, result: %v", id, stu)
-	fmt.Printf("gormDB: GetStudent, id: %d, result: %v", id, stu.UpdatedAt)
 	return &biz.Student{
 		Name:      stu.Name,
 		Status:    stu.Status,
 		Info:      stu.Info,
 		ID:        stu.ID,
+		Age:       stu.Age,
 		CreatedAt: stu.CreatedAt,
 		UpdatedAt: stu.UpdatedAt,
 	}, err

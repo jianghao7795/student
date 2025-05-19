@@ -38,8 +38,15 @@ func (s *StudentService) GetStudent(ctx context.Context, req *pb.GetStudentReque
 		return nil, err
 	}
 	s.log.Info("get student", stu.CreatedAt, stu.UpdatedAt)
-	var student pb.GetStudentReply
-	err = gconv.Struct(stu, &student)
+	student := pb.GetStudentReply{
+		Name:      stu.Name,
+		Info:      stu.Info,
+		Status:    int32(stu.Status),
+		Age:       int32(stu.Age),
+		CreatedAt: stu.CreatedAt.String(),
+		UpdatedAt: stu.UpdatedAt.String(),
+	}
+	// err = gconv.Struct(stu, &student)
 	return &student, err
 }
 
