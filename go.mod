@@ -6,7 +6,6 @@ toolchain go1.24.2
 
 require (
 	github.com/go-kratos/kratos/v2 v2.8.0
-	github.com/gogf/gf/v2 v2.9.0
 	github.com/google/wire v0.6.0
 	github.com/redis/go-redis/v9 v9.7.3
 	go.uber.org/automaxprocs v1.5.1
@@ -32,8 +31,11 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/kr/text v0.2.0 // indirect
+	github.com/rogpeppe/go-internal v1.13.1 // indirect
+	github.com/stretchr/testify v1.10.0 // indirect
 	go.opentelemetry.io/otel v1.32.0 // indirect
 	go.opentelemetry.io/otel/metric v1.32.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.32.0 // indirect
 	go.opentelemetry.io/otel/trace v1.32.0 // indirect
 	golang.org/x/net v0.39.0 // indirect
 	golang.org/x/sync v0.13.0 // indirect

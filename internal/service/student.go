@@ -9,7 +9,6 @@ import (
 	"student/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/gogf/gf/v2/util/gconv"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
@@ -43,8 +42,8 @@ func (s *StudentService) GetStudent(ctx context.Context, req *pb.GetStudentReque
 		Info:      stu.Info,
 		Status:    int32(stu.Status),
 		Age:       int32(stu.Age),
-		CreatedAt: stu.CreatedAt.String(),
-		UpdatedAt: stu.UpdatedAt.String(),
+		CreatedAt: stu.CreatedAt.Format("2006-01-02 15:04:05"),
+		UpdatedAt: stu.UpdatedAt.Format("2006-01-02 15:04:05"),
 	}
 	// err = gconv.Struct(stu, &student)
 	return &student, err
@@ -127,9 +126,16 @@ func (s *StudentService) ListStudents(ctx context.Context, req *pb.ListStudentsR
 		return nil, err
 	}
 	var data []*pb.Students
-	err = gconv.Structs(students, &data)
-	if err != nil {
-		return nil, err
+	for _, stu := range students {
+		data = append(data, &pb.Students{
+			Id:        int32(stu.ID),
+			Name:      stu.Name,
+			Info:      stu.Info,
+			Status:    int32(stu.Status),
+			Age:       int32(stu.Age),
+			CreatedAt: stu.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt: stu.UpdatedAt.Format("2006-01-02 15:04:05"),
+		})
 	}
 	return &pb.ListStudentsReply{
 		Data:  data,
