@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"os"
+	"time"
 
 	"student/internal/conf"
 
@@ -30,6 +31,8 @@ var (
 )
 
 func init() {
+	var cstZone = time.FixedZone("CST", 8*3600)
+	time.Local = cstZone
 	flag.StringVar(&flagconf, "conf", "../../configs", "config path, eg: -conf config.yaml")
 }
 
