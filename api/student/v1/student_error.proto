@@ -10,4 +10,6 @@ enum StudentErrorReason {
 
   NOT_FOUNT = 0 [(errors.code) = 404];
   CONTENT_MISSING = 1 [(errors.code) = 400];
+  UNAUTHORIZED = 2 [(errors.code) = 401];
+  FORBIDDEN = 3 [(errors.code) = 403];
 }

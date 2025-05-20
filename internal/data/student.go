@@ -2,11 +2,11 @@ package data
 
 import (
 	"context"
-	"fmt"
 
 	"student/internal/biz"
 
-	errors "github.com/go-kratos/kratos/v2/errors"
+	errors "student/internal/data/errors"
+
 	"github.com/go-kratos/kratos/v2/log"
 	"gorm.io/gorm"
 )
@@ -27,6 +27,12 @@ func (r *studentRepo) GetStudent(ctx context.Context, id int32) (*biz.Student, e
 	// TODO: implement the logic of getting student by id
 	var stu biz.Student
 	err := r.data.gormDB.First(&stu, id).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, errors.Error404()
+		}
+		return nil, errors.Error400(err)
+	}
 	r.log.WithContext(ctx).Info("gormDB: GetStudent, id: %d, result: %v", id, stu)
 	return &biz.Student{
 		Name:      stu.Name,
@@ -47,6 +53,9 @@ func (r *studentRepo) CreateStudent(ctx context.Context, s *biz.StudentForm) (*b
 	stu.Status = s.Status
 	stu.Age = s.Age
 	err := r.data.gormDB.Create(&stu).Error
+	if err != nil {
+		return nil, errors.Error400(err)
+	}
 	r.log.WithContext(ctx).Info("gormDB: CreateStudent, student: %v", stu)
 	return &biz.CreateStudentMessage{
 		Message: "Create student success",
@@ -58,13 +67,16 @@ func (r *studentRepo) UpdateStudent(ctx context.Context, id int32, s *biz.Studen
 	var stu biz.Student
 	err := r.data.gormDB.First(&stu, id).Error
 	if err != nil {
-		return nil, err
+		return nil, errors.Error404()
 	}
 	stu.Name = s.Name
 	stu.Info = s.Info
 	stu.Status = s.Status
 	stu.Age = s.Age
 	err = r.data.gormDB.Save(&stu).Error
+	if err != nil {
+		return nil, errors.Error400(err)
+	}
 	r.log.WithContext(ctx).Info("gormDB: UpdateStudent, id: %d, student: %v", id, stu)
 	return &biz.UpdateStudentMessage{
 		Message: "Update student success",
@@ -74,15 +86,14 @@ func (r *studentRepo) UpdateStudent(ctx context.Context, id int32, s *biz.Studen
 func (r *studentRepo) DeleteStudent(ctx context.Context, id int32) (*biz.DeleteStudentMessage, error) {
 	// TODO: implement the logic of deleting student
 	var stu biz.Student
-	if _, err := r.GetStudent(ctx, id); err != nil {
+	err := r.data.gormDB.First(&stu, id).Error
+	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return nil, errors.New(404, "NOT_FOUND", fmt.Sprintf("student not found with id: %d", id)).WithMetadata(map[string]string{
-				"data": "未找到",
-			})
+			return nil, errors.Error404()
 		}
-		return nil, err
+		return nil, errors.Error400(err)
 	}
-	err := r.data.gormDB.Delete(&stu, id).Error
+	err = r.data.gormDB.Delete(&stu, id).Error
 	r.log.WithContext(ctx).Info("gormDB: DeleteStudent, id: %d", id)
 	return &biz.DeleteStudentMessage{
 		Message: "Delete student success",
@@ -99,7 +110,7 @@ func (r *studentRepo) ListStudents(ctx context.Context, page int32, pageSize int
 		err = r.data.gormDB.Model(&biz.Student{}).Where("name LIKE ?", "%"+name+"%").Count(&total).Error
 	}
 	if err != nil {
-		return nil, 0, err
+		return nil, 0, errors.Error400(err)
 	}
 	// logger.Println(page, pageSize)
 	if name == "" {
@@ -107,6 +118,8 @@ func (r *studentRepo) ListStudents(ctx context.Context, page int32, pageSize int
 	} else {
 		err = r.data.gormDB.Where("name LIKE ?", "%"+name+"%").Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Order("id desc").Find(&stus).Error
 	}
-
+	if err != nil {
+		return nil, 0, errors.Error400(err)
+	}
 	return stus, int32(total), err
 }

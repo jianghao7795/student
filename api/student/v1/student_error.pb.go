@@ -27,6 +27,8 @@ type StudentErrorReason int32
 const (
 	StudentErrorReason_NOT_FOUNT       StudentErrorReason = 0
 	StudentErrorReason_CONTENT_MISSING StudentErrorReason = 1
+	StudentErrorReason_UNAUTHORIZED    StudentErrorReason = 2
+	StudentErrorReason_FORBIDDEN       StudentErrorReason = 3
 )
 
 // Enum value maps for StudentErrorReason.
@@ -34,10 +36,14 @@ var (
 	StudentErrorReason_name = map[int32]string{
 		0: "NOT_FOUNT",
 		1: "CONTENT_MISSING",
+		2: "UNAUTHORIZED",
+		3: "FORBIDDEN",
 	}
 	StudentErrorReason_value = map[string]int32{
 		"NOT_FOUNT":       0,
 		"CONTENT_MISSING": 1,
+		"UNAUTHORIZED":    2,
+		"FORBIDDEN":       3,
 	}
 )
 
@@ -73,10 +79,12 @@ var File_student_v1_student_error_proto protoreflect.FileDescriptor
 const file_student_v1_student_error_proto_rawDesc = "" +
 	"\n" +
 	"\x1estudent/v1/student_error.proto\x12\n" +
-	"student.v1\x1a\x13errors/errors.proto*J\n" +
+	"student.v1\x1a\x13errors/errors.proto*w\n" +
 	"\x12StudentErrorReason\x12\x13\n" +
 	"\tNOT_FOUNT\x10\x00\x1a\x04\xa8E\x94\x03\x12\x19\n" +
-	"\x0fCONTENT_MISSING\x10\x01\x1a\x04\xa8E\x90\x03\x1a\x04\xa0E\xf4\x03B\x1bZ\x19student/api/student/v1;v1b\x06proto3"
+	"\x0fCONTENT_MISSING\x10\x01\x1a\x04\xa8E\x90\x03\x12\x16\n" +
+	"\fUNAUTHORIZED\x10\x02\x1a\x04\xa8E\x91\x03\x12\x13\n" +
+	"\tFORBIDDEN\x10\x03\x1a\x04\xa8E\x93\x03\x1a\x04\xa0E\xf4\x03B\x1bZ\x19student/api/student/v1;v1b\x06proto3"
 
 var (
 	file_student_v1_student_error_proto_rawDescOnce sync.Once
