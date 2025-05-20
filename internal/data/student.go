@@ -2,9 +2,13 @@ package data
 
 import (
 	"context"
+	"fmt"
+
 	"student/internal/biz"
 
+	errors "github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
+	"gorm.io/gorm"
 )
 
 type studentRepo struct {
@@ -70,6 +74,14 @@ func (r *studentRepo) UpdateStudent(ctx context.Context, id int32, s *biz.Studen
 func (r *studentRepo) DeleteStudent(ctx context.Context, id int32) (*biz.DeleteStudentMessage, error) {
 	// TODO: implement the logic of deleting student
 	var stu biz.Student
+	if _, err := r.GetStudent(ctx, id); err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, errors.New(404, "NOT_FOUND", fmt.Sprintf("student not found with id: %d", id)).WithMetadata(map[string]string{
+				"data": "未找到",
+			})
+		}
+		return nil, err
+	}
 	err := r.data.gormDB.Delete(&stu, id).Error
 	r.log.WithContext(ctx).Info("gormDB: DeleteStudent, id: %d", id)
 	return &biz.DeleteStudentMessage{
@@ -91,9 +103,9 @@ func (r *studentRepo) ListStudents(ctx context.Context, page int32, pageSize int
 	}
 	// logger.Println(page, pageSize)
 	if name == "" {
-		err = r.data.gormDB.Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Find(&stus).Error
+		err = r.data.gormDB.Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Order("id desc").Find(&stus).Error
 	} else {
-		err = r.data.gormDB.Where("name LIKE ?", "%"+name+"%").Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Find(&stus).Error
+		err = r.data.gormDB.Where("name LIKE ?", "%"+name+"%").Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Order("id desc").Find(&stus).Error
 	}
 
 	return stus, int32(total), err

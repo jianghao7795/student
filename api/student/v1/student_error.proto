@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package student.v1;
+import "errors/errors.proto";
+
+option go_package = "student/api/student/v1;v1";
+
+enum StudentErrorReason {
+  option (errors.default_code) = 500;
+
+  NOT_FOUNT = 0 [(errors.code) = 404];
+  CONTENT_MISSING = 1 [(errors.code) = 400];
+}
