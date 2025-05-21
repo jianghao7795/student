@@ -23,6 +23,7 @@ func NewStudentRepo(data *Data, logger log.Logger) biz.StudentRepo {
 	}
 }
 
+// 实现 从 gormDB 中获取学生信息
 func (r *studentRepo) GetStudent(ctx context.Context, id int32) (*biz.Student, error) {
 	// TODO: implement the logic of getting student by id
 	var stu biz.Student
@@ -45,6 +46,7 @@ func (r *studentRepo) GetStudent(ctx context.Context, id int32) (*biz.Student, e
 	}, err
 }
 
+// 实现 从 gormDB 中创建学生
 func (r *studentRepo) CreateStudent(ctx context.Context, s *biz.StudentForm) (*biz.CreateStudentMessage, error) {
 	// TODO: implement the logic of creating student
 	var stu biz.Student
@@ -62,6 +64,7 @@ func (r *studentRepo) CreateStudent(ctx context.Context, s *biz.StudentForm) (*b
 	}, err
 }
 
+// 实现 从 gormDB 中更新学生信息
 func (r *studentRepo) UpdateStudent(ctx context.Context, id int32, s *biz.StudentForm) (*biz.UpdateStudentMessage, error) {
 	// TODO: implement the logic of updating student
 	var stu biz.Student
@@ -83,6 +86,7 @@ func (r *studentRepo) UpdateStudent(ctx context.Context, id int32, s *biz.Studen
 	}, err
 }
 
+// 实现 从 gormDB 中删除学生
 func (r *studentRepo) DeleteStudent(ctx context.Context, id int32) (*biz.DeleteStudentMessage, error) {
 	// TODO: implement the logic of deleting student
 	var stu biz.Student
@@ -100,6 +104,7 @@ func (r *studentRepo) DeleteStudent(ctx context.Context, id int32) (*biz.DeleteS
 	}, err
 }
 
+// 实现 从 gormDB 中获取学生列表
 func (r *studentRepo) ListStudents(ctx context.Context, page int32, pageSize int32, name string) ([]*biz.Student, int32, error) {
 	var stus []*biz.Student
 	var total int64

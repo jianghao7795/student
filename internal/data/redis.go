@@ -8,6 +8,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// NewRedis new a redis client.
 func NewRedis(c *conf.Bootstrap) (*redis.Client, error) {
 	client := redis.NewClient(&redis.Options{
 		Addr:            c.Data.Redis.Addr, // use default Addr

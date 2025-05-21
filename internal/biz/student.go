@@ -27,7 +27,7 @@ type StudentForm struct {
 	Status int
 	Age    int
 	ID     uint
-	// MODEL
+	// 其他字段...
 }
 
 type CreateStudentMessage struct {
@@ -77,14 +77,17 @@ func (uc *StudentUsecase) Create(ctx context.Context, s *StudentForm) (*CreateSt
 	return uc.repo.CreateStudent(ctx, s)
 }
 
+// update student
 func (uc *StudentUsecase) Update(ctx context.Context, id int32, s *StudentForm) (*UpdateStudentMessage, error) {
 	return uc.repo.UpdateStudent(ctx, id, s)
 }
 
+// delete student
 func (uc *StudentUsecase) Delete(ctx context.Context, id int32) (*DeleteStudentMessage, error) {
 	return uc.repo.DeleteStudent(ctx, id)
 }
 
+// get list student
 func (uc *StudentUsecase) List(ctx context.Context, page int32, pageSize int32, name string) ([]*Student, int32, error) {
 	if page == 0 {
 		page = 1

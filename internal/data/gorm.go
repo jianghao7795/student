@@ -11,6 +11,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
+// NewGormDB 构造gorm连接
 func NewGormDB(c *conf.Bootstrap) (*gorm.DB, error) {
 	// config mysql
 	mysqlConfig := mysql.Config{
