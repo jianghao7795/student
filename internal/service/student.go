@@ -110,14 +110,13 @@ func (s *StudentService) ListStudents(ctx context.Context, req *pb.ListStudentsR
 		}
 	} else {
 		pageSize = 10
-
 	}
 	var page int
 	if req.Page != "" {
-		page, err = strconv.Atoi(req.Page)
-		if err != nil {
-			return nil, err
-		}
+		page, _ = strconv.Atoi(req.Page)
+		// if err != nil {
+		// return nil, err
+		// }
 	} else {
 		page = 1
 	}
