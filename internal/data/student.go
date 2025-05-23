@@ -27,7 +27,7 @@ func NewStudentRepo(data *Data, logger log.Logger) biz.StudentRepo {
 func (r *studentRepo) GetStudent(ctx context.Context, id int32) (*biz.Student, error) {
 	// TODO: implement the logic of getting student by id
 	var stu biz.Student
-	err := r.data.gormDB.withContext(ctx).First(&stu, id).Error
+	err := r.data.gormDB.WithContext(ctx).First(&stu, id).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, errors.Error404()
