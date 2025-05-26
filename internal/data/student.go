@@ -27,7 +27,7 @@ func NewStudentRepo(data *Data, logger log.Logger) biz.StudentRepo {
 func (r *studentRepo) GetStudent(ctx context.Context, id int32) (*biz.Student, error) {
 	// TODO: implement the logic of getting student by id
 	var stu biz.Student
-	err := r.data.gormDB.First(&stu, id).Error
+	err := r.data.gormDB.WithContext(ctx).First(&stu, id).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, errors.Error404()
@@ -54,7 +54,7 @@ func (r *studentRepo) CreateStudent(ctx context.Context, s *biz.StudentForm) (*b
 	stu.Info = s.Info
 	stu.Status = s.Status
 	stu.Age = s.Age
-	err := r.data.gormDB.Create(&stu).Error
+	err := r.data.gormDB.WithContext(ctx).Create(&stu).Error
 	if err != nil {
 		return nil, errors.Error400(err)
 	}
@@ -68,7 +68,7 @@ func (r *studentRepo) CreateStudent(ctx context.Context, s *biz.StudentForm) (*b
 func (r *studentRepo) UpdateStudent(ctx context.Context, id int32, s *biz.StudentForm) (*biz.UpdateStudentMessage, error) {
 	// TODO: implement the logic of updating student
 	var stu biz.Student
-	err := r.data.gormDB.First(&stu, id).Error
+	err := r.data.gormDB.WithContext(ctx).First(&stu, id).Error
 	if err != nil {
 		return nil, errors.Error404()
 	}
@@ -76,7 +76,7 @@ func (r *studentRepo) UpdateStudent(ctx context.Context, id int32, s *biz.Studen
 	stu.Info = s.Info
 	stu.Status = s.Status
 	stu.Age = s.Age
-	err = r.data.gormDB.Save(&stu).Error
+	err = r.data.gormDB.WithContext(ctx).Save(&stu).Error
 	if err != nil {
 		return nil, errors.Error400(err)
 	}
@@ -90,7 +90,7 @@ func (r *studentRepo) UpdateStudent(ctx context.Context, id int32, s *biz.Studen
 func (r *studentRepo) DeleteStudent(ctx context.Context, id int32) (*biz.DeleteStudentMessage, error) {
 	// TODO: implement the logic of deleting student
 	var stu biz.Student
-	err := r.data.gormDB.First(&stu, id).Error
+	err := r.data.gormDB.WithContext(ctx).First(&stu, id).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, errors.Error404()
@@ -110,18 +110,18 @@ func (r *studentRepo) ListStudents(ctx context.Context, page int32, pageSize int
 	var total int64
 	var err error
 	if name == "" {
-		err = r.data.gormDB.Model(&biz.Student{}).Count(&total).Error
+		err = r.data.gormDB.WithContext(ctx).Model(&biz.Student{}).Count(&total).Error
 	} else {
-		err = r.data.gormDB.Model(&biz.Student{}).Where("name LIKE ?", "%"+name+"%").Count(&total).Error
+		err = r.data.gormDB.WithContext(ctx).Model(&biz.Student{}).Where("name LIKE ?", "%"+name+"%").Count(&total).Error
 	}
 	if err != nil {
 		return nil, 0, errors.Error400(err)
 	}
 	// logger.Println(page, pageSize)
 	if name == "" {
-		err = r.data.gormDB.Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Order("id desc").Find(&stus).Error
+		err = r.data.gormDB.WithContext(ctx).Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Order("id desc").Find(&stus).Error
 	} else {
-		err = r.data.gormDB.Where("name LIKE ?", "%"+name+"%").Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Order("id desc").Find(&stus).Error
+		err = r.data.gormDB.WithContext(ctx).Where("name LIKE ?", "%"+name+"%").Offset(int((page - 1) * pageSize)).Limit(int(pageSize)).Order("id desc").Find(&stus).Error
 	}
 	if err != nil {
 		return nil, 0, errors.Error400(err)
