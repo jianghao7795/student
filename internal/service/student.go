@@ -2,15 +2,12 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 
 	pb "student/api/student/v1"
 	"student/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
 )
 
@@ -32,7 +29,7 @@ func (s *StudentService) GetStudent(ctx context.Context, req *pb.GetStudentReque
 	stu, err := s.student.Get(ctx, req.Id)
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return nil, status.Error(codes.NotFound, fmt.Sprintf("student not found: %v", req.Id))
+			return nil, err
 		}
 		return nil, err
 	}
