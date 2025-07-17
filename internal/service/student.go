@@ -39,8 +39,8 @@ func (s *StudentService) GetStudent(ctx context.Context, req *pb.GetStudentReque
 		Info:      stu.Info,
 		Status:    int32(stu.Status),
 		Age:       int32(stu.Age),
-		CreatedAt: stu.CreatedAt.Format("2006-01-02 15:04:05"),
-		UpdatedAt: stu.UpdatedAt.Format("2006-01-02 15:04:05"),
+		CreatedAt: stu.CreatedAtStr, // 使用格式化后的字符串，避免每次转换
+		UpdatedAt: stu.UpdatedAtStr, // 使用格式化后的字符串，避免每次转换
 	}
 	// err = gconv.Struct(stu, &student)
 	return &student, err
@@ -129,8 +129,8 @@ func (s *StudentService) ListStudents(ctx context.Context, req *pb.ListStudentsR
 			Info:      stu.Info,
 			Status:    int32(stu.Status),
 			Age:       int32(stu.Age),
-			CreatedAt: stu.CreatedAt.Format("2006-01-02 15:04:05"),
-			UpdatedAt: stu.UpdatedAt.Format("2006-01-02 15:04:05"),
+			CreatedAt: stu.CreatedAtStr, // 使用格式化后的字符串，避免每次转换
+			UpdatedAt: stu.UpdatedAtStr, // 使用格式化后的字符串，避免每次转换
 		})
 	}
 	return &pb.ListStudentsReply{

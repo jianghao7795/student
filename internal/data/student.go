@@ -35,14 +35,20 @@ func (r *studentRepo) GetStudent(ctx context.Context, id int32) (*biz.Student, e
 		return nil, errors.Error400(err)
 	}
 	r.log.WithContext(ctx).Info("gormDB: GetStudent, id: %d, result: %v", id, stu)
+
+	// 格式化时间字段
+	stu.FormatTimeFields()
+
 	return &biz.Student{
-		Name:      stu.Name,
-		Status:    stu.Status,
-		Info:      stu.Info,
-		ID:        stu.ID,
-		Age:       stu.Age,
-		CreatedAt: stu.CreatedAt,
-		UpdatedAt: stu.UpdatedAt,
+		Name:         stu.Name,
+		Status:       stu.Status,
+		Info:         stu.Info,
+		ID:           stu.ID,
+		Age:          stu.Age,
+		CreatedAt:    stu.CreatedAt,
+		UpdatedAt:    stu.UpdatedAt,
+		CreatedAtStr: stu.CreatedAtStr,
+		UpdatedAtStr: stu.UpdatedAtStr,
 	}, err
 }
 
@@ -126,5 +132,9 @@ func (r *studentRepo) ListStudents(ctx context.Context, page int32, pageSize int
 	if err != nil {
 		return nil, 0, errors.Error400(err)
 	}
+
+	// 为每个学生记录格式化时间字段
+	biz.FormatTimeFieldsBatch(stus)
+
 	return stus, int32(total), err
 }
