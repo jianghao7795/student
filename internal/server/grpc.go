@@ -2,6 +2,7 @@ package server
 
 import (
 	v1 "student/api/student/v1"
+	userV1 "student/api/user/v1"
 	"student/internal/conf"
 	"student/internal/service"
 
@@ -11,7 +12,7 @@ import (
 )
 
 // NewGRPCServer new a gRPC server.
-func NewGRPCServer(c *conf.Bootstrap, student *service.StudentService, logger log.Logger) *grpc.Server {
+func NewGRPCServer(c *conf.Bootstrap, student *service.StudentService, user *service.UserService, logger log.Logger) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),
@@ -28,5 +29,6 @@ func NewGRPCServer(c *conf.Bootstrap, student *service.StudentService, logger lo
 	}
 	srv := grpc.NewServer(opts...)
 	v1.RegisterStudentServer(srv, student)
+	userV1.RegisterUserServer(srv, user)
 	return srv
 }

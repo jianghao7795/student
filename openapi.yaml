@@ -3,8 +3,7 @@
 
 openapi: 3.0.3
 info:
-    title: Student API
-    description: The greeting service definition.
+    title: ""
     version: 0.0.1
 paths:
     /student:
@@ -112,6 +111,138 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/student.v1.ListStudentsReply'
+    /user:
+        post:
+            tags:
+                - User
+            description: 创建用户
+            operationId: User_CreateUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/user.v1.CreateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user.v1.CreateUserReply'
+    /user/login:
+        post:
+            tags:
+                - User
+            description: 用户登录
+            operationId: User_Login
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/user.v1.LoginRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user.v1.LoginReply'
+    /user/{id}:
+        get:
+            tags:
+                - User
+            description: 获取用户信息
+            operationId: User_GetUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user.v1.GetUserReply'
+        put:
+            tags:
+                - User
+            description: 更新用户
+            operationId: User_UpdateUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/user.v1.UpdateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user.v1.UpdateUserReply'
+        delete:
+            tags:
+                - User
+            description: 删除用户
+            operationId: User_DeleteUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user.v1.DeleteUserReply'
+    /users:
+        get:
+            tags:
+                - User
+            description: 获取用户列表
+            operationId: User_ListUsers
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: string
+                - name: username
+                  in: query
+                  schema:
+                    type: string
+                - name: email
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user.v1.ListUsersReply'
 components:
     schemas:
         student.v1.CreateStudentReply:
@@ -209,5 +340,173 @@ components:
                     format: int32
                 info:
                     type: string
+        user.v1.CreateUserReply:
+            type: object
+            properties:
+                message:
+                    type: string
+            description: 创建用户响应
+        user.v1.CreateUserRequest:
+            type: object
+            properties:
+                username:
+                    type: string
+                email:
+                    type: string
+                phone:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+                age:
+                    type: integer
+                    format: int32
+                avatar:
+                    type: string
+                password:
+                    type: string
+            description: 创建用户请求
+        user.v1.DeleteUserReply:
+            type: object
+            properties:
+                message:
+                    type: string
+            description: 删除用户响应
+        user.v1.GetUserReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                username:
+                    type: string
+                email:
+                    type: string
+                phone:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+                age:
+                    type: integer
+                    format: int32
+                avatar:
+                    type: string
+                created_at:
+                    type: string
+                updated_at:
+                    type: string
+            description: 获取用户响应
+        user.v1.ListUsersReply:
+            type: object
+            properties:
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/user.v1.Users'
+                total:
+                    type: integer
+                    format: int32
+            description: 获取用户列表响应
+        user.v1.LoginReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                message:
+                    type: string
+                userInfo:
+                    $ref: '#/components/schemas/user.v1.UserInfo'
+            description: 登录响应
+        user.v1.LoginRequest:
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+            description: 登录请求
+        user.v1.UpdateUserReply:
+            type: object
+            properties:
+                message:
+                    type: string
+            description: 更新用户响应
+        user.v1.UpdateUserRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                username:
+                    type: string
+                email:
+                    type: string
+                phone:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+                age:
+                    type: integer
+                    format: int32
+                avatar:
+                    type: string
+                password:
+                    type: string
+            description: 更新用户请求
+        user.v1.UserInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                username:
+                    type: string
+                email:
+                    type: string
+                phone:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+                age:
+                    type: integer
+                    format: int32
+                avatar:
+                    type: string
+                created_at:
+                    type: string
+                updated_at:
+                    type: string
+            description: 用户信息（不包含密码）
+        user.v1.Users:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                username:
+                    type: string
+                email:
+                    type: string
+                phone:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+                age:
+                    type: integer
+                    format: int32
+                avatar:
+                    type: string
+                createdAt:
+                    type: string
+                updatedAt:
+                    type: string
+            description: 用户列表项
 tags:
     - name: Student
+      description: The greeting service definition.
+    - name: User
+      description: 用户服务定义

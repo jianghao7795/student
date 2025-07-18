@@ -1,0 +1,169 @@
+syntax = "proto3";
+
+package user.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "student/api/user/v1;v1";
+
+// 用户服务定义
+service User {
+  // 获取用户信息
+  rpc GetUser(GetUserRequest) returns (GetUserReply) {
+    option (google.api.http) = {
+      get: "/user/{id}"
+    };
+  }
+  
+  // 创建用户
+  rpc CreateUser(CreateUserRequest) returns (CreateUserReply) {
+    option (google.api.http) = {
+      post: "/user"
+      body: "*"
+    };
+  }
+  
+  // 更新用户
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserReply) {
+    option (google.api.http) = {
+      put: "/user/{id}" 
+      body: "*"
+    };
+  }
+  
+  // 删除用户
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserReply) {
+    option (google.api.http) = {
+      delete: "/user/{id}"
+    };
+  }
+  
+  // 获取用户列表
+  rpc ListUsers(ListUsersRequest) returns (ListUsersReply) {
+    option (google.api.http) = {
+      get: "/users"
+    };
+  }
+  
+  // 用户登录
+  rpc Login(LoginRequest) returns (LoginReply) {
+    option (google.api.http) = {
+      post: "/user/login"
+      body: "*"
+    };
+  }
+}
+
+// 获取用户请求
+message GetUserRequest { 
+  int32 id = 1; 
+}
+
+// 获取用户响应
+message GetUserReply {
+  int32 id = 1;
+  string username = 2;
+  string email = 3;
+  string phone = 4;
+  int32 status = 5;
+  int32 age = 6;
+  string avatar = 7;
+  string created_at = 8 [json_name = "created_at"];
+  string updated_at = 9 [json_name = "updated_at"];
+}
+
+// 创建用户请求
+message CreateUserRequest {
+  string username = 1;
+  string email = 2;
+  string phone = 3;
+  int32 status = 4;
+  int32 age = 5;
+  string avatar = 6;
+  string password = 7;
+}
+
+// 创建用户响应
+message CreateUserReply { 
+  string message = 1; 
+}
+
+// 更新用户请求
+message UpdateUserRequest {
+  int32 id = 1;
+  string username = 2;
+  string email = 3;
+  string phone = 4;
+  int32 status = 5;
+  int32 age = 6;
+  string avatar = 7;
+  string password = 8;
+}
+
+// 更新用户响应
+message UpdateUserReply { 
+  string message = 1; 
+}
+
+// 删除用户请求
+message DeleteUserRequest { 
+  int32 id = 1; 
+}
+
+// 删除用户响应
+message DeleteUserReply { 
+  string message = 1; 
+}
+
+// 用户列表项
+message Users {
+  int32 id = 1;
+  string username = 2;
+  string email = 3;
+  string phone = 4;
+  int32 status = 5;
+  int32 age = 6;
+  string avatar = 7;
+  string created_at = 8;
+  string updated_at = 9;
+}
+
+// 获取用户列表请求
+message ListUsersRequest {
+  string page = 1;
+  string page_size = 2;
+  string username = 3;
+  string email = 4;
+}
+
+// 获取用户列表响应
+message ListUsersReply {
+  repeated Users data = 1;
+  int32 total = 2;
+}
+
+// 登录请求
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+// 登录响应
+message LoginReply {
+  bool success = 1;
+  string message = 2;
+  UserInfo user_info = 3;
+}
+
+// 用户信息（不包含密码）
+message UserInfo {
+  int32 id = 1;
+  string username = 2;
+  string email = 3;
+  string phone = 4;
+  int32 status = 5;
+  int32 age = 6;
+  string avatar = 7;
+  string created_at = 8 [json_name = "created_at"];
+  string updated_at = 9 [json_name = "updated_at"];
+} 
