@@ -566,6 +566,8 @@ components:
                     type: string
                 userInfo:
                     $ref: '#/components/schemas/user.v1.UserInfo'
+                token:
+                    type: string
             description: 登录响应
         user.v1.LoginRequest:
             type: object

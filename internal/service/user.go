@@ -164,9 +164,12 @@ func (s *UserService) Login(ctx context.Context, req *pb.LoginRequest) (*pb.Logi
 		return nil, err
 	}
 
+	s.log.Info("login result", "success", loginResult.Success, "token_length", len(loginResult.Token), "token", loginResult.Token)
+
 	reply := &pb.LoginReply{
 		Success: loginResult.Success,
 		Message: loginResult.Message,
+		Token:   loginResult.Token,
 	}
 
 	if loginResult.Success && loginResult.User != nil {
@@ -182,6 +185,8 @@ func (s *UserService) Login(ctx context.Context, req *pb.LoginRequest) (*pb.Logi
 			UpdatedAt: loginResult.User.UpdatedAtStr,
 		}
 	}
+
+	s.log.Info("final reply", "token_length", len(reply.Token), "token", reply.Token)
 
 	return reply, nil
 }

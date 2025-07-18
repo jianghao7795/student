@@ -1,6 +1,15 @@
 package biz
 
-import "github.com/google/wire"
+import (
+	"student/internal/pkg/jwt"
+
+	"github.com/google/wire"
+)
 
 // ProviderSet is biz providers.
-var ProviderSet = wire.NewSet(NewStudentUsecase, NewUserUsecase, NewErrorUsecase)
+var ProviderSet = wire.NewSet(
+	NewStudentUsecase,
+	NewUserUsecase,
+	NewErrorUsecase,
+	jwt.NewJWTUtil,
+)

@@ -12,6 +12,7 @@ import (
 	"student/internal/biz"
 	"student/internal/conf"
 	"student/internal/data"
+	"student/internal/pkg/jwt"
 	"student/internal/server"
 	"student/internal/service"
 )
@@ -40,7 +41,9 @@ func wireApp(bootstrap *conf.Bootstrap, logger log.Logger) (*kratos.App, func(),
 	studentUsecase := biz.NewStudentUsecase(studentRepo, logger)
 	studentService := service.NewStudentService(studentUsecase, logger)
 	userRepo := data.NewUserRepo(dataData, logger)
-	userUsecase := biz.NewUserUsecase(userRepo, logger)
+	config := data.NewJWTConfig(bootstrap)
+	jwtUtil := jwt.NewJWTUtil(config)
+	userUsecase := biz.NewUserUsecase(userRepo, jwtUtil, logger)
 	userService := service.NewUserService(userUsecase, logger)
 	grpcServer := server.NewGRPCServer(bootstrap, studentService, userService, logger)
 	httpServer := server.NewHTTPServer(bootstrap, studentService, userService, logger)

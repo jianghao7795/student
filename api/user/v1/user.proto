@@ -153,6 +153,7 @@ message LoginReply {
   bool success = 1;
   string message = 2;
   UserInfo user_info = 3;
+  string token = 4;
 }
 
 // 用户信息（不包含密码）

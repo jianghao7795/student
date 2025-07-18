@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"student/internal/pkg/jwt"
 	"student/internal/pkg/password"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -112,18 +113,21 @@ type LoginMessage struct {
 	User    *User
 	Message string
 	Success bool
+	Token   string
 }
 
 type UserUsecase struct {
-	repo UserRepo
-	log  *log.Helper
+	repo    UserRepo
+	log     *log.Helper
+	jwtUtil *jwt.JWTUtil
 }
 
 // 初始化 UserUsecase
-func NewUserUsecase(repo UserRepo, logger log.Logger) *UserUsecase {
+func NewUserUsecase(repo UserRepo, jwtUtil *jwt.JWTUtil, logger log.Logger) *UserUsecase {
 	return &UserUsecase{
-		repo: repo,
-		log:  log.NewHelper(logger),
+		repo:    repo,
+		log:     log.NewHelper(logger),
+		jwtUtil: jwtUtil,
 	}
 }
 
@@ -203,9 +207,22 @@ func (uc *UserUsecase) Login(ctx context.Context, loginForm *LoginForm) (*LoginM
 		}, nil
 	}
 
+	// 生成JWT token
+	token, err := uc.jwtUtil.GenerateToken(user.ID, user.Username, user.Email)
+	if err != nil {
+		uc.log.Error("生成JWT token失败", err)
+		return &LoginMessage{
+			Message: "登录失败，请稍后重试",
+			Success: false,
+		}, nil
+	}
+
+	uc.log.Info("JWT token生成成功", "token_length", len(token))
+
 	return &LoginMessage{
 		User:    user,
 		Message: "登录成功",
 		Success: true,
+		Token:   token,
 	}, nil
 }

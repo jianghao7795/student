@@ -840,6 +840,7 @@ type LoginReply struct {
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	UserInfo      *UserInfo              `protobuf:"bytes,3,opt,name=user_info,json=userInfo,proto3" json:"user_info,omitempty"`
+	Token         string                 `protobuf:"bytes,4,opt,name=token,proto3" json:"token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -893,6 +894,13 @@ func (x *LoginReply) GetUserInfo() *UserInfo {
 		return x.UserInfo
 	}
 	return nil
+}
+
+func (x *LoginReply) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
 }
 
 // 用户信息（不包含密码）
@@ -1072,12 +1080,13 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\"F\n" +
 	"\fLoginRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"p\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"\x86\x01\n" +
 	"\n" +
 	"LoginReply\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12.\n" +
-	"\tuser_info\x18\x03 \x01(\v2\x11.user.v1.UserInfoR\buserInfo\"\xe4\x01\n" +
+	"\tuser_info\x18\x03 \x01(\v2\x11.user.v1.UserInfoR\buserInfo\x12\x14\n" +
+	"\x05token\x18\x04 \x01(\tR\x05token\"\xe4\x01\n" +
 	"\bUserInfo\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
