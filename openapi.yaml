@@ -6,6 +6,77 @@ info:
     title: ""
     version: 0.0.1
 paths:
+    /errors:
+        get:
+            tags:
+                - ErrorService
+            description: 获取所有错误码列表
+            operationId: ErrorService_ListErrorCodes
+            parameters:
+                - name: errorType
+                  in: query
+                  schema:
+                    type: string
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/errors.v1.ListErrorCodesReply'
+    /errors/custom:
+        post:
+            tags:
+                - ErrorService
+            description: 创建自定义错误
+            operationId: ErrorService_CreateCustomError
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/errors.v1.CreateCustomErrorRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/errors.v1.CreateCustomErrorReply'
+    /errors/{errorCode}:
+        get:
+            tags:
+                - ErrorService
+            description: 获取错误信息
+            operationId: ErrorService_GetErrorInfo
+            parameters:
+                - name: errorCode
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+                - name: errorType
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/errors.v1.GetErrorInfoReply'
     /student:
         post:
             tags:
@@ -245,6 +316,84 @@ paths:
                                 $ref: '#/components/schemas/user.v1.ListUsersReply'
 components:
     schemas:
+        errors.v1.CreateCustomErrorReply:
+            type: object
+            properties:
+                message:
+                    type: string
+                errorInfo:
+                    $ref: '#/components/schemas/errors.v1.ErrorInfo'
+            description: 创建自定义错误响应
+        errors.v1.CreateCustomErrorRequest:
+            type: object
+            properties:
+                errorCode:
+                    type: integer
+                    format: int32
+                errorType:
+                    type: string
+                errorMessage:
+                    type: string
+                errorDescription:
+                    type: string
+                solution:
+                    type: string
+            description: 创建自定义错误请求
+        errors.v1.ErrorInfo:
+            type: object
+            properties:
+                errorCode:
+                    type: integer
+                    format: int32
+                errorType:
+                    type: string
+                errorMessage:
+                    type: string
+                errorDescription:
+                    type: string
+                solution:
+                    type: string
+                createdAt:
+                    type: string
+                updatedAt:
+                    type: string
+            description: 错误信息
+        errors.v1.GetErrorInfoReply:
+            type: object
+            properties:
+                errorCode:
+                    type: integer
+                    format: int32
+                errorType:
+                    type: string
+                errorMessage:
+                    type: string
+                errorDescription:
+                    type: string
+                solution:
+                    type: string
+                createdAt:
+                    type: string
+                updatedAt:
+                    type: string
+            description: 获取错误信息响应
+        errors.v1.ListErrorCodesReply:
+            type: object
+            properties:
+                errors:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/errors.v1.ErrorInfo'
+                total:
+                    type: integer
+                    format: int32
+                page:
+                    type: integer
+                    format: int32
+                pageSize:
+                    type: integer
+                    format: int32
+            description: 获取错误码列表响应
         student.v1.CreateStudentReply:
             type: object
             properties:
@@ -506,6 +655,8 @@ components:
                     type: string
             description: 用户列表项
 tags:
+    - name: ErrorService
+      description: 错误处理服务定义
     - name: Student
       description: The greeting service definition.
     - name: User
