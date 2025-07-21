@@ -1,0 +1,97 @@
+# RBAC 策略配置文件模板
+# 文件格式: 规则类型, 参数1, 参数2, 参数3
+# 规则类型: p=权限策略, g=角色分配
+
+# ========================================
+# 权限策略 (Policy Rules)
+# 格式: p, 角色, 资源路径, 操作
+# ========================================
+
+# 管理员权限 - 完全控制
+p, admin, /api/v1/users, *
+p, admin, /api/v1/students, *
+p, admin, /api/v1/roles, *
+p, admin, /api/v1/permissions, *
+
+# 部门经理权限 - 部门管理
+p, manager, /api/v1/users, GET
+p, manager, /api/v1/users, POST
+p, manager, /api/v1/users, PUT
+p, manager, /api/v1/students, *
+p, manager, /api/v1/roles, GET
+
+# 普通用户权限 - 基本操作
+p, user, /api/v1/users, GET
+p, user, /api/v1/users/{id}, GET
+p, user, /api/v1/users/{id}, PUT
+p, user, /api/v1/students, GET
+p, user, /api/v1/students/{id}, GET
+
+# 访客权限 - 只读访问
+p, guest, /api/v1/users, GET
+p, guest, /api/v1/students, GET
+
+# 审计员权限 - 只读所有
+p, auditor, /api/v1/users, GET
+p, auditor, /api/v1/students, GET
+p, auditor, /api/v1/roles, GET
+p, auditor, /api/v1/permissions, GET
+
+# ========================================
+# 角色分配 (Grouping Rules)
+# 格式: g, 用户ID, 角色名
+# ========================================
+
+# 系统管理员
+g, 1, admin
+
+# 部门经理
+g, 2, manager
+g, 3, manager
+
+# 普通用户
+g, 4, user
+g, 5, user
+g, 6, user
+
+# 访客
+g, 7, guest
+g, 8, guest
+
+# 审计员
+g, 9, auditor
+
+# ========================================
+# 高级配置示例
+# ========================================
+
+# 条件权限 (需要自定义匹配器)
+# p, user, /api/v1/students, GET, 9:00-18:00
+# p, guest, /api/v1/users, GET, 8:00-20:00
+
+# 域权限 (多租户)
+# p, admin, domain1, /api/v1/users, *
+# p, user, domain2, /api/v1/users, GET
+
+# 优先级权限
+# p, admin, /api/v1/users, *, 1
+# p, user, /api/v1/users, GET, 2
+
+# ========================================
+# 使用说明
+# ========================================
+
+# 1. 复制此模板到 rbac_policy.csv
+# 2. 根据实际需求修改权限策略
+# 3. 更新用户角色分配
+# 4. 重启服务或重新加载策略
+
+# 验证命令:
+# cat rbac_policy.csv | grep -v "^#" | grep -v "^$" | while read line; do
+#     echo "$line" | awk -F',' '{print NF}' | xargs -I {} test {} -ge 3 || echo "Invalid: $line"
+# done
+
+# 测试权限:
+# curl -X POST http://localhost:8000/api/v1/permissions/check \
+#   -H "Content-Type: application/json" \
+#   -d '{"user": "1", "resource": "/api/v1/users", "action": "GET"}' 
