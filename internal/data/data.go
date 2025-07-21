@@ -12,7 +12,7 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewGormDB, NewData, NewRedis, NewStudentRepo, NewUserRepo, NewRBACRepo, NewErrorRepo, NewJWTConfig)
+var ProviderSet = wire.NewSet(NewGormDB, NewData, NewRedis, NewStudentRepo, NewUserRepo, NewRBACRepo, NewErrorRepo, NewJWTConfig, NewRBACConfig, NewRBACModelPath)
 
 // Data
 type Data struct {
@@ -42,4 +42,14 @@ func NewJWTConfig(c *conf.Bootstrap) *jwt.Config {
 		len(config.SecretKey), config.SecretKey, config.Expire)
 
 	return config
+}
+
+// NewRBACConfig 创建RBAC配置
+func NewRBACConfig(c *conf.Bootstrap) *conf.RBAC {
+	return c.Rbac
+}
+
+// NewRBACModelPath 获取RBAC模型路径
+func NewRBACModelPath(c *conf.Bootstrap) string {
+	return c.Rbac.ModelPath
 }

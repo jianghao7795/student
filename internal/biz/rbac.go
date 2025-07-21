@@ -2,6 +2,7 @@ package biz
 
 import (
 	"context"
+	"student/internal/conf"
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -159,7 +160,7 @@ type RBACUsecase struct {
 }
 
 // 初始化 RBACUsecase
-func NewRBACUsecase(repo RBACRepo, logger log.Logger) *RBACUsecase {
+func NewRBACUsecase(repo RBACRepo, logger log.Logger, rbacConfig *conf.RBAC) *RBACUsecase {
 	return &RBACUsecase{
 		repo: repo,
 		log:  log.NewHelper(logger),

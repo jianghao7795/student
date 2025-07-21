@@ -20,7 +20,7 @@ type rbacRepo struct {
 	enforcer *casbin.Enforcer
 }
 
-func NewRBACRepo(data *Data, logger log.Logger) biz.RBACRepo {
+func NewRBACRepo(data *Data, logger log.Logger, modelPath string) biz.RBACRepo {
 	// 创建Casbin适配器
 	adapter, err := gormadapter.NewAdapterByDB(data.gormDB)
 	if err != nil {
@@ -29,7 +29,7 @@ func NewRBACRepo(data *Data, logger log.Logger) biz.RBACRepo {
 	}
 
 	// 创建Casbin执行器
-	enforcer, err := casbin.NewEnforcer("configs/rbac_model.conf", adapter)
+	enforcer, err := casbin.NewEnforcer(modelPath, adapter)
 	if err != nil {
 		log.NewHelper(logger).Error("failed to create casbin enforcer", err)
 		return nil

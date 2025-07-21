@@ -9,6 +9,7 @@ message Bootstrap {
   Server server = 1;
   Data data = 2;
   JWT jwt = 3;
+  RBAC rbac = 4;
 }
 
 message Server {
@@ -49,4 +50,10 @@ message Data {
 message JWT {
   string secret_key = 1;
   google.protobuf.Duration expire = 2;
+}
+
+message RBAC {
+  string model_path = 1;
+  string policy_path = 2;
+  bool enabled = 3;
 }
