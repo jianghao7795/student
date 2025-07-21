@@ -51,7 +51,7 @@ func wireApp(bootstrap *conf.Bootstrap, logger log.Logger) (*kratos.App, func(),
 	userService := service.NewUserService(userUsecase, logger)
 	grpcServer := server.NewGRPCServer(bootstrap, studentService, userService, logger)
 	rbacService := service.NewRBACService(rbacUsecase, logger)
-	httpServer := server.NewHTTPServer(bootstrap, studentService, userService, rbacService, logger)
+	httpServer := server.NewHTTPServer(bootstrap, studentService, userService, rbacService, jwtUtil, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()

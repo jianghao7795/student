@@ -21,6 +21,7 @@ const _ = http.SupportPackageIsVersion1
 
 const OperationUserCreateUser = "/user.v1.User/CreateUser"
 const OperationUserDeleteUser = "/user.v1.User/DeleteUser"
+const OperationUserGetMe = "/user.v1.User/GetMe"
 const OperationUserGetUser = "/user.v1.User/GetUser"
 const OperationUserListUsers = "/user.v1.User/ListUsers"
 const OperationUserLogin = "/user.v1.User/Login"
@@ -31,6 +32,8 @@ type UserHTTPServer interface {
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserReply, error)
 	// DeleteUser 删除用户
 	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserReply, error)
+	// GetMe 获取当前用户信息
+	GetMe(context.Context, *GetMeRequest) (*GetMeReply, error)
 	// GetUser 获取用户信息
 	GetUser(context.Context, *GetUserRequest) (*GetUserReply, error)
 	// ListUsers 获取用户列表
@@ -49,6 +52,7 @@ func RegisterUserHTTPServer(s *http.Server, srv UserHTTPServer) {
 	r.DELETE("/v1/user/{id}", _User_DeleteUser0_HTTP_Handler(srv))
 	r.GET("/v1/users", _User_ListUsers0_HTTP_Handler(srv))
 	r.POST("/v1/user/login", _User_Login0_HTTP_Handler(srv))
+	r.GET("/v1/user/me", _User_GetMe0_HTTP_Handler(srv))
 }
 
 func _User_GetUser0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
@@ -183,9 +187,29 @@ func _User_Login0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error 
 	}
 }
 
+func _User_GetMe0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetMeRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserGetMe)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetMe(ctx, req.(*GetMeRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetMeReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type UserHTTPClient interface {
 	CreateUser(ctx context.Context, req *CreateUserRequest, opts ...http.CallOption) (rsp *CreateUserReply, err error)
 	DeleteUser(ctx context.Context, req *DeleteUserRequest, opts ...http.CallOption) (rsp *DeleteUserReply, err error)
+	GetMe(ctx context.Context, req *GetMeRequest, opts ...http.CallOption) (rsp *GetMeReply, err error)
 	GetUser(ctx context.Context, req *GetUserRequest, opts ...http.CallOption) (rsp *GetUserReply, err error)
 	ListUsers(ctx context.Context, req *ListUsersRequest, opts ...http.CallOption) (rsp *ListUsersReply, err error)
 	Login(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
@@ -220,6 +244,19 @@ func (c *UserHTTPClientImpl) DeleteUser(ctx context.Context, in *DeleteUserReque
 	opts = append(opts, http.Operation(OperationUserDeleteUser))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *UserHTTPClientImpl) GetMe(ctx context.Context, in *GetMeRequest, opts ...http.CallOption) (*GetMeReply, error) {
+	var out GetMeReply
+	pattern := "/v1/user/me"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationUserGetMe))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

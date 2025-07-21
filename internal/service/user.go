@@ -190,3 +190,43 @@ func (s *UserService) Login(ctx context.Context, req *pb.LoginRequest) (*pb.Logi
 
 	return reply, nil
 }
+
+func (s *UserService) GetMe(ctx context.Context, req *pb.GetMeRequest) (*pb.GetMeReply, error) {
+	s.log.Info("get current user info")
+
+	// 从上下文中获取用户ID
+	userID, ok := ctx.Value("user_id").(uint)
+	if !ok {
+		return &pb.GetMeReply{
+			Success: false,
+			Message: "未找到用户信息",
+		}, nil
+	}
+
+	// 获取当前用户信息
+	meResult, err := s.user.GetMe(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	reply := &pb.GetMeReply{
+		Success: meResult.Success,
+		Message: meResult.Message,
+	}
+
+	if meResult.Success && meResult.User != nil {
+		reply.UserInfo = &pb.UserInfo{
+			Id:        int32(meResult.User.ID),
+			Username:  meResult.User.Username,
+			Email:     meResult.User.Email,
+			Phone:     meResult.User.Phone,
+			Status:    int32(meResult.User.Status),
+			Age:       int32(meResult.User.Age),
+			Avatar:    meResult.User.Avatar,
+			CreatedAt: meResult.User.CreatedAtStr,
+			UpdatedAt: meResult.User.UpdatedAtStr,
+		}
+	}
+
+	return reply, nil
+}

@@ -52,6 +52,13 @@ service User {
       body: "*"
     };
   }
+  
+  // 获取当前用户信息
+  rpc GetMe(GetMeRequest) returns (GetMeReply) {
+    option (google.api.http) = {
+      get: "/v1/user/me"
+    };
+  }
 }
 
 // 获取用户请求
@@ -167,4 +174,16 @@ message UserInfo {
   string avatar = 7;
   string created_at = 8 [json_name = "created_at"];
   string updated_at = 9 [json_name = "updated_at"];
+}
+
+// 获取当前用户信息请求
+message GetMeRequest {
+  // 空请求，用户信息从JWT token中获取
+}
+
+// 获取当前用户信息响应
+message GetMeReply {
+  bool success = 1;
+  string message = 2;
+  UserInfo user_info = 3;
 } 

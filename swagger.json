@@ -5,7 +5,123 @@
         "version": "0.0.1"
     },
     "paths": {
-        "/api/v1/permissions": {
+        "/v1/errors": {
+            "get": {
+                "tags": [
+                    "ErrorService"
+                ],
+                "description": "获取所有错误码列表",
+                "operationId": "ErrorService_ListErrorCodes",
+                "parameters": [
+                    {
+                        "name": "errorType",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/errors.v1.ListErrorCodesReply"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/errors/custom": {
+            "post": {
+                "tags": [
+                    "ErrorService"
+                ],
+                "description": "创建自定义错误",
+                "operationId": "ErrorService_CreateCustomError",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/errors.v1.CreateCustomErrorRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/errors.v1.CreateCustomErrorReply"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/errors/{errorCode}": {
+            "get": {
+                "tags": [
+                    "ErrorService"
+                ],
+                "description": "获取错误信息",
+                "operationId": "ErrorService_GetErrorInfo",
+                "parameters": [
+                    {
+                        "name": "errorCode",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "errorType",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/errors.v1.GetErrorInfoReply"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/permissions": {
             "get": {
                 "tags": [
                     "RBACService"
@@ -85,7 +201,7 @@
                 }
             }
         },
-        "/api/v1/permissions/check": {
+        "/v1/permissions/check": {
             "post": {
                 "tags": [
                     "RBACService"
@@ -116,7 +232,7 @@
                 }
             }
         },
-        "/api/v1/permissions/{id}": {
+        "/v1/permissions/{id}": {
             "get": {
                 "tags": [
                     "RBACService"
@@ -216,7 +332,7 @@
                 }
             }
         },
-        "/api/v1/roles": {
+        "/v1/roles": {
             "get": {
                 "tags": [
                     "RBACService"
@@ -289,7 +405,7 @@
                 }
             }
         },
-        "/api/v1/roles/{id}": {
+        "/v1/roles/{id}": {
             "get": {
                 "tags": [
                     "RBACService"
@@ -389,7 +505,7 @@
                 }
             }
         },
-        "/api/v1/roles/{roleId}/permissions": {
+        "/v1/roles/{roleId}/permissions": {
             "get": {
                 "tags": [
                     "RBACService"
@@ -460,7 +576,7 @@
                 }
             }
         },
-        "/api/v1/roles/{roleId}/permissions/{permissionId}": {
+        "/v1/roles/{roleId}/permissions/{permissionId}": {
             "delete": {
                 "tags": [
                     "RBACService"
@@ -500,234 +616,7 @@
                 }
             }
         },
-        "/api/v1/users/{userId}/roles": {
-            "get": {
-                "tags": [
-                    "RBACService"
-                ],
-                "description": "用户角色管理",
-                "operationId": "RBACService_GetUserRoles",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.rbac.v1.GetUserRolesResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "RBACService"
-                ],
-                "operationId": "RBACService_AssignUserRole",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/api.rbac.v1.AssignUserRoleRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.rbac.v1.AssignUserRoleResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/users/{userId}/roles/{roleId}": {
-            "delete": {
-                "tags": [
-                    "RBACService"
-                ],
-                "operationId": "RBACService_RemoveUserRole",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    },
-                    {
-                        "name": "roleId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/api.rbac.v1.RemoveUserRoleResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/errors": {
-            "get": {
-                "tags": [
-                    "ErrorService"
-                ],
-                "description": "获取所有错误码列表",
-                "operationId": "ErrorService_ListErrorCodes",
-                "parameters": [
-                    {
-                        "name": "errorType",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    },
-                    {
-                        "name": "pageSize",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/errors.v1.ListErrorCodesReply"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/errors/custom": {
-            "post": {
-                "tags": [
-                    "ErrorService"
-                ],
-                "description": "创建自定义错误",
-                "operationId": "ErrorService_CreateCustomError",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/errors.v1.CreateCustomErrorRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/errors.v1.CreateCustomErrorReply"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/errors/{errorCode}": {
-            "get": {
-                "tags": [
-                    "ErrorService"
-                ],
-                "description": "获取错误信息",
-                "operationId": "ErrorService_GetErrorInfo",
-                "parameters": [
-                    {
-                        "name": "errorCode",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    },
-                    {
-                        "name": "errorType",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/errors.v1.GetErrorInfoReply"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/student": {
+        "/v1/student": {
             "post": {
                 "tags": [
                     "Student"
@@ -757,7 +646,7 @@
                 }
             }
         },
-        "/student/{id}": {
+        "/v1/student/{id}": {
             "get": {
                 "tags": [
                     "Student"
@@ -857,7 +746,7 @@
                 }
             }
         },
-        "/students": {
+        "/v1/students": {
             "get": {
                 "tags": [
                     "Student"
@@ -900,7 +789,7 @@
                 }
             }
         },
-        "/user": {
+        "/v1/user": {
             "post": {
                 "tags": [
                     "User"
@@ -931,7 +820,7 @@
                 }
             }
         },
-        "/user/login": {
+        "/v1/user/login": {
             "post": {
                 "tags": [
                     "User"
@@ -962,7 +851,7 @@
                 }
             }
         },
-        "/user/{id}": {
+        "/v1/user/{id}": {
             "get": {
                 "tags": [
                     "User"
@@ -1064,7 +953,7 @@
                 }
             }
         },
-        "/users": {
+        "/v1/users": {
             "get": {
                 "tags": [
                     "User"
@@ -1108,6 +997,117 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/user.v1.ListUsersReply"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/{userId}/roles": {
+            "get": {
+                "tags": [
+                    "RBACService"
+                ],
+                "description": "用户角色管理",
+                "operationId": "RBACService_GetUserRoles",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.rbac.v1.GetUserRolesResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "RBACService"
+                ],
+                "operationId": "RBACService_AssignUserRole",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/api.rbac.v1.AssignUserRoleRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.rbac.v1.AssignUserRoleResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/{userId}/roles/{roleId}": {
+            "delete": {
+                "tags": [
+                    "RBACService"
+                ],
+                "operationId": "RBACService_RemoveUserRole",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api.rbac.v1.RemoveUserRoleResponse"
                                 }
                             }
                         }

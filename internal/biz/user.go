@@ -244,3 +244,43 @@ func (uc *UserUsecase) Login(ctx context.Context, loginForm *LoginForm) (*LoginM
 		Token:   token,
 	}, nil
 }
+
+// GetMeMessage 获取当前用户信息消息
+type GetMeMessage struct {
+	User    *User
+	Message string
+	Success bool
+}
+
+// 获取当前用户信息
+func (uc *UserUsecase) GetMe(ctx context.Context, userID uint) (*GetMeMessage, error) {
+	uc.log.Info("get current user", userID)
+
+	// 通过用户ID获取用户信息
+	user, err := uc.repo.GetUser(ctx, int32(userID))
+	if err != nil {
+		return &GetMeMessage{
+			Message: "用户不存在",
+			Success: false,
+		}, nil
+	}
+
+	// 获取用户角色
+	roles, err := uc.rbacUC.GetUserRoleNames(ctx, int32(user.ID))
+	if err != nil {
+		uc.log.Error("获取用户角色失败", err)
+		return &GetMeMessage{
+			Message: "获取用户信息失败",
+			Success: false,
+		}, nil
+	}
+
+	// 设置用户角色信息
+	user.Roles = roles
+
+	return &GetMeMessage{
+		User:    user,
+		Message: "获取用户信息成功",
+		Success: true,
+	}, nil
+}

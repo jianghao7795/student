@@ -5,6 +5,7 @@ import (
 	v1 "student/api/student/v1"
 	userV1 "student/api/user/v1"
 	"student/internal/conf"
+	"student/internal/pkg/jwt"
 	"student/internal/service"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -13,7 +14,7 @@ import (
 )
 
 // NewHTTPServer new an HTTP server.
-func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *service.UserService, rbac *service.RBACService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *service.UserService, rbac *service.RBACService, jwtUtil *jwt.JWTUtil, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
@@ -29,8 +30,11 @@ func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *ser
 		opts = append(opts, http.Timeout(c.Server.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
+
+	// 注册服务
 	v1.RegisterStudentHTTPServer(srv, student)
 	userV1.RegisterUserHTTPServer(srv, user)
 	rbacV1.RegisterRBACServiceHTTPServer(srv, rbac)
+
 	return srv
 }

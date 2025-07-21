@@ -524,6 +524,19 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/user.v1.LoginReply'
+    /v1/user/me:
+        get:
+            tags:
+                - User
+            description: 获取当前用户信息
+            operationId: User_GetMe
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user.v1.GetMeReply'
     /v1/user/{id}:
         get:
             tags:
@@ -1153,6 +1166,16 @@ components:
                 message:
                     type: string
             description: 删除用户响应
+        user.v1.GetMeReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                message:
+                    type: string
+                userInfo:
+                    $ref: '#/components/schemas/user.v1.UserInfo'
+            description: 获取当前用户信息响应
         user.v1.GetUserReply:
             type: object
             properties:
