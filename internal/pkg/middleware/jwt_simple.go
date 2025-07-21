@@ -19,7 +19,7 @@ type SimpleJWTConfig struct {
 // SimpleJWTAuth 简单的JWT中间件
 func SimpleJWTAuth(config *SimpleJWTConfig) middleware.Middleware {
 	return func(handler middleware.Handler) middleware.Handler {
-		return func(ctx context.Context, req interface{}) (reply interface{}, err error) {
+		return func(ctx context.Context, req any) (reply any, err error) {
 			// 从HTTP请求中获取token
 			token, err := extractTokenFromHTTPContext(ctx)
 			if err != nil {

@@ -35,7 +35,7 @@ func JWTHTTPMiddleware(jwtUtil *jwt.JWTUtil, skipPaths []string) func(http.Handl
 			if err != nil {
 				w.Header().Set("Content-Type", "application/json")
 				w.WriteHeader(http.StatusUnauthorized)
-				json.NewEncoder(w).Encode(map[string]interface{}{
+				json.NewEncoder(w).Encode(map[string]any{
 					"code":    401,
 					"message": "未提供有效的认证token",
 				})
@@ -47,7 +47,7 @@ func JWTHTTPMiddleware(jwtUtil *jwt.JWTUtil, skipPaths []string) func(http.Handl
 			if err != nil {
 				w.Header().Set("Content-Type", "application/json")
 				w.WriteHeader(http.StatusUnauthorized)
-				json.NewEncoder(w).Encode(map[string]interface{}{
+				json.NewEncoder(w).Encode(map[string]any{
 					"code":    401,
 					"message": "token验证失败",
 				})

@@ -28,6 +28,9 @@ type User struct {
 	// 格式化后的时间字符串，避免每次转换
 	CreatedAtStr string `gorm:"-" json:"created_at_str,omitempty"` // gorm:"-" 表示不映射到数据库
 	UpdatedAtStr string `gorm:"-" json:"updated_at_str,omitempty"` // gorm:"-" 表示不映射到数据库
+
+	// 角色信息
+	Roles []string `gorm:"-" json:"roles,omitempty"`
 }
 
 // FormatTimeFields 格式化时间字段
@@ -118,14 +121,16 @@ type LoginMessage struct {
 
 type UserUsecase struct {
 	repo    UserRepo
+	rbacUC  *RBACUsecase
 	log     *log.Helper
 	jwtUtil *jwt.JWTUtil
 }
 
 // 初始化 UserUsecase
-func NewUserUsecase(repo UserRepo, jwtUtil *jwt.JWTUtil, logger log.Logger) *UserUsecase {
+func NewUserUsecase(repo UserRepo, rbacUC *RBACUsecase, jwtUtil *jwt.JWTUtil, logger log.Logger) *UserUsecase {
 	return &UserUsecase{
 		repo:    repo,
+		rbacUC:  rbacUC,
 		log:     log.NewHelper(logger),
 		jwtUtil: jwtUtil,
 	}
@@ -206,6 +211,19 @@ func (uc *UserUsecase) Login(ctx context.Context, loginForm *LoginForm) (*LoginM
 			Success: false,
 		}, nil
 	}
+
+	// 获取用户角色
+	roles, err := uc.rbacUC.GetUserRoleNames(ctx, int32(user.ID))
+	if err != nil {
+		uc.log.Error("获取用户角色失败", err)
+		return &LoginMessage{
+			Message: "登录失败，请稍后重试",
+			Success: false,
+		}, nil
+	}
+
+	// 设置用户角色信息
+	user.Roles = roles
 
 	// 生成JWT token
 	token, err := uc.jwtUtil.GenerateToken(user.ID, user.Username, user.Email)

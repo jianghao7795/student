@@ -10,6 +10,7 @@ import (
 var ProviderSet = wire.NewSet(
 	NewStudentUsecase,
 	NewUserUsecase,
+	NewRBACUsecase,
 	NewErrorUsecase,
 	jwt.NewJWTUtil,
 )
