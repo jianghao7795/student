@@ -12,113 +12,113 @@ service RBACService {
   // 角色管理
   rpc GetRole(GetRoleRequest) returns (GetRoleResponse) {
     option (google.api.http) = {
-      get: "/api/v1/roles/{id}"
+      get: "/v1/roles/{id}"
     };
   }
   
   rpc CreateRole(CreateRoleRequest) returns (CreateRoleResponse) {
     option (google.api.http) = {
-      post: "/api/v1/roles"
+      post: "/v1/roles"
       body: "*"
     };
   }
   
   rpc UpdateRole(UpdateRoleRequest) returns (UpdateRoleResponse) {
     option (google.api.http) = {
-      put: "/api/v1/roles/{id}"
+      put: "/v1/roles/{id}"
       body: "*"
     };
   }
   
   rpc DeleteRole(DeleteRoleRequest) returns (DeleteRoleResponse) {
     option (google.api.http) = {
-      delete: "/api/v1/roles/{id}"
+      delete: "/v1/roles/{id}"
     };
   }
   
   rpc ListRoles(ListRolesRequest) returns (ListRolesResponse) {
     option (google.api.http) = {
-      get: "/api/v1/roles"
+      get: "/v1/roles"
     };
   }
 
   // 权限管理
   rpc GetPermission(GetPermissionRequest) returns (GetPermissionResponse) {
     option (google.api.http) = {
-      get: "/api/v1/permissions/{id}"
+      get: "/v1/permissions/{id}"
     };
   }
   
   rpc CreatePermission(CreatePermissionRequest) returns (CreatePermissionResponse) {
     option (google.api.http) = {
-      post: "/api/v1/permissions"
+      post: "/v1/permissions"
       body: "*"
     };
   }
   
   rpc UpdatePermission(UpdatePermissionRequest) returns (UpdatePermissionResponse) {
     option (google.api.http) = {
-      put: "/api/v1/permissions/{id}"
+      put: "/v1/permissions/{id}"
       body: "*"
     };
   }
   
   rpc DeletePermission(DeletePermissionRequest) returns (DeletePermissionResponse) {
     option (google.api.http) = {
-      delete: "/api/v1/permissions/{id}"
+      delete: "/v1/permissions/{id}"
     };
   }
   
   rpc ListPermissions(ListPermissionsRequest) returns (ListPermissionsResponse) {
     option (google.api.http) = {
-      get: "/api/v1/permissions"
+      get: "/v1/permissions"
     };
   }
 
   // 用户角色管理
   rpc GetUserRoles(GetUserRolesRequest) returns (GetUserRolesResponse) {
     option (google.api.http) = {
-      get: "/api/v1/users/{user_id}/roles"
+      get: "/v1/users/{user_id}/roles"
     };
   }
   
   rpc AssignUserRole(AssignUserRoleRequest) returns (AssignUserRoleResponse) {
     option (google.api.http) = {
-      post: "/api/v1/users/{user_id}/roles"
+      post: "/v1/users/{user_id}/roles"
       body: "*"
     };
   }
   
   rpc RemoveUserRole(RemoveUserRoleRequest) returns (RemoveUserRoleResponse) {
     option (google.api.http) = {
-      delete: "/api/v1/users/{user_id}/roles/{role_id}"
+      delete: "/v1/users/{user_id}/roles/{role_id}"
     };
   }
 
   // 角色权限管理
   rpc GetRolePermissions(GetRolePermissionsRequest) returns (GetRolePermissionsResponse) {
     option (google.api.http) = {
-      get: "/api/v1/roles/{role_id}/permissions"
+      get: "/v1/roles/{role_id}/permissions"
     };
   }
   
   rpc AssignRolePermission(AssignRolePermissionRequest) returns (AssignRolePermissionResponse) {
     option (google.api.http) = {
-      post: "/api/v1/roles/{role_id}/permissions"
+      post: "/v1/roles/{role_id}/permissions"
       body: "*"
     };
   }
   
   rpc RemoveRolePermission(RemoveRolePermissionRequest) returns (RemoveRolePermissionResponse) {
     option (google.api.http) = {
-      delete: "/api/v1/roles/{role_id}/permissions/{permission_id}"
+      delete: "/v1/roles/{role_id}/permissions/{permission_id}"
     };
   }
 
   // 权限检查
   rpc CheckPermission(CheckPermissionRequest) returns (CheckPermissionResponse) {
     option (google.api.http) = {
-      post: "/api/v1/permissions/check"
+      post: "/v1/permissions/check"
       body: "*"
     };
   }

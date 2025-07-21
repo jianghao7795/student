@@ -86,5 +86,7 @@ run:
 	go run ./cmd/student/... -conf ./configs
 air:
 	air -c .air.toml
+swagger:
+	swagger2openapi openapi.yaml -o swagger.json
 
 .DEFAULT_GOAL := help

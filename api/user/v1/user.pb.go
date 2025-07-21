@@ -1100,21 +1100,17 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"created_at\x12\x1e\n" +
 	"\n" +
 	"updated_at\x18\t \x01(\tR\n" +
-	"updated_at2\xfc\x03\n" +
-	"\x04User\x12M\n" +
-	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x15.user.v1.GetUserReply\"\x12\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/user/{id}\x12T\n" +
+	"updated_at2\x8e\x04\n" +
+	"\x04User\x12P\n" +
+	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x15.user.v1.GetUserReply\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/user/{id}\x12W\n" +
 	"\n" +
-	"CreateUser\x12\x1a.user.v1.CreateUserRequest\x1a\x18.user.v1.CreateUserReply\"\x10\x82\xd3\xe4\x93\x02\n" +
-	":\x01*\"\x05/user\x12Y\n" +
+	"CreateUser\x12\x1a.user.v1.CreateUserRequest\x1a\x18.user.v1.CreateUserReply\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/v1/user\x12\\\n" +
 	"\n" +
-	"UpdateUser\x12\x1a.user.v1.UpdateUserRequest\x1a\x18.user.v1.UpdateUserReply\"\x15\x82\xd3\xe4\x93\x02\x0f:\x01*\x1a\n" +
-	"/user/{id}\x12V\n" +
+	"UpdateUser\x12\x1a.user.v1.UpdateUserRequest\x1a\x18.user.v1.UpdateUserReply\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\x1a\r/v1/user/{id}\x12Y\n" +
 	"\n" +
-	"DeleteUser\x12\x1a.user.v1.DeleteUserRequest\x1a\x18.user.v1.DeleteUserReply\"\x12\x82\xd3\xe4\x93\x02\f*\n" +
-	"/user/{id}\x12O\n" +
-	"\tListUsers\x12\x19.user.v1.ListUsersRequest\x1a\x17.user.v1.ListUsersReply\"\x0e\x82\xd3\xe4\x93\x02\b\x12\x06/users\x12K\n" +
-	"\x05Login\x12\x15.user.v1.LoginRequest\x1a\x13.user.v1.LoginReply\"\x16\x82\xd3\xe4\x93\x02\x10:\x01*\"\v/user/loginB\x18Z\x16student/api/user/v1;v1b\x06proto3"
+	"DeleteUser\x12\x1a.user.v1.DeleteUserRequest\x1a\x18.user.v1.DeleteUserReply\"\x15\x82\xd3\xe4\x93\x02\x0f*\r/v1/user/{id}\x12R\n" +
+	"\tListUsers\x12\x19.user.v1.ListUsersRequest\x1a\x17.user.v1.ListUsersReply\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/v1/users\x12N\n" +
+	"\x05Login\x12\x15.user.v1.LoginRequest\x1a\x13.user.v1.LoginReply\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/user/loginB\x18Z\x16student/api/user/v1;v1b\x06proto3"
 
 var (
 	file_user_v1_user_proto_rawDescOnce sync.Once

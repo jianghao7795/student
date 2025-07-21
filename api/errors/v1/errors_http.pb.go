@@ -34,9 +34,9 @@ type ErrorServiceHTTPServer interface {
 
 func RegisterErrorServiceHTTPServer(s *http.Server, srv ErrorServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/errors/{error_code}", _ErrorService_GetErrorInfo0_HTTP_Handler(srv))
-	r.GET("/errors", _ErrorService_ListErrorCodes0_HTTP_Handler(srv))
-	r.POST("/errors/custom", _ErrorService_CreateCustomError0_HTTP_Handler(srv))
+	r.GET("/v1/errors/{error_code}", _ErrorService_GetErrorInfo0_HTTP_Handler(srv))
+	r.GET("/v1/errors", _ErrorService_ListErrorCodes0_HTTP_Handler(srv))
+	r.POST("/v1/errors/custom", _ErrorService_CreateCustomError0_HTTP_Handler(srv))
 }
 
 func _ErrorService_GetErrorInfo0_HTTP_Handler(srv ErrorServiceHTTPServer) func(ctx http.Context) error {
@@ -118,7 +118,7 @@ func NewErrorServiceHTTPClient(client *http.Client) ErrorServiceHTTPClient {
 
 func (c *ErrorServiceHTTPClientImpl) CreateCustomError(ctx context.Context, in *CreateCustomErrorRequest, opts ...http.CallOption) (*CreateCustomErrorReply, error) {
 	var out CreateCustomErrorReply
-	pattern := "/errors/custom"
+	pattern := "/v1/errors/custom"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationErrorServiceCreateCustomError))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -131,7 +131,7 @@ func (c *ErrorServiceHTTPClientImpl) CreateCustomError(ctx context.Context, in *
 
 func (c *ErrorServiceHTTPClientImpl) GetErrorInfo(ctx context.Context, in *GetErrorInfoRequest, opts ...http.CallOption) (*GetErrorInfoReply, error) {
 	var out GetErrorInfoReply
-	pattern := "/errors/{error_code}"
+	pattern := "/v1/errors/{error_code}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationErrorServiceGetErrorInfo))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -144,7 +144,7 @@ func (c *ErrorServiceHTTPClientImpl) GetErrorInfo(ctx context.Context, in *GetEr
 
 func (c *ErrorServiceHTTPClientImpl) ListErrorCodes(ctx context.Context, in *ListErrorCodesRequest, opts ...http.CallOption) (*ListErrorCodesReply, error) {
 	var out ListErrorCodesReply
-	pattern := "/errors"
+	pattern := "/v1/errors"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationErrorServiceListErrorCodes))
 	opts = append(opts, http.PathTemplate(pattern))

@@ -11,14 +11,14 @@ service User {
   // 获取用户信息
   rpc GetUser(GetUserRequest) returns (GetUserReply) {
     option (google.api.http) = {
-      get: "/user/{id}"
+      get: "/v1/user/{id}"
     };
   }
   
   // 创建用户
   rpc CreateUser(CreateUserRequest) returns (CreateUserReply) {
     option (google.api.http) = {
-      post: "/user"
+      post: "/v1/user"
       body: "*"
     };
   }
@@ -26,7 +26,7 @@ service User {
   // 更新用户
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserReply) {
     option (google.api.http) = {
-      put: "/user/{id}" 
+      put: "/v1/user/{id}" 
       body: "*"
     };
   }
@@ -34,21 +34,21 @@ service User {
   // 删除用户
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserReply) {
     option (google.api.http) = {
-      delete: "/user/{id}"
+      delete: "/v1/user/{id}"
     };
   }
   
   // 获取用户列表
   rpc ListUsers(ListUsersRequest) returns (ListUsersReply) {
     option (google.api.http) = {
-      get: "/users"
+      get: "/v1/users"
     };
   }
   
   // 用户登录
   rpc Login(LoginRequest) returns (LoginReply) {
     option (google.api.http) = {
-      post: "/user/login"
+      post: "/v1/user/login"
       body: "*"
     };
   }

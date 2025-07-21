@@ -2239,28 +2239,28 @@ const file_rbac_v1_rbac_proto_rawDesc = "" +
 	"\bresource\x18\x02 \x01(\tR\bresource\x12\x16\n" +
 	"\x06action\x18\x03 \x01(\tR\x06action\"@\n" +
 	"\x17CheckPermissionResponse\x12%\n" +
-	"\x0ehas_permission\x18\x01 \x01(\bR\rhasPermission2\x87\x11\n" +
-	"\vRBACService\x12`\n" +
-	"\aGetRole\x12\x1b.api.rbac.v1.GetRoleRequest\x1a\x1c.api.rbac.v1.GetRoleResponse\"\x1a\x82\xd3\xe4\x93\x02\x14\x12\x12/api/v1/roles/{id}\x12g\n" +
+	"\x0ehas_permission\x18\x01 \x01(\bR\rhasPermission2\xc0\x10\n" +
+	"\vRBACService\x12\\\n" +
+	"\aGetRole\x12\x1b.api.rbac.v1.GetRoleRequest\x1a\x1c.api.rbac.v1.GetRoleResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/v1/roles/{id}\x12c\n" +
 	"\n" +
-	"CreateRole\x12\x1e.api.rbac.v1.CreateRoleRequest\x1a\x1f.api.rbac.v1.CreateRoleResponse\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\"\r/api/v1/roles\x12l\n" +
+	"CreateRole\x12\x1e.api.rbac.v1.CreateRoleRequest\x1a\x1f.api.rbac.v1.CreateRoleResponse\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/roles\x12h\n" +
 	"\n" +
-	"UpdateRole\x12\x1e.api.rbac.v1.UpdateRoleRequest\x1a\x1f.api.rbac.v1.UpdateRoleResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\x1a\x12/api/v1/roles/{id}\x12i\n" +
+	"UpdateRole\x12\x1e.api.rbac.v1.UpdateRoleRequest\x1a\x1f.api.rbac.v1.UpdateRoleResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\x1a\x0e/v1/roles/{id}\x12e\n" +
 	"\n" +
-	"DeleteRole\x12\x1e.api.rbac.v1.DeleteRoleRequest\x1a\x1f.api.rbac.v1.DeleteRoleResponse\"\x1a\x82\xd3\xe4\x93\x02\x14*\x12/api/v1/roles/{id}\x12a\n" +
-	"\tListRoles\x12\x1d.api.rbac.v1.ListRolesRequest\x1a\x1e.api.rbac.v1.ListRolesResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/api/v1/roles\x12x\n" +
-	"\rGetPermission\x12!.api.rbac.v1.GetPermissionRequest\x1a\".api.rbac.v1.GetPermissionResponse\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/api/v1/permissions/{id}\x12\x7f\n" +
-	"\x10CreatePermission\x12$.api.rbac.v1.CreatePermissionRequest\x1a%.api.rbac.v1.CreatePermissionResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/api/v1/permissions\x12\x84\x01\n" +
-	"\x10UpdatePermission\x12$.api.rbac.v1.UpdatePermissionRequest\x1a%.api.rbac.v1.UpdatePermissionResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\x1a\x18/api/v1/permissions/{id}\x12\x81\x01\n" +
-	"\x10DeletePermission\x12$.api.rbac.v1.DeletePermissionRequest\x1a%.api.rbac.v1.DeletePermissionResponse\" \x82\xd3\xe4\x93\x02\x1a*\x18/api/v1/permissions/{id}\x12y\n" +
-	"\x0fListPermissions\x12#.api.rbac.v1.ListPermissionsRequest\x1a$.api.rbac.v1.ListPermissionsResponse\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/api/v1/permissions\x12z\n" +
-	"\fGetUserRoles\x12 .api.rbac.v1.GetUserRolesRequest\x1a!.api.rbac.v1.GetUserRolesResponse\"%\x82\xd3\xe4\x93\x02\x1f\x12\x1d/api/v1/users/{user_id}/roles\x12\x83\x01\n" +
-	"\x0eAssignUserRole\x12\".api.rbac.v1.AssignUserRoleRequest\x1a#.api.rbac.v1.AssignUserRoleResponse\"(\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/api/v1/users/{user_id}/roles\x12\x8a\x01\n" +
-	"\x0eRemoveUserRole\x12\".api.rbac.v1.RemoveUserRoleRequest\x1a#.api.rbac.v1.RemoveUserRoleResponse\"/\x82\xd3\xe4\x93\x02)*'/api/v1/users/{user_id}/roles/{role_id}\x12\x92\x01\n" +
-	"\x12GetRolePermissions\x12&.api.rbac.v1.GetRolePermissionsRequest\x1a'.api.rbac.v1.GetRolePermissionsResponse\"+\x82\xd3\xe4\x93\x02%\x12#/api/v1/roles/{role_id}/permissions\x12\x9b\x01\n" +
-	"\x14AssignRolePermission\x12(.api.rbac.v1.AssignRolePermissionRequest\x1a).api.rbac.v1.AssignRolePermissionResponse\".\x82\xd3\xe4\x93\x02(:\x01*\"#/api/v1/roles/{role_id}/permissions\x12\xa8\x01\n" +
-	"\x14RemoveRolePermission\x12(.api.rbac.v1.RemoveRolePermissionRequest\x1a).api.rbac.v1.RemoveRolePermissionResponse\";\x82\xd3\xe4\x93\x025*3/api/v1/roles/{role_id}/permissions/{permission_id}\x12\x82\x01\n" +
-	"\x0fCheckPermission\x12#.api.rbac.v1.CheckPermissionRequest\x1a$.api.rbac.v1.CheckPermissionResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/permissions/checkB\x18Z\x16student/api/rbac/v1;v1b\x06proto3"
+	"DeleteRole\x12\x1e.api.rbac.v1.DeleteRoleRequest\x1a\x1f.api.rbac.v1.DeleteRoleResponse\"\x16\x82\xd3\xe4\x93\x02\x10*\x0e/v1/roles/{id}\x12]\n" +
+	"\tListRoles\x12\x1d.api.rbac.v1.ListRolesRequest\x1a\x1e.api.rbac.v1.ListRolesResponse\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/v1/roles\x12t\n" +
+	"\rGetPermission\x12!.api.rbac.v1.GetPermissionRequest\x1a\".api.rbac.v1.GetPermissionResponse\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/v1/permissions/{id}\x12{\n" +
+	"\x10CreatePermission\x12$.api.rbac.v1.CreatePermissionRequest\x1a%.api.rbac.v1.CreatePermissionResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/permissions\x12\x80\x01\n" +
+	"\x10UpdatePermission\x12$.api.rbac.v1.UpdatePermissionRequest\x1a%.api.rbac.v1.UpdatePermissionResponse\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\x1a\x14/v1/permissions/{id}\x12}\n" +
+	"\x10DeletePermission\x12$.api.rbac.v1.DeletePermissionRequest\x1a%.api.rbac.v1.DeletePermissionResponse\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/v1/permissions/{id}\x12u\n" +
+	"\x0fListPermissions\x12#.api.rbac.v1.ListPermissionsRequest\x1a$.api.rbac.v1.ListPermissionsResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/v1/permissions\x12v\n" +
+	"\fGetUserRoles\x12 .api.rbac.v1.GetUserRolesRequest\x1a!.api.rbac.v1.GetUserRolesResponse\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/v1/users/{user_id}/roles\x12\x7f\n" +
+	"\x0eAssignUserRole\x12\".api.rbac.v1.AssignUserRoleRequest\x1a#.api.rbac.v1.AssignUserRoleResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/v1/users/{user_id}/roles\x12\x86\x01\n" +
+	"\x0eRemoveUserRole\x12\".api.rbac.v1.RemoveUserRoleRequest\x1a#.api.rbac.v1.RemoveUserRoleResponse\"+\x82\xd3\xe4\x93\x02%*#/v1/users/{user_id}/roles/{role_id}\x12\x8e\x01\n" +
+	"\x12GetRolePermissions\x12&.api.rbac.v1.GetRolePermissionsRequest\x1a'.api.rbac.v1.GetRolePermissionsResponse\"'\x82\xd3\xe4\x93\x02!\x12\x1f/v1/roles/{role_id}/permissions\x12\x97\x01\n" +
+	"\x14AssignRolePermission\x12(.api.rbac.v1.AssignRolePermissionRequest\x1a).api.rbac.v1.AssignRolePermissionResponse\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/v1/roles/{role_id}/permissions\x12\xa4\x01\n" +
+	"\x14RemoveRolePermission\x12(.api.rbac.v1.RemoveRolePermissionRequest\x1a).api.rbac.v1.RemoveRolePermissionResponse\"7\x82\xd3\xe4\x93\x021*//v1/roles/{role_id}/permissions/{permission_id}\x12~\n" +
+	"\x0fCheckPermission\x12#.api.rbac.v1.CheckPermissionRequest\x1a$.api.rbac.v1.CheckPermissionResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/v1/permissions/checkB\x18Z\x16student/api/rbac/v1;v1b\x06proto3"
 
 var (
 	file_rbac_v1_rbac_proto_rawDescOnce sync.Once

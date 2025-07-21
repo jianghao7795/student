@@ -11,21 +11,21 @@ service ErrorService {
   // 获取错误信息
   rpc GetErrorInfo(GetErrorInfoRequest) returns (GetErrorInfoReply) {
     option (google.api.http) = {
-      get: "/errors/{error_code}"
+      get: "/v1/errors/{error_code}"
     };
   }
   
   // 获取所有错误码列表
   rpc ListErrorCodes(ListErrorCodesRequest) returns (ListErrorCodesReply) {
     option (google.api.http) = {
-      get: "/errors"
+      get: "/v1/errors"
     };
   }
   
   // 创建自定义错误
   rpc CreateCustomError(CreateCustomErrorRequest) returns (CreateCustomErrorReply) {
     option (google.api.http) = {
-      post: "/errors/custom"
+      post: "/v1/errors/custom"
       body: "*"
     };
   }

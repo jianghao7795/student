@@ -36,11 +36,11 @@ type StudentHTTPServer interface {
 
 func RegisterStudentHTTPServer(s *http.Server, srv StudentHTTPServer) {
 	r := s.Route("/")
-	r.GET("/student/{id}", _Student_GetStudent0_HTTP_Handler(srv))
-	r.POST("/student", _Student_CreateStudent0_HTTP_Handler(srv))
-	r.PUT("/student/{id}", _Student_UpdateStudent0_HTTP_Handler(srv))
-	r.DELETE("/student/{id}", _Student_DeleteStudent0_HTTP_Handler(srv))
-	r.GET("/students", _Student_ListStudents0_HTTP_Handler(srv))
+	r.GET("/v1/student/{id}", _Student_GetStudent0_HTTP_Handler(srv))
+	r.POST("/v1/student", _Student_CreateStudent0_HTTP_Handler(srv))
+	r.PUT("/v1/student/{id}", _Student_UpdateStudent0_HTTP_Handler(srv))
+	r.DELETE("/v1/student/{id}", _Student_DeleteStudent0_HTTP_Handler(srv))
+	r.GET("/v1/students", _Student_ListStudents0_HTTP_Handler(srv))
 }
 
 func _Student_GetStudent0_HTTP_Handler(srv StudentHTTPServer) func(ctx http.Context) error {
@@ -171,7 +171,7 @@ func NewStudentHTTPClient(client *http.Client) StudentHTTPClient {
 
 func (c *StudentHTTPClientImpl) CreateStudent(ctx context.Context, in *CreateStudentRequest, opts ...http.CallOption) (*CreateStudentReply, error) {
 	var out CreateStudentReply
-	pattern := "/student"
+	pattern := "/v1/student"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationStudentCreateStudent))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -184,7 +184,7 @@ func (c *StudentHTTPClientImpl) CreateStudent(ctx context.Context, in *CreateStu
 
 func (c *StudentHTTPClientImpl) DeleteStudent(ctx context.Context, in *DeleteStudentRequest, opts ...http.CallOption) (*DeleteStudentReply, error) {
 	var out DeleteStudentReply
-	pattern := "/student/{id}"
+	pattern := "/v1/student/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationStudentDeleteStudent))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -197,7 +197,7 @@ func (c *StudentHTTPClientImpl) DeleteStudent(ctx context.Context, in *DeleteStu
 
 func (c *StudentHTTPClientImpl) GetStudent(ctx context.Context, in *GetStudentRequest, opts ...http.CallOption) (*GetStudentReply, error) {
 	var out GetStudentReply
-	pattern := "/student/{id}"
+	pattern := "/v1/student/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationStudentGetStudent))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -210,7 +210,7 @@ func (c *StudentHTTPClientImpl) GetStudent(ctx context.Context, in *GetStudentRe
 
 func (c *StudentHTTPClientImpl) ListStudents(ctx context.Context, in *ListStudentsRequest, opts ...http.CallOption) (*ListStudentsReply, error) {
 	var out ListStudentsReply
-	pattern := "/students"
+	pattern := "/v1/students"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationStudentListStudents))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -223,7 +223,7 @@ func (c *StudentHTTPClientImpl) ListStudents(ctx context.Context, in *ListStuden
 
 func (c *StudentHTTPClientImpl) UpdateStudent(ctx context.Context, in *UpdateStudentRequest, opts ...http.CallOption) (*UpdateStudentReply, error) {
 	var out UpdateStudentReply
-	pattern := "/student/{id}"
+	pattern := "/v1/student/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationStudentUpdateStudent))
 	opts = append(opts, http.PathTemplate(pattern))

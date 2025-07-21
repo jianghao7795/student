@@ -43,35 +43,35 @@
 
 #### 角色管理
 
-- `GET /api/v1/roles` - 获取角色列表
-- `GET /api/v1/roles/{id}` - 获取角色详情
-- `POST /api/v1/roles` - 创建角色
-- `PUT /api/v1/roles/{id}` - 更新角色
-- `DELETE /api/v1/roles/{id}` - 删除角色
+- `GET /v1/roles` - 获取角色列表
+- `GET /v1/roles/{id}` - 获取角色详情
+- `POST /v1/roles` - 创建角色
+- `PUT /v1/roles/{id}` - 更新角色
+- `DELETE /v1/roles/{id}` - 删除角色
 
 #### 权限管理
 
-- `GET /api/v1/permissions` - 获取权限列表
-- `GET /api/v1/permissions/{id}` - 获取权限详情
-- `POST /api/v1/permissions` - 创建权限
-- `PUT /api/v1/permissions/{id}` - 更新权限
-- `DELETE /api/v1/permissions/{id}` - 删除权限
+- `GET /v1/permissions` - 获取权限列表
+- `GET /v1/permissions/{id}` - 获取权限详情
+- `POST /v1/permissions` - 创建权限
+- `PUT /v1/permissions/{id}` - 更新权限
+- `DELETE /v1/permissions/{id}` - 删除权限
 
 #### 用户角色管理
 
-- `GET /api/v1/users/{user_id}/roles` - 获取用户角色
-- `POST /api/v1/users/{user_id}/roles` - 分配用户角色
-- `DELETE /api/v1/users/{user_id}/roles/{role_id}` - 移除用户角色
+- `GET /v1/users/{user_id}/roles` - 获取用户角色
+- `POST /v1/users/{user_id}/roles` - 分配用户角色
+- `DELETE /v1/users/{user_id}/roles/{role_id}` - 移除用户角色
 
 #### 角色权限管理
 
-- `GET /api/v1/roles/{role_id}/permissions` - 获取角色权限
-- `POST /api/v1/roles/{role_id}/permissions` - 分配角色权限
-- `DELETE /api/v1/roles/{role_id}/permissions/{permission_id}` - 移除角色权限
+- `GET /v1/roles/{role_id}/permissions` - 获取角色权限
+- `POST /v1/roles/{role_id}/permissions` - 分配角色权限
+- `DELETE /v1/roles/{role_id}/permissions/{permission_id}` - 移除角色权限
 
 #### 权限检查
 
-- `POST /api/v1/permissions/check` - 检查用户权限
+- `POST /v1/permissions/check` - 检查用户权限
 
 ### 4. 预定义角色和权限
 
@@ -157,11 +157,11 @@ student/
 ### 2. 权限检查
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/permissions/check \
+curl -X POST http://localhost:8000/v1/permissions/check \
   -H "Content-Type: application/json" \
   -d '{
     "user": "1",
-    "resource": "/api/v1/users",
+    "resource": "/v1/users",
     "action": "GET"
   }'
 ```

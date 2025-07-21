@@ -1,8 +1,8 @@
-p, admin, /api/v1/users, *
-p, admin, /api/v1/students, *
-p, user, /api/v1/users, GET
-p, user, /api/v1/students, GET
-p, guest, /api/v1/users, GET
+p, admin, /v1/users, *
+p, admin, /v1/students, *
+p, user, /v1/users, GET
+p, user, /v1/students, GET
+p, guest, /v1/users, GET
 g, 1, admin
 g, 2, user
 g, 3, guest 

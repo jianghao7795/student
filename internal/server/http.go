@@ -1,6 +1,7 @@
 package server
 
 import (
+	rbacV1 "student/api/rbac/v1"
 	v1 "student/api/student/v1"
 	userV1 "student/api/user/v1"
 	"student/internal/conf"
@@ -12,7 +13,7 @@ import (
 )
 
 // NewHTTPServer new an HTTP server.
-func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *service.UserService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *service.UserService, rbac *service.RBACService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
@@ -30,5 +31,6 @@ func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *ser
 	srv := http.NewServer(opts...)
 	v1.RegisterStudentHTTPServer(srv, student)
 	userV1.RegisterUserHTTPServer(srv, user)
+	rbacV1.RegisterRBACServiceHTTPServer(srv, rbac)
 	return srv
 }

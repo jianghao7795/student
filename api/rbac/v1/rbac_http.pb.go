@@ -64,23 +64,23 @@ type RBACServiceHTTPServer interface {
 
 func RegisterRBACServiceHTTPServer(s *http.Server, srv RBACServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/api/v1/roles/{id}", _RBACService_GetRole0_HTTP_Handler(srv))
-	r.POST("/api/v1/roles", _RBACService_CreateRole0_HTTP_Handler(srv))
-	r.PUT("/api/v1/roles/{id}", _RBACService_UpdateRole0_HTTP_Handler(srv))
-	r.DELETE("/api/v1/roles/{id}", _RBACService_DeleteRole0_HTTP_Handler(srv))
-	r.GET("/api/v1/roles", _RBACService_ListRoles0_HTTP_Handler(srv))
-	r.GET("/api/v1/permissions/{id}", _RBACService_GetPermission0_HTTP_Handler(srv))
-	r.POST("/api/v1/permissions", _RBACService_CreatePermission0_HTTP_Handler(srv))
-	r.PUT("/api/v1/permissions/{id}", _RBACService_UpdatePermission0_HTTP_Handler(srv))
-	r.DELETE("/api/v1/permissions/{id}", _RBACService_DeletePermission0_HTTP_Handler(srv))
-	r.GET("/api/v1/permissions", _RBACService_ListPermissions0_HTTP_Handler(srv))
-	r.GET("/api/v1/users/{user_id}/roles", _RBACService_GetUserRoles0_HTTP_Handler(srv))
-	r.POST("/api/v1/users/{user_id}/roles", _RBACService_AssignUserRole0_HTTP_Handler(srv))
-	r.DELETE("/api/v1/users/{user_id}/roles/{role_id}", _RBACService_RemoveUserRole0_HTTP_Handler(srv))
-	r.GET("/api/v1/roles/{role_id}/permissions", _RBACService_GetRolePermissions0_HTTP_Handler(srv))
-	r.POST("/api/v1/roles/{role_id}/permissions", _RBACService_AssignRolePermission0_HTTP_Handler(srv))
-	r.DELETE("/api/v1/roles/{role_id}/permissions/{permission_id}", _RBACService_RemoveRolePermission0_HTTP_Handler(srv))
-	r.POST("/api/v1/permissions/check", _RBACService_CheckPermission0_HTTP_Handler(srv))
+	r.GET("/v1/roles/{id}", _RBACService_GetRole0_HTTP_Handler(srv))
+	r.POST("/v1/roles", _RBACService_CreateRole0_HTTP_Handler(srv))
+	r.PUT("/v1/roles/{id}", _RBACService_UpdateRole0_HTTP_Handler(srv))
+	r.DELETE("/v1/roles/{id}", _RBACService_DeleteRole0_HTTP_Handler(srv))
+	r.GET("/v1/roles", _RBACService_ListRoles0_HTTP_Handler(srv))
+	r.GET("/v1/permissions/{id}", _RBACService_GetPermission0_HTTP_Handler(srv))
+	r.POST("/v1/permissions", _RBACService_CreatePermission0_HTTP_Handler(srv))
+	r.PUT("/v1/permissions/{id}", _RBACService_UpdatePermission0_HTTP_Handler(srv))
+	r.DELETE("/v1/permissions/{id}", _RBACService_DeletePermission0_HTTP_Handler(srv))
+	r.GET("/v1/permissions", _RBACService_ListPermissions0_HTTP_Handler(srv))
+	r.GET("/v1/users/{user_id}/roles", _RBACService_GetUserRoles0_HTTP_Handler(srv))
+	r.POST("/v1/users/{user_id}/roles", _RBACService_AssignUserRole0_HTTP_Handler(srv))
+	r.DELETE("/v1/users/{user_id}/roles/{role_id}", _RBACService_RemoveUserRole0_HTTP_Handler(srv))
+	r.GET("/v1/roles/{role_id}/permissions", _RBACService_GetRolePermissions0_HTTP_Handler(srv))
+	r.POST("/v1/roles/{role_id}/permissions", _RBACService_AssignRolePermission0_HTTP_Handler(srv))
+	r.DELETE("/v1/roles/{role_id}/permissions/{permission_id}", _RBACService_RemoveRolePermission0_HTTP_Handler(srv))
+	r.POST("/v1/permissions/check", _RBACService_CheckPermission0_HTTP_Handler(srv))
 }
 
 func _RBACService_GetRole0_HTTP_Handler(srv RBACServiceHTTPServer) func(ctx http.Context) error {
@@ -493,7 +493,7 @@ func NewRBACServiceHTTPClient(client *http.Client) RBACServiceHTTPClient {
 
 func (c *RBACServiceHTTPClientImpl) AssignRolePermission(ctx context.Context, in *AssignRolePermissionRequest, opts ...http.CallOption) (*AssignRolePermissionResponse, error) {
 	var out AssignRolePermissionResponse
-	pattern := "/api/v1/roles/{role_id}/permissions"
+	pattern := "/v1/roles/{role_id}/permissions"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationRBACServiceAssignRolePermission))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -506,7 +506,7 @@ func (c *RBACServiceHTTPClientImpl) AssignRolePermission(ctx context.Context, in
 
 func (c *RBACServiceHTTPClientImpl) AssignUserRole(ctx context.Context, in *AssignUserRoleRequest, opts ...http.CallOption) (*AssignUserRoleResponse, error) {
 	var out AssignUserRoleResponse
-	pattern := "/api/v1/users/{user_id}/roles"
+	pattern := "/v1/users/{user_id}/roles"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationRBACServiceAssignUserRole))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -519,7 +519,7 @@ func (c *RBACServiceHTTPClientImpl) AssignUserRole(ctx context.Context, in *Assi
 
 func (c *RBACServiceHTTPClientImpl) CheckPermission(ctx context.Context, in *CheckPermissionRequest, opts ...http.CallOption) (*CheckPermissionResponse, error) {
 	var out CheckPermissionResponse
-	pattern := "/api/v1/permissions/check"
+	pattern := "/v1/permissions/check"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationRBACServiceCheckPermission))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -532,7 +532,7 @@ func (c *RBACServiceHTTPClientImpl) CheckPermission(ctx context.Context, in *Che
 
 func (c *RBACServiceHTTPClientImpl) CreatePermission(ctx context.Context, in *CreatePermissionRequest, opts ...http.CallOption) (*CreatePermissionResponse, error) {
 	var out CreatePermissionResponse
-	pattern := "/api/v1/permissions"
+	pattern := "/v1/permissions"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationRBACServiceCreatePermission))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -545,7 +545,7 @@ func (c *RBACServiceHTTPClientImpl) CreatePermission(ctx context.Context, in *Cr
 
 func (c *RBACServiceHTTPClientImpl) CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...http.CallOption) (*CreateRoleResponse, error) {
 	var out CreateRoleResponse
-	pattern := "/api/v1/roles"
+	pattern := "/v1/roles"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationRBACServiceCreateRole))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -558,7 +558,7 @@ func (c *RBACServiceHTTPClientImpl) CreateRole(ctx context.Context, in *CreateRo
 
 func (c *RBACServiceHTTPClientImpl) DeletePermission(ctx context.Context, in *DeletePermissionRequest, opts ...http.CallOption) (*DeletePermissionResponse, error) {
 	var out DeletePermissionResponse
-	pattern := "/api/v1/permissions/{id}"
+	pattern := "/v1/permissions/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRBACServiceDeletePermission))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -571,7 +571,7 @@ func (c *RBACServiceHTTPClientImpl) DeletePermission(ctx context.Context, in *De
 
 func (c *RBACServiceHTTPClientImpl) DeleteRole(ctx context.Context, in *DeleteRoleRequest, opts ...http.CallOption) (*DeleteRoleResponse, error) {
 	var out DeleteRoleResponse
-	pattern := "/api/v1/roles/{id}"
+	pattern := "/v1/roles/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRBACServiceDeleteRole))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -584,7 +584,7 @@ func (c *RBACServiceHTTPClientImpl) DeleteRole(ctx context.Context, in *DeleteRo
 
 func (c *RBACServiceHTTPClientImpl) GetPermission(ctx context.Context, in *GetPermissionRequest, opts ...http.CallOption) (*GetPermissionResponse, error) {
 	var out GetPermissionResponse
-	pattern := "/api/v1/permissions/{id}"
+	pattern := "/v1/permissions/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRBACServiceGetPermission))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -597,7 +597,7 @@ func (c *RBACServiceHTTPClientImpl) GetPermission(ctx context.Context, in *GetPe
 
 func (c *RBACServiceHTTPClientImpl) GetRole(ctx context.Context, in *GetRoleRequest, opts ...http.CallOption) (*GetRoleResponse, error) {
 	var out GetRoleResponse
-	pattern := "/api/v1/roles/{id}"
+	pattern := "/v1/roles/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRBACServiceGetRole))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -610,7 +610,7 @@ func (c *RBACServiceHTTPClientImpl) GetRole(ctx context.Context, in *GetRoleRequ
 
 func (c *RBACServiceHTTPClientImpl) GetRolePermissions(ctx context.Context, in *GetRolePermissionsRequest, opts ...http.CallOption) (*GetRolePermissionsResponse, error) {
 	var out GetRolePermissionsResponse
-	pattern := "/api/v1/roles/{role_id}/permissions"
+	pattern := "/v1/roles/{role_id}/permissions"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRBACServiceGetRolePermissions))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -623,7 +623,7 @@ func (c *RBACServiceHTTPClientImpl) GetRolePermissions(ctx context.Context, in *
 
 func (c *RBACServiceHTTPClientImpl) GetUserRoles(ctx context.Context, in *GetUserRolesRequest, opts ...http.CallOption) (*GetUserRolesResponse, error) {
 	var out GetUserRolesResponse
-	pattern := "/api/v1/users/{user_id}/roles"
+	pattern := "/v1/users/{user_id}/roles"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRBACServiceGetUserRoles))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -636,7 +636,7 @@ func (c *RBACServiceHTTPClientImpl) GetUserRoles(ctx context.Context, in *GetUse
 
 func (c *RBACServiceHTTPClientImpl) ListPermissions(ctx context.Context, in *ListPermissionsRequest, opts ...http.CallOption) (*ListPermissionsResponse, error) {
 	var out ListPermissionsResponse
-	pattern := "/api/v1/permissions"
+	pattern := "/v1/permissions"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRBACServiceListPermissions))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -649,7 +649,7 @@ func (c *RBACServiceHTTPClientImpl) ListPermissions(ctx context.Context, in *Lis
 
 func (c *RBACServiceHTTPClientImpl) ListRoles(ctx context.Context, in *ListRolesRequest, opts ...http.CallOption) (*ListRolesResponse, error) {
 	var out ListRolesResponse
-	pattern := "/api/v1/roles"
+	pattern := "/v1/roles"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRBACServiceListRoles))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -662,7 +662,7 @@ func (c *RBACServiceHTTPClientImpl) ListRoles(ctx context.Context, in *ListRoles
 
 func (c *RBACServiceHTTPClientImpl) RemoveRolePermission(ctx context.Context, in *RemoveRolePermissionRequest, opts ...http.CallOption) (*RemoveRolePermissionResponse, error) {
 	var out RemoveRolePermissionResponse
-	pattern := "/api/v1/roles/{role_id}/permissions/{permission_id}"
+	pattern := "/v1/roles/{role_id}/permissions/{permission_id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRBACServiceRemoveRolePermission))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -675,7 +675,7 @@ func (c *RBACServiceHTTPClientImpl) RemoveRolePermission(ctx context.Context, in
 
 func (c *RBACServiceHTTPClientImpl) RemoveUserRole(ctx context.Context, in *RemoveUserRoleRequest, opts ...http.CallOption) (*RemoveUserRoleResponse, error) {
 	var out RemoveUserRoleResponse
-	pattern := "/api/v1/users/{user_id}/roles/{role_id}"
+	pattern := "/v1/users/{user_id}/roles/{role_id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRBACServiceRemoveUserRole))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -688,7 +688,7 @@ func (c *RBACServiceHTTPClientImpl) RemoveUserRole(ctx context.Context, in *Remo
 
 func (c *RBACServiceHTTPClientImpl) UpdatePermission(ctx context.Context, in *UpdatePermissionRequest, opts ...http.CallOption) (*UpdatePermissionResponse, error) {
 	var out UpdatePermissionResponse
-	pattern := "/api/v1/permissions/{id}"
+	pattern := "/v1/permissions/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationRBACServiceUpdatePermission))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -701,7 +701,7 @@ func (c *RBACServiceHTTPClientImpl) UpdatePermission(ctx context.Context, in *Up
 
 func (c *RBACServiceHTTPClientImpl) UpdateRole(ctx context.Context, in *UpdateRoleRequest, opts ...http.CallOption) (*UpdateRoleResponse, error) {
 	var out UpdateRoleResponse
-	pattern := "/api/v1/roles/{id}"
+	pattern := "/v1/roles/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationRBACServiceUpdateRole))
 	opts = append(opts, http.PathTemplate(pattern))

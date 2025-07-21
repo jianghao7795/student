@@ -739,14 +739,14 @@ const file_student_v1_student_proto_rawDesc = "" +
 	"\x04name\x18\x03 \x01(\tR\x04name\"S\n" +
 	"\x11ListStudentsReply\x12(\n" +
 	"\x04data\x18\x01 \x03(\v2\x14.student.v1.StudentsR\x04data\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x05R\x05total2\x8c\x04\n" +
-	"\aStudent\x12_\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total2\x9b\x04\n" +
+	"\aStudent\x12b\n" +
 	"\n" +
-	"GetStudent\x12\x1d.student.v1.GetStudentRequest\x1a\x1b.student.v1.GetStudentReply\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/student/{id}\x12f\n" +
-	"\rCreateStudent\x12 .student.v1.CreateStudentRequest\x1a\x1e.student.v1.CreateStudentReply\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/student\x12k\n" +
-	"\rUpdateStudent\x12 .student.v1.UpdateStudentRequest\x1a\x1e.student.v1.UpdateStudentReply\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\x1a\r/student/{id}\x12h\n" +
-	"\rDeleteStudent\x12 .student.v1.DeleteStudentRequest\x1a\x1e.student.v1.DeleteStudentReply\"\x15\x82\xd3\xe4\x93\x02\x0f*\r/student/{id}\x12a\n" +
-	"\fListStudents\x12\x1f.student.v1.ListStudentsRequest\x1a\x1d.student.v1.ListStudentsReply\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/studentsB\x1bZ\x19student/api/student/v1;v1b\x06proto3"
+	"GetStudent\x12\x1d.student.v1.GetStudentRequest\x1a\x1b.student.v1.GetStudentReply\"\x18\x82\xd3\xe4\x93\x02\x12\x12\x10/v1/student/{id}\x12i\n" +
+	"\rCreateStudent\x12 .student.v1.CreateStudentRequest\x1a\x1e.student.v1.CreateStudentReply\"\x16\x82\xd3\xe4\x93\x02\x10:\x01*\"\v/v1/student\x12n\n" +
+	"\rUpdateStudent\x12 .student.v1.UpdateStudentRequest\x1a\x1e.student.v1.UpdateStudentReply\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\x1a\x10/v1/student/{id}\x12k\n" +
+	"\rDeleteStudent\x12 .student.v1.DeleteStudentRequest\x1a\x1e.student.v1.DeleteStudentReply\"\x18\x82\xd3\xe4\x93\x02\x12*\x10/v1/student/{id}\x12d\n" +
+	"\fListStudents\x12\x1f.student.v1.ListStudentsRequest\x1a\x1d.student.v1.ListStudentsReply\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/v1/studentsB\x1bZ\x19student/api/student/v1;v1b\x06proto3"
 
 var (
 	file_student_v1_student_proto_rawDescOnce sync.Once

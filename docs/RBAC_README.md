@@ -107,35 +107,35 @@ CREATE TABLE `role_permissions` (
 
 ### 角色管理
 
-- `GET /api/v1/roles` - 获取角色列表
-- `GET /api/v1/roles/{id}` - 获取角色详情
-- `POST /api/v1/roles` - 创建角色
-- `PUT /api/v1/roles/{id}` - 更新角色
-- `DELETE /api/v1/roles/{id}` - 删除角色
+- `GET /v1/roles` - 获取角色列表
+- `GET /v1/roles/{id}` - 获取角色详情
+- `POST /v1/roles` - 创建角色
+- `PUT /v1/roles/{id}` - 更新角色
+- `DELETE /v1/roles/{id}` - 删除角色
 
 ### 权限管理
 
-- `GET /api/v1/permissions` - 获取权限列表
-- `GET /api/v1/permissions/{id}` - 获取权限详情
-- `POST /api/v1/permissions` - 创建权限
-- `PUT /api/v1/permissions/{id}` - 更新权限
-- `DELETE /api/v1/permissions/{id}` - 删除权限
+- `GET /v1/permissions` - 获取权限列表
+- `GET /v1/permissions/{id}` - 获取权限详情
+- `POST /v1/permissions` - 创建权限
+- `PUT /v1/permissions/{id}` - 更新权限
+- `DELETE /v1/permissions/{id}` - 删除权限
 
 ### 用户角色管理
 
-- `GET /api/v1/users/{user_id}/roles` - 获取用户角色
-- `POST /api/v1/users/{user_id}/roles` - 分配用户角色
-- `DELETE /api/v1/users/{user_id}/roles/{role_id}` - 移除用户角色
+- `GET /v1/users/{user_id}/roles` - 获取用户角色
+- `POST /v1/users/{user_id}/roles` - 分配用户角色
+- `DELETE /v1/users/{user_id}/roles/{role_id}` - 移除用户角色
 
 ### 角色权限管理
 
-- `GET /api/v1/roles/{role_id}/permissions` - 获取角色权限
-- `POST /api/v1/roles/{role_id}/permissions` - 分配角色权限
-- `DELETE /api/v1/roles/{role_id}/permissions/{permission_id}` - 移除角色权限
+- `GET /v1/roles/{role_id}/permissions` - 获取角色权限
+- `POST /v1/roles/{role_id}/permissions` - 分配角色权限
+- `DELETE /v1/roles/{role_id}/permissions/{permission_id}` - 移除角色权限
 
 ### 权限检查
 
-- `POST /api/v1/permissions/check` - 检查用户权限
+- `POST /v1/permissions/check` - 检查用户权限
 
 ## 使用示例
 
@@ -156,11 +156,11 @@ CREATE TABLE `role_permissions` (
 
 ```bash
 # 检查用户是否有权限访问用户列表
-curl -X POST http://localhost:8000/api/v1/permissions/check \
+curl -X POST http://localhost:8000/v1/permissions/check \
   -H "Content-Type: application/json" \
   -d '{
     "user": "1",
-    "resource": "/api/v1/users",
+    "resource": "/v1/users",
     "action": "GET"
   }'
 ```
@@ -169,7 +169,7 @@ curl -X POST http://localhost:8000/api/v1/permissions/check \
 
 ```bash
 # 为用户分配角色
-curl -X POST http://localhost:8000/api/v1/users/2/roles \
+curl -X POST http://localhost:8000/v1/users/2/roles \
   -H "Content-Type: application/json" \
   -d '{
     "role_id": 2
@@ -180,7 +180,7 @@ curl -X POST http://localhost:8000/api/v1/users/2/roles \
 
 ```bash
 # 为角色分配权限
-curl -X POST http://localhost:8000/api/v1/roles/2/permissions \
+curl -X POST http://localhost:8000/v1/roles/2/permissions \
   -H "Content-Type: application/json" \
   -d '{
     "permission_id": 1
@@ -197,7 +197,7 @@ rbacMiddleware := middleware.RBACMiddleware(rbacUC, jwtUtil)
 router.Use(rbacMiddleware)
 
 // 或者针对特定路径使用简化版中间件
-simpleRBACMiddleware := middleware.SimpleRBACMiddleware(rbacUC, jwtUtil, "/api/v1/users", "GET")
+simpleRBACMiddleware := middleware.SimpleRBACMiddleware(rbacUC, jwtUtil, "/v1/users", "GET")
 router.Use(simpleRBACMiddleware)
 ```
 
@@ -246,7 +246,7 @@ go run examples/rbac_test.go
 
 1. **权限缓存**: Casbin 会自动缓存权限策略，修改权限后需要重新加载策略
 2. **角色继承**: 当前版本支持简单的角色分配，不支持角色继承
-3. **权限粒度**: 权限检查支持通配符匹配，如 `/api/v1/users/*` 可以匹配所有用户相关操作
+3. **权限粒度**: 权限检查支持通配符匹配，如 `/v1/users/*` 可以匹配所有用户相关操作
 4. **安全性**: 所有 API 接口都需要 JWT 认证，权限检查在认证之后进行
 
 ## 扩展功能

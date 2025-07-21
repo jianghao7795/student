@@ -794,11 +794,12 @@ const file_errors_v1_errors_proto_rawDesc = "" +
 	"\bDATABASE\x10\x05\x12\f\n" +
 	"\bEXTERNAL\x10\x06\x12\n" +
 	"\n" +
-	"\x06SYSTEM\x10\a2\xd7\x02\n" +
-	"\fErrorService\x12j\n" +
-	"\fGetErrorInfo\x12\x1e.errors.v1.GetErrorInfoRequest\x1a\x1c.errors.v1.GetErrorInfoReply\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/errors/{error_code}\x12c\n" +
-	"\x0eListErrorCodes\x12 .errors.v1.ListErrorCodesRequest\x1a\x1e.errors.v1.ListErrorCodesReply\"\x0f\x82\xd3\xe4\x93\x02\t\x12\a/errors\x12v\n" +
-	"\x11CreateCustomError\x12#.errors.v1.CreateCustomErrorRequest\x1a!.errors.v1.CreateCustomErrorReply\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/errors/customB\x1aZ\x18student/api/errors/v1;v1b\x06proto3"
+	"\x06SYSTEM\x10\a2\xe0\x02\n" +
+	"\fErrorService\x12m\n" +
+	"\fGetErrorInfo\x12\x1e.errors.v1.GetErrorInfoRequest\x1a\x1c.errors.v1.GetErrorInfoReply\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/v1/errors/{error_code}\x12f\n" +
+	"\x0eListErrorCodes\x12 .errors.v1.ListErrorCodesRequest\x1a\x1e.errors.v1.ListErrorCodesReply\"\x12\x82\xd3\xe4\x93\x02\f\x12\n" +
+	"/v1/errors\x12y\n" +
+	"\x11CreateCustomError\x12#.errors.v1.CreateCustomErrorRequest\x1a!.errors.v1.CreateCustomErrorReply\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/errors/customB\x1aZ\x18student/api/errors/v1;v1b\x06proto3"
 
 var (
 	file_errors_v1_errors_proto_rawDescOnce sync.Once
