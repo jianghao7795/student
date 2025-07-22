@@ -2,7 +2,9 @@ package middleware
 
 import (
 	"context"
+	"log"
 	"net/http"
+	"slices"
 	"strings"
 
 	"student/internal/pkg/jwt"
@@ -23,6 +25,7 @@ func JWTAuth(config *JWTConfig) middleware.Middleware {
 	return func(handler middleware.Handler) middleware.Handler {
 		return func(ctx context.Context, req any) (reply any, err error) {
 			// 检查是否需要跳过JWT验证
+			log.Println(config.SkipPaths)
 			if shouldSkipJWT(ctx, config.SkipPaths) {
 				return handler(ctx, req)
 			}
@@ -80,9 +83,16 @@ func extractTokenFromRequest(req *http.Request) (string, error) {
 
 // 检查是否需要跳过JWT验证
 func shouldSkipJWT(ctx context.Context, skipPaths []string) bool {
-	// 这里可以根据请求路径来判断是否需要跳过JWT验证
-	// 对于登录等公开接口，可以跳过JWT验证
-	// 暂时返回false，后续可以根据需要扩展
+	// 从上下文中获取HTTP请求信息
+	if httpCtx, ok := ctx.(interface {
+		Request() *http.Request
+	}); ok {
+		req := httpCtx.Request()
+		path := req.URL.Path
+
+		// 检查当前路径是否在跳过列表中
+		return slices.Contains(skipPaths, path)
+	}
 	return false
 }
 

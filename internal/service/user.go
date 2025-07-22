@@ -230,3 +230,42 @@ func (s *UserService) GetMe(ctx context.Context, req *pb.GetMeRequest) (*pb.GetM
 
 	return reply, nil
 }
+
+func (s *UserService) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterReply, error) {
+	s.log.Info("user register", req.Username, req.Email, req.Phone, req.Age, req.Avatar)
+
+	registerForm := &biz.RegisterForm{
+		Username: req.Username,
+		Email:    req.Email,
+		Phone:    req.Phone,
+		Password: req.Password,
+		Age:      int(req.Age),
+		Avatar:   req.Avatar,
+	}
+
+	registerResult, err := s.user.Register(ctx, registerForm)
+	if err != nil {
+		return nil, err
+	}
+
+	reply := &pb.RegisterReply{
+		Success: registerResult.Success,
+		Message: registerResult.Message,
+	}
+
+	if registerResult.Success && registerResult.User != nil {
+		reply.UserInfo = &pb.UserInfo{
+			Id:        int32(registerResult.User.ID),
+			Username:  registerResult.User.Username,
+			Email:     registerResult.User.Email,
+			Phone:     registerResult.User.Phone,
+			Status:    int32(registerResult.User.Status),
+			Age:       int32(registerResult.User.Age),
+			Avatar:    registerResult.User.Avatar,
+			CreatedAt: registerResult.User.CreatedAtStr,
+			UpdatedAt: registerResult.User.UpdatedAtStr,
+		}
+	}
+
+	return reply, nil
+}

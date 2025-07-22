@@ -851,6 +851,58 @@
                 }
             }
         },
+        "/v1/user/me": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "description": "获取当前用户信息",
+                "operationId": "User_GetMe",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user.v1.GetMeReply"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "description": "用户注册",
+                "operationId": "User_Register",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/user.v1.RegisterRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user.v1.RegisterReply"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/user/{id}": {
             "get": {
                 "tags": [
@@ -1808,6 +1860,21 @@
                 },
                 "description": "删除用户响应"
             },
+            "user.v1.GetMeReply": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "userInfo": {
+                        "$ref": "#/components/schemas/user.v1.UserInfo"
+                    }
+                },
+                "description": "获取当前用户信息响应"
+            },
             "user.v1.GetUserReply": {
                 "type": "object",
                 "properties": {
@@ -1889,6 +1956,46 @@
                     }
                 },
                 "description": "登录请求"
+            },
+            "user.v1.RegisterReply": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "userInfo": {
+                        "$ref": "#/components/schemas/user.v1.UserInfo"
+                    }
+                },
+                "description": "用户注册响应"
+            },
+            "user.v1.RegisterRequest": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "avatar": {
+                        "type": "string"
+                    }
+                },
+                "description": "用户注册请求"
             },
             "user.v1.UpdateUserReply": {
                 "type": "object",

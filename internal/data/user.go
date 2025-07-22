@@ -231,3 +231,35 @@ func (r *userRepo) GetUserByEmail(ctx context.Context, email string) (*biz.User,
 		UpdatedAtStr: user.UpdatedAtStr,
 	}, err
 }
+
+// 实现 用户注册
+func (r *userRepo) RegisterUser(ctx context.Context, u *biz.RegisterForm) (*biz.RegisterMessage, error) {
+	// 加密密码
+	if err := u.HashPassword(); err != nil {
+		return nil, errors.Error400(err)
+	}
+
+	var user biz.User
+	user.Username = u.Username
+	user.Email = u.Email
+	user.Phone = u.Phone
+	user.Password = u.Password
+	user.Status = 1 // 默认启用状态
+	user.Age = u.Age
+	user.Avatar = u.Avatar
+
+	err := r.data.gormDB.WithContext(ctx).Create(&user).Error
+	if err != nil {
+		return nil, errors.Error400(err)
+	}
+
+	// 格式化时间字段
+	user.FormatTimeFields()
+
+	r.log.WithContext(ctx).Info("gormDB: RegisterUser, user: %v", user)
+	return &biz.RegisterMessage{
+		User:    &user,
+		Message: "注册成功",
+		Success: true,
+	}, err
+}

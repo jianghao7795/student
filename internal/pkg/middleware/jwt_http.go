@@ -20,37 +20,48 @@ const (
 	emailKey    contextKey = "email"
 )
 
-// JWT HTTP中间件
-func JWTHTTPMiddleware(jwtUtil *jwt.JWTUtil, skipPaths []string) func(http.Handler) http.Handler {
+// RequireAuthorizationHeader 是一个中间件，要求请求必须带 Authorization 头
+func RequireAuthorizationHeader() func(http.Handler) http.Handler {
+	return func(handler http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Header.Get("Authorization") == "" {
+				w.WriteHeader(http.StatusUnauthorized)
+				w.Write([]byte("Missing Authorization header"))
+				return
+			}
+			handler.ServeHTTP(w, r)
+		})
+	}
+}
+
+// JWTAuthMiddleware JWT 认证中间件
+func JWTAuthMiddleware(jwtUtil *jwt.JWTUtil, skipPaths []string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// 检查是否需要跳过JWT验证
+			// 检查是否需要跳过认证
 			if shouldSkipPath(r.URL.Path, skipPaths) {
 				next.ServeHTTP(w, r)
 				return
 			}
 
-			// 从请求头中获取token
-			token, err := extractTokenFromHeader(r)
-			if err != nil {
-				w.Header().Set("Content-Type", "application/json")
-				w.WriteHeader(http.StatusUnauthorized)
-				json.NewEncoder(w).Encode(map[string]any{
-					"code":    401,
-					"message": "未提供有效的认证token",
-				})
+			// 检查 Authorization 头
+			authHeader := r.Header.Get("Authorization")
+			if authHeader == "" {
+				sendErrorResponse(w, http.StatusUnauthorized, "缺少 Authorization 头")
 				return
 			}
 
-			// 验证token
+			// 从 Authorization 头中提取 token
+			token, err := extractTokenFromHeader(authHeader)
+			if err != nil {
+				sendErrorResponse(w, http.StatusUnauthorized, "Authorization 头格式错误")
+				return
+			}
+
+			// 验证 JWT token
 			claims, err := jwtUtil.ValidateToken(token)
 			if err != nil {
-				w.Header().Set("Content-Type", "application/json")
-				w.WriteHeader(http.StatusUnauthorized)
-				json.NewEncoder(w).Encode(map[string]any{
-					"code":    401,
-					"message": "token验证失败",
-				})
+				sendErrorResponse(w, http.StatusUnauthorized, "Token 验证失败")
 				return
 			}
 
@@ -68,24 +79,16 @@ func JWTHTTPMiddleware(jwtUtil *jwt.JWTUtil, skipPaths []string) func(http.Handl
 	}
 }
 
-// 从请求头中提取token
-func extractTokenFromHeader(r *http.Request) (string, error) {
-	// 从Authorization头中获取token
-	authHeader := r.Header.Get("Authorization")
-	if authHeader == "" {
-		return "", errors.New(400, "MISSING_TOKEN", "缺少Authorization头")
-	}
-
-	// 检查Authorization头的格式
+// 从 Authorization 头中提取 token
+func extractTokenFromHeader(authHeader string) (string, error) {
 	parts := strings.Split(authHeader, " ")
 	if len(parts) != 2 || parts[0] != "Bearer" {
-		return "", errors.New(400, "INVALID_TOKEN_FORMAT", "Authorization头格式错误")
+		return "", errors.New(400, "INVALID_TOKEN_FORMAT", "Authorization 头格式错误")
 	}
-
 	return parts[1], nil
 }
 
-// 检查是否需要跳过JWT验证
+// 检查是否需要跳过认证
 func shouldSkipPath(path string, skipPaths []string) bool {
 	for _, skipPath := range skipPaths {
 		if path == skipPath {
@@ -93,4 +96,14 @@ func shouldSkipPath(path string, skipPaths []string) bool {
 		}
 	}
 	return false
+}
+
+// 发送错误响应
+func sendErrorResponse(w http.ResponseWriter, statusCode int, message string) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(statusCode)
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"code":    statusCode,
+		"message": message,
+	})
 }

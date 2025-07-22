@@ -103,6 +103,7 @@ type UserRepo interface {
 	ListUsers(ctx context.Context, page int32, pageSize int32, username, email string) ([]*User, int32, error)
 	GetUserByUsername(ctx context.Context, username string) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
+	RegisterUser(ctx context.Context, u *RegisterForm) (*RegisterMessage, error)
 }
 
 // LoginForm 登录表单
@@ -252,6 +253,35 @@ type GetMeMessage struct {
 	Success bool
 }
 
+// RegisterForm 注册表单
+type RegisterForm struct {
+	Username string
+	Email    string
+	Phone    string
+	Password string
+	Age      int
+	Avatar   string
+}
+
+// HashPassword 加密密码
+func (r *RegisterForm) HashPassword() error {
+	if r.Password != "" && !password.IsHashed(r.Password) {
+		hashedPassword, err := password.HashPassword(r.Password)
+		if err != nil {
+			return err
+		}
+		r.Password = hashedPassword
+	}
+	return nil
+}
+
+// RegisterMessage 注册消息
+type RegisterMessage struct {
+	User    *User
+	Message string
+	Success bool
+}
+
 // 获取当前用户信息
 func (uc *UserUsecase) GetMe(ctx context.Context, userID uint) (*GetMeMessage, error) {
 	uc.log.Info("get current user", userID)
@@ -283,4 +313,40 @@ func (uc *UserUsecase) GetMe(ctx context.Context, userID uint) (*GetMeMessage, e
 		Message: "获取用户信息成功",
 		Success: true,
 	}, nil
+}
+
+// 用户注册
+func (uc *UserUsecase) Register(ctx context.Context, registerForm *RegisterForm) (*RegisterMessage, error) {
+	uc.log.Info("user register", registerForm.Username)
+
+	// 检查用户名是否已存在
+	existingUser, err := uc.repo.GetUserByUsername(ctx, registerForm.Username)
+	if err == nil && existingUser != nil {
+		return &RegisterMessage{
+			Message: "用户名已存在",
+			Success: false,
+		}, nil
+	}
+
+	// 检查邮箱是否已存在
+	if registerForm.Email != "" {
+		existingUser, err = uc.repo.GetUserByEmail(ctx, registerForm.Email)
+		if err == nil && existingUser != nil {
+			return &RegisterMessage{
+				Message: "邮箱已存在",
+				Success: false,
+			}, nil
+		}
+	}
+
+	// 调用数据层进行注册
+	result, err := uc.repo.RegisterUser(ctx, registerForm)
+	if err != nil {
+		return &RegisterMessage{
+			Message: "注册失败，请稍后重试",
+			Success: false,
+		}, err
+	}
+
+	return result, nil
 }

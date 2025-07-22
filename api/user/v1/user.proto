@@ -59,6 +59,14 @@ service User {
       get: "/v1/user/me"
     };
   }
+  
+  // 用户注册
+  rpc Register(RegisterRequest) returns (RegisterReply) {
+    option (google.api.http) = {
+      post: "/v1/user/register"
+      body: "*"
+    };
+  }
 }
 
 // 获取用户请求
@@ -183,6 +191,23 @@ message GetMeRequest {
 
 // 获取当前用户信息响应
 message GetMeReply {
+  bool success = 1;
+  string message = 2;
+  UserInfo user_info = 3;
+}
+
+// 用户注册请求
+message RegisterRequest {
+  string username = 1;
+  string email = 2;
+  string phone = 3;
+  string password = 4;
+  int32 age = 5;
+  string avatar = 6;
+}
+
+// 用户注册响应
+message RegisterReply {
   bool success = 1;
   string message = 2;
   UserInfo user_info = 3;

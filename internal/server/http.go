@@ -4,8 +4,10 @@ import (
 	rbacV1 "student/api/rbac/v1"
 	v1 "student/api/student/v1"
 	userV1 "student/api/user/v1"
+	"student/internal/biz"
 	"student/internal/conf"
 	"student/internal/pkg/jwt"
+	"student/internal/pkg/middleware"
 	"student/internal/service"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -14,10 +16,21 @@ import (
 )
 
 // NewHTTPServer new an HTTP server.
-func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *service.UserService, rbac *service.RBACService, jwtUtil *jwt.JWTUtil, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *service.UserService, rbac *service.RBACService, rbacUC *biz.RBACUsecase, jwtUtil *jwt.JWTUtil, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
+			// JWT认证中间件
+			middleware.JWTAuth(&middleware.JWTConfig{
+				JWTUtil:   jwtUtil,
+				SkipPaths: []string{"/v1/user/login", "/v1/user/register"},
+			}),
+			// RBAC权限中间件
+			middleware.RBACMiddleware(&middleware.RBACConfig{
+				RBACUC:    rbacUC,
+				JWTUtil:   jwtUtil,
+				SkipPaths: []string{"/v1/user/login", "/v1/user/register"},
+			}),
 		),
 	}
 	if c.Server.Http.Network != "" {

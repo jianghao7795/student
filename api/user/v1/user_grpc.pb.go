@@ -26,6 +26,7 @@ const (
 	User_ListUsers_FullMethodName  = "/user.v1.User/ListUsers"
 	User_Login_FullMethodName      = "/user.v1.User/Login"
 	User_GetMe_FullMethodName      = "/user.v1.User/GetMe"
+	User_Register_FullMethodName   = "/user.v1.User/Register"
 )
 
 // UserClient is the client API for User service.
@@ -48,6 +49,8 @@ type UserClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginReply, error)
 	// 获取当前用户信息
 	GetMe(ctx context.Context, in *GetMeRequest, opts ...grpc.CallOption) (*GetMeReply, error)
+	// 用户注册
+	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterReply, error)
 }
 
 type userClient struct {
@@ -128,6 +131,16 @@ func (c *userClient) GetMe(ctx context.Context, in *GetMeRequest, opts ...grpc.C
 	return out, nil
 }
 
+func (c *userClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RegisterReply)
+	err := c.cc.Invoke(ctx, User_Register_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
@@ -148,6 +161,8 @@ type UserServer interface {
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
 	// 获取当前用户信息
 	GetMe(context.Context, *GetMeRequest) (*GetMeReply, error)
+	// 用户注册
+	Register(context.Context, *RegisterRequest) (*RegisterReply, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -178,6 +193,9 @@ func (UnimplementedUserServer) Login(context.Context, *LoginRequest) (*LoginRepl
 }
 func (UnimplementedUserServer) GetMe(context.Context, *GetMeRequest) (*GetMeReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMe not implemented")
+}
+func (UnimplementedUserServer) Register(context.Context, *RegisterRequest) (*RegisterReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -326,6 +344,24 @@ func _User_GetMe_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).Register(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_Register_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).Register(ctx, req.(*RegisterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -360,6 +396,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetMe",
 			Handler:    _User_GetMe_Handler,
+		},
+		{
+			MethodName: "Register",
+			Handler:    _User_Register_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

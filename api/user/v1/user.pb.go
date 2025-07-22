@@ -1110,6 +1110,152 @@ func (x *GetMeReply) GetUserInfo() *UserInfo {
 	return nil
 }
 
+// 用户注册请求
+type RegisterRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	Phone         string                 `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone,omitempty"`
+	Password      string                 `protobuf:"bytes,4,opt,name=password,proto3" json:"password,omitempty"`
+	Age           int32                  `protobuf:"varint,5,opt,name=age,proto3" json:"age,omitempty"`
+	Avatar        string                 `protobuf:"bytes,6,opt,name=avatar,proto3" json:"avatar,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegisterRequest) Reset() {
+	*x = RegisterRequest{}
+	mi := &file_user_v1_user_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterRequest) ProtoMessage() {}
+
+func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterRequest.ProtoReflect.Descriptor instead.
+func (*RegisterRequest) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *RegisterRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetAge() int32 {
+	if x != nil {
+		return x.Age
+	}
+	return 0
+}
+
+func (x *RegisterRequest) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
+}
+
+// 用户注册响应
+type RegisterReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	UserInfo      *UserInfo              `protobuf:"bytes,3,opt,name=user_info,json=userInfo,proto3" json:"user_info,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegisterReply) Reset() {
+	*x = RegisterReply{}
+	mi := &file_user_v1_user_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterReply) ProtoMessage() {}
+
+func (x *RegisterReply) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterReply.ProtoReflect.Descriptor instead.
+func (*RegisterReply) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *RegisterReply) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RegisterReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *RegisterReply) GetUserInfo() *UserInfo {
+	if x != nil {
+		return x.UserInfo
+	}
+	return nil
+}
+
 var File_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_proto_rawDesc = "" +
@@ -1204,7 +1350,18 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"GetMeReply\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12.\n" +
-	"\tuser_info\x18\x03 \x01(\v2\x11.user.v1.UserInfoR\buserInfo2\xd8\x04\n" +
+	"\tuser_info\x18\x03 \x01(\v2\x11.user.v1.UserInfoR\buserInfo\"\x9f\x01\n" +
+	"\x0fRegisterRequest\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12\x14\n" +
+	"\x05phone\x18\x03 \x01(\tR\x05phone\x12\x1a\n" +
+	"\bpassword\x18\x04 \x01(\tR\bpassword\x12\x10\n" +
+	"\x03age\x18\x05 \x01(\x05R\x03age\x12\x16\n" +
+	"\x06avatar\x18\x06 \x01(\tR\x06avatar\"s\n" +
+	"\rRegisterReply\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12.\n" +
+	"\tuser_info\x18\x03 \x01(\v2\x11.user.v1.UserInfoR\buserInfo2\xb4\x05\n" +
 	"\x04User\x12P\n" +
 	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x15.user.v1.GetUserReply\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/user/{id}\x12W\n" +
 	"\n" +
@@ -1215,7 +1372,8 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"DeleteUser\x12\x1a.user.v1.DeleteUserRequest\x1a\x18.user.v1.DeleteUserReply\"\x15\x82\xd3\xe4\x93\x02\x0f*\r/v1/user/{id}\x12R\n" +
 	"\tListUsers\x12\x19.user.v1.ListUsersRequest\x1a\x17.user.v1.ListUsersReply\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/v1/users\x12N\n" +
 	"\x05Login\x12\x15.user.v1.LoginRequest\x1a\x13.user.v1.LoginReply\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/user/login\x12H\n" +
-	"\x05GetMe\x12\x15.user.v1.GetMeRequest\x1a\x13.user.v1.GetMeReply\"\x13\x82\xd3\xe4\x93\x02\r\x12\v/v1/user/meB\x18Z\x16student/api/user/v1;v1b\x06proto3"
+	"\x05GetMe\x12\x15.user.v1.GetMeRequest\x1a\x13.user.v1.GetMeReply\"\x13\x82\xd3\xe4\x93\x02\r\x12\v/v1/user/me\x12Z\n" +
+	"\bRegister\x12\x18.user.v1.RegisterRequest\x1a\x16.user.v1.RegisterReply\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/user/registerB\x18Z\x16student/api/user/v1;v1b\x06proto3"
 
 var (
 	file_user_v1_user_proto_rawDescOnce sync.Once
@@ -1229,7 +1387,7 @@ func file_user_v1_user_proto_rawDescGZIP() []byte {
 	return file_user_v1_user_proto_rawDescData
 }
 
-var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_user_v1_user_proto_goTypes = []any{
 	(*GetUserRequest)(nil),    // 0: user.v1.GetUserRequest
 	(*GetUserReply)(nil),      // 1: user.v1.GetUserReply
@@ -1247,30 +1405,35 @@ var file_user_v1_user_proto_goTypes = []any{
 	(*UserInfo)(nil),          // 13: user.v1.UserInfo
 	(*GetMeRequest)(nil),      // 14: user.v1.GetMeRequest
 	(*GetMeReply)(nil),        // 15: user.v1.GetMeReply
+	(*RegisterRequest)(nil),   // 16: user.v1.RegisterRequest
+	(*RegisterReply)(nil),     // 17: user.v1.RegisterReply
 }
 var file_user_v1_user_proto_depIdxs = []int32{
 	8,  // 0: user.v1.ListUsersReply.data:type_name -> user.v1.Users
 	13, // 1: user.v1.LoginReply.user_info:type_name -> user.v1.UserInfo
 	13, // 2: user.v1.GetMeReply.user_info:type_name -> user.v1.UserInfo
-	0,  // 3: user.v1.User.GetUser:input_type -> user.v1.GetUserRequest
-	2,  // 4: user.v1.User.CreateUser:input_type -> user.v1.CreateUserRequest
-	4,  // 5: user.v1.User.UpdateUser:input_type -> user.v1.UpdateUserRequest
-	6,  // 6: user.v1.User.DeleteUser:input_type -> user.v1.DeleteUserRequest
-	9,  // 7: user.v1.User.ListUsers:input_type -> user.v1.ListUsersRequest
-	11, // 8: user.v1.User.Login:input_type -> user.v1.LoginRequest
-	14, // 9: user.v1.User.GetMe:input_type -> user.v1.GetMeRequest
-	1,  // 10: user.v1.User.GetUser:output_type -> user.v1.GetUserReply
-	3,  // 11: user.v1.User.CreateUser:output_type -> user.v1.CreateUserReply
-	5,  // 12: user.v1.User.UpdateUser:output_type -> user.v1.UpdateUserReply
-	7,  // 13: user.v1.User.DeleteUser:output_type -> user.v1.DeleteUserReply
-	10, // 14: user.v1.User.ListUsers:output_type -> user.v1.ListUsersReply
-	12, // 15: user.v1.User.Login:output_type -> user.v1.LoginReply
-	15, // 16: user.v1.User.GetMe:output_type -> user.v1.GetMeReply
-	10, // [10:17] is the sub-list for method output_type
-	3,  // [3:10] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	13, // 3: user.v1.RegisterReply.user_info:type_name -> user.v1.UserInfo
+	0,  // 4: user.v1.User.GetUser:input_type -> user.v1.GetUserRequest
+	2,  // 5: user.v1.User.CreateUser:input_type -> user.v1.CreateUserRequest
+	4,  // 6: user.v1.User.UpdateUser:input_type -> user.v1.UpdateUserRequest
+	6,  // 7: user.v1.User.DeleteUser:input_type -> user.v1.DeleteUserRequest
+	9,  // 8: user.v1.User.ListUsers:input_type -> user.v1.ListUsersRequest
+	11, // 9: user.v1.User.Login:input_type -> user.v1.LoginRequest
+	14, // 10: user.v1.User.GetMe:input_type -> user.v1.GetMeRequest
+	16, // 11: user.v1.User.Register:input_type -> user.v1.RegisterRequest
+	1,  // 12: user.v1.User.GetUser:output_type -> user.v1.GetUserReply
+	3,  // 13: user.v1.User.CreateUser:output_type -> user.v1.CreateUserReply
+	5,  // 14: user.v1.User.UpdateUser:output_type -> user.v1.UpdateUserReply
+	7,  // 15: user.v1.User.DeleteUser:output_type -> user.v1.DeleteUserReply
+	10, // 16: user.v1.User.ListUsers:output_type -> user.v1.ListUsersReply
+	12, // 17: user.v1.User.Login:output_type -> user.v1.LoginReply
+	15, // 18: user.v1.User.GetMe:output_type -> user.v1.GetMeReply
+	17, // 19: user.v1.User.Register:output_type -> user.v1.RegisterReply
+	12, // [12:20] is the sub-list for method output_type
+	4,  // [4:12] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_user_v1_user_proto_init() }
@@ -1284,7 +1447,7 @@ func file_user_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_v1_user_proto_rawDesc), len(file_user_v1_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
