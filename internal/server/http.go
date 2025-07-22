@@ -1,6 +1,7 @@
 package server
 
 import (
+	errorsV1 "student/api/errors/v1"
 	rbacV1 "student/api/rbac/v1"
 	v1 "student/api/student/v1"
 	userV1 "student/api/user/v1"
@@ -16,20 +17,20 @@ import (
 )
 
 // NewHTTPServer new an HTTP server.
-func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *service.UserService, rbac *service.RBACService, rbacUC *biz.RBACUsecase, jwtUtil *jwt.JWTUtil, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *service.UserService, rbac *service.RBACService, errorService *service.ErrorService, rbacUC *biz.RBACUsecase, jwtUtil *jwt.JWTUtil, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
 			// JWT认证中间件
 			middleware.JWTAuth(&middleware.JWTConfig{
 				JWTUtil:   jwtUtil,
-				SkipPaths: []string{"/v1/user/login", "/v1/user/register"},
+				SkipPaths: []string{"/v1/user/login", "/v1/user/register", "/v1/errors"},
 			}),
 			// RBAC权限中间件
 			middleware.RBACMiddleware(&middleware.RBACConfig{
 				RBACUC:    rbacUC,
 				JWTUtil:   jwtUtil,
-				SkipPaths: []string{"/v1/user/login", "/v1/user/register"},
+				SkipPaths: []string{"/v1/user/login", "/v1/user/register", "/v1/errors"},
 			}),
 		),
 	}
@@ -48,6 +49,7 @@ func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *ser
 	v1.RegisterStudentHTTPServer(srv, student)
 	userV1.RegisterUserHTTPServer(srv, user)
 	rbacV1.RegisterRBACServiceHTTPServer(srv, rbac)
+	errorsV1.RegisterErrorServiceHTTPServer(srv, errorService)
 
 	return srv
 }

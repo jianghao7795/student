@@ -7,17 +7,16 @@
 package main
 
 import (
-	"github.com/go-kratos/kratos/v2"
-	"github.com/go-kratos/kratos/v2/log"
 	"student/internal/biz"
 	"student/internal/conf"
 	"student/internal/data"
 	"student/internal/pkg/jwt"
 	"student/internal/server"
 	"student/internal/service"
-)
 
-import (
+	"github.com/go-kratos/kratos/v2"
+	"github.com/go-kratos/kratos/v2/log"
+
 	_ "go.uber.org/automaxprocs"
 )
 
@@ -49,9 +48,12 @@ func wireApp(bootstrap *conf.Bootstrap, logger log.Logger) (*kratos.App, func(),
 	jwtUtil := jwt.NewJWTUtil(config)
 	userUsecase := biz.NewUserUsecase(userRepo, rbacUsecase, jwtUtil, logger)
 	userService := service.NewUserService(userUsecase, logger)
+	errorRepo := data.NewErrorRepo(dataData, logger)
+	errorUsecase := biz.NewErrorUsecase(errorRepo, logger)
+	errorService := service.NewErrorService(errorUsecase, logger)
 	grpcServer := server.NewGRPCServer(bootstrap, studentService, userService, rbacUsecase, jwtUtil, logger)
 	rbacService := service.NewRBACService(rbacUsecase, logger)
-	httpServer := server.NewHTTPServer(bootstrap, studentService, userService, rbacService, rbacUsecase, jwtUtil, logger)
+	httpServer := server.NewHTTPServer(bootstrap, studentService, userService, rbacService, errorService, rbacUsecase, jwtUtil, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()

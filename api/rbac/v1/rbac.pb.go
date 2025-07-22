@@ -10,7 +10,6 @@ import (
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -2096,7 +2095,7 @@ var File_rbac_v1_rbac_proto protoreflect.FileDescriptor
 
 const file_rbac_v1_rbac_proto_rawDesc = "" +
 	"\n" +
-	"\x12rbac/v1/rbac.proto\x12\vapi.rbac.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\"\xa2\x01\n" +
+	"\x12rbac/v1/rbac.proto\x12\vapi.rbac.v1\x1a\x1cgoogle/api/annotations.proto\"\xa2\x01\n" +
 	"\x04Role\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +

@@ -9,18 +9,23 @@ import (
 
 // ErrorInfo 错误信息模型
 type ErrorInfo struct {
-	ID               uint
-	ErrorCode        int32
-	ErrorType        string
-	ErrorMessage     string
-	ErrorDescription string
-	Solution         string
-	CreatedAt        *time.Time
-	UpdatedAt        *time.Time
+	ID               uint       `gorm:"primaryKey"`
+	ErrorCode        int32      `gorm:"column:error_code;not null"`
+	ErrorType        string     `gorm:"column:error_type;not null"`
+	ErrorMessage     string     `gorm:"column:error_message;not null"`
+	ErrorDescription string     `gorm:"column:error_description"`
+	Solution         string     `gorm:"column:solution"`
+	CreatedAt        *time.Time `gorm:"column:created_at"`
+	UpdatedAt        *time.Time `gorm:"column:updated_at"`
 
 	// 格式化后的时间字符串
 	CreatedAtStr string `gorm:"-" json:"created_at_str,omitempty"`
 	UpdatedAtStr string `gorm:"-" json:"updated_at_str,omitempty"`
+}
+
+// TableName 指定表名
+func (ErrorInfo) TableName() string {
+	return "errors"
 }
 
 // FormatTimeFields 格式化时间字段

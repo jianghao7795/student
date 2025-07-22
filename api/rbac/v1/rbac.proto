@@ -3,7 +3,6 @@ syntax = "proto3";
 package api.rbac.v1;
 
 import "google/api/annotations.proto";
-import "google/protobuf/empty.proto";
 
 option go_package = "student/api/rbac/v1;v1";
 
