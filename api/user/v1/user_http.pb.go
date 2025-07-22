@@ -49,14 +49,33 @@ type UserHTTPServer interface {
 
 func RegisterUserHTTPServer(s *http.Server, srv UserHTTPServer) {
 	r := s.Route("/")
+	r.GET("/v1/account/me", _User_GetMe0_HTTP_Handler(srv))
 	r.GET("/v1/user/{id}", _User_GetUser0_HTTP_Handler(srv))
 	r.POST("/v1/user", _User_CreateUser0_HTTP_Handler(srv))
 	r.PUT("/v1/user/{id}", _User_UpdateUser0_HTTP_Handler(srv))
 	r.DELETE("/v1/user/{id}", _User_DeleteUser0_HTTP_Handler(srv))
 	r.GET("/v1/users", _User_ListUsers0_HTTP_Handler(srv))
 	r.POST("/v1/user/login", _User_Login0_HTTP_Handler(srv))
-	r.GET("/v1/user/me", _User_GetMe0_HTTP_Handler(srv))
 	r.POST("/v1/user/register", _User_Register0_HTTP_Handler(srv))
+}
+
+func _User_GetMe0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetMeRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserGetMe)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetMe(ctx, req.(*GetMeRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetMeReply)
+		return ctx.Result(200, reply)
+	}
 }
 
 func _User_GetUser0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
@@ -191,25 +210,6 @@ func _User_Login0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error 
 	}
 }
 
-func _User_GetMe0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in GetMeRequest
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationUserGetMe)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetMe(ctx, req.(*GetMeRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*GetMeReply)
-		return ctx.Result(200, reply)
-	}
-}
-
 func _User_Register0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in RegisterRequest
@@ -279,7 +279,7 @@ func (c *UserHTTPClientImpl) DeleteUser(ctx context.Context, in *DeleteUserReque
 
 func (c *UserHTTPClientImpl) GetMe(ctx context.Context, in *GetMeRequest, opts ...http.CallOption) (*GetMeReply, error) {
 	var out GetMeReply
-	pattern := "/v1/user/me"
+	pattern := "/v1/account/me"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationUserGetMe))
 	opts = append(opts, http.PathTemplate(pattern))

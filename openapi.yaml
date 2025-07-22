@@ -6,6 +6,19 @@ info:
     title: ""
     version: 0.0.1
 paths:
+    /v1/account/me:
+        get:
+            tags:
+                - User
+            description: 获取当前用户信息
+            operationId: User_GetMe
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user.v1.GetMeReply'
     /v1/errors:
         get:
             tags:
@@ -524,19 +537,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/user.v1.LoginReply'
-    /v1/user/me:
-        get:
-            tags:
-                - User
-            description: 获取当前用户信息
-            operationId: User_GetMe
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/user.v1.GetMeReply'
     /v1/user/register:
         post:
             tags:

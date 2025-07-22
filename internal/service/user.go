@@ -196,6 +196,7 @@ func (s *UserService) GetMe(ctx context.Context, req *pb.GetMeRequest) (*pb.GetM
 
 	// 从上下文中获取用户ID
 	userID, ok := ctx.Value("user_id").(uint)
+	s.log.Info("GetMe: 尝试从上下文中获取用户ID", "userID", userID, "ok", ok)
 	if !ok {
 		return &pb.GetMeReply{
 			Success: false,

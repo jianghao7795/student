@@ -43,9 +43,12 @@ func JWTAuth(config *JWTConfig) middleware.Middleware {
 			}
 
 			// 将用户信息存储到上下文中
-			ctx = context.WithValue(ctx, userIDKey, claims.UserID)
-			ctx = context.WithValue(ctx, usernameKey, claims.Username)
-			ctx = context.WithValue(ctx, emailKey, claims.Email)
+			ctx = context.WithValue(ctx, "user_id", claims.UserID)
+			ctx = context.WithValue(ctx, "username", claims.Username)
+			ctx = context.WithValue(ctx, "email", claims.Email)
+
+			// 添加调试信息
+			log.Printf("JWT中间件: 用户ID=%d, 用户名=%s, 邮箱=%s", claims.UserID, claims.Username, claims.Email)
 
 			return handler(ctx, req)
 		}

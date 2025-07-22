@@ -16,6 +16,8 @@ WORKDIR /app
 
 COPY --from=builder /app/bin/student .
 COPY --from=builder /app/configs ./configs
+COPY --from=builder /app/rbac_policy.csv ./rbac_policy.csv
+COPY --from=builder /app/rbac_model.conf ./rbac_model.conf
 
 EXPOSE 8600
 CMD ["./student", "-conf", "./configs/"]

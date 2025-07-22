@@ -1361,8 +1361,9 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\rRegisterReply\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12.\n" +
-	"\tuser_info\x18\x03 \x01(\v2\x11.user.v1.UserInfoR\buserInfo2\xb4\x05\n" +
-	"\x04User\x12P\n" +
+	"\tuser_info\x18\x03 \x01(\v2\x11.user.v1.UserInfoR\buserInfo2\xb7\x05\n" +
+	"\x04User\x12K\n" +
+	"\x05GetMe\x12\x15.user.v1.GetMeRequest\x1a\x13.user.v1.GetMeReply\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/v1/account/me\x12P\n" +
 	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x15.user.v1.GetUserReply\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/user/{id}\x12W\n" +
 	"\n" +
 	"CreateUser\x12\x1a.user.v1.CreateUserRequest\x1a\x18.user.v1.CreateUserReply\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/v1/user\x12\\\n" +
@@ -1371,8 +1372,7 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\n" +
 	"DeleteUser\x12\x1a.user.v1.DeleteUserRequest\x1a\x18.user.v1.DeleteUserReply\"\x15\x82\xd3\xe4\x93\x02\x0f*\r/v1/user/{id}\x12R\n" +
 	"\tListUsers\x12\x19.user.v1.ListUsersRequest\x1a\x17.user.v1.ListUsersReply\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/v1/users\x12N\n" +
-	"\x05Login\x12\x15.user.v1.LoginRequest\x1a\x13.user.v1.LoginReply\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/user/login\x12H\n" +
-	"\x05GetMe\x12\x15.user.v1.GetMeRequest\x1a\x13.user.v1.GetMeReply\"\x13\x82\xd3\xe4\x93\x02\r\x12\v/v1/user/me\x12Z\n" +
+	"\x05Login\x12\x15.user.v1.LoginRequest\x1a\x13.user.v1.LoginReply\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/user/login\x12Z\n" +
 	"\bRegister\x12\x18.user.v1.RegisterRequest\x1a\x16.user.v1.RegisterReply\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/user/registerB\x18Z\x16student/api/user/v1;v1b\x06proto3"
 
 var (
@@ -1413,21 +1413,21 @@ var file_user_v1_user_proto_depIdxs = []int32{
 	13, // 1: user.v1.LoginReply.user_info:type_name -> user.v1.UserInfo
 	13, // 2: user.v1.GetMeReply.user_info:type_name -> user.v1.UserInfo
 	13, // 3: user.v1.RegisterReply.user_info:type_name -> user.v1.UserInfo
-	0,  // 4: user.v1.User.GetUser:input_type -> user.v1.GetUserRequest
-	2,  // 5: user.v1.User.CreateUser:input_type -> user.v1.CreateUserRequest
-	4,  // 6: user.v1.User.UpdateUser:input_type -> user.v1.UpdateUserRequest
-	6,  // 7: user.v1.User.DeleteUser:input_type -> user.v1.DeleteUserRequest
-	9,  // 8: user.v1.User.ListUsers:input_type -> user.v1.ListUsersRequest
-	11, // 9: user.v1.User.Login:input_type -> user.v1.LoginRequest
-	14, // 10: user.v1.User.GetMe:input_type -> user.v1.GetMeRequest
+	14, // 4: user.v1.User.GetMe:input_type -> user.v1.GetMeRequest
+	0,  // 5: user.v1.User.GetUser:input_type -> user.v1.GetUserRequest
+	2,  // 6: user.v1.User.CreateUser:input_type -> user.v1.CreateUserRequest
+	4,  // 7: user.v1.User.UpdateUser:input_type -> user.v1.UpdateUserRequest
+	6,  // 8: user.v1.User.DeleteUser:input_type -> user.v1.DeleteUserRequest
+	9,  // 9: user.v1.User.ListUsers:input_type -> user.v1.ListUsersRequest
+	11, // 10: user.v1.User.Login:input_type -> user.v1.LoginRequest
 	16, // 11: user.v1.User.Register:input_type -> user.v1.RegisterRequest
-	1,  // 12: user.v1.User.GetUser:output_type -> user.v1.GetUserReply
-	3,  // 13: user.v1.User.CreateUser:output_type -> user.v1.CreateUserReply
-	5,  // 14: user.v1.User.UpdateUser:output_type -> user.v1.UpdateUserReply
-	7,  // 15: user.v1.User.DeleteUser:output_type -> user.v1.DeleteUserReply
-	10, // 16: user.v1.User.ListUsers:output_type -> user.v1.ListUsersReply
-	12, // 17: user.v1.User.Login:output_type -> user.v1.LoginReply
-	15, // 18: user.v1.User.GetMe:output_type -> user.v1.GetMeReply
+	15, // 12: user.v1.User.GetMe:output_type -> user.v1.GetMeReply
+	1,  // 13: user.v1.User.GetUser:output_type -> user.v1.GetUserReply
+	3,  // 14: user.v1.User.CreateUser:output_type -> user.v1.CreateUserReply
+	5,  // 15: user.v1.User.UpdateUser:output_type -> user.v1.UpdateUserReply
+	7,  // 16: user.v1.User.DeleteUser:output_type -> user.v1.DeleteUserReply
+	10, // 17: user.v1.User.ListUsers:output_type -> user.v1.ListUsersReply
+	12, // 18: user.v1.User.Login:output_type -> user.v1.LoginReply
 	17, // 19: user.v1.User.Register:output_type -> user.v1.RegisterReply
 	12, // [12:20] is the sub-list for method output_type
 	4,  // [4:12] is the sub-list for method input_type

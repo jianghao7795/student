@@ -8,6 +8,13 @@ option go_package = "student/api/user/v1;v1";
 
 // 用户服务定义
 service User {
+  // 获取当前用户信息
+  rpc GetMe(GetMeRequest) returns (GetMeReply) {
+    option (google.api.http) = {
+      get: "/v1/account/me"
+    };
+  }
+  
   // 获取用户信息
   rpc GetUser(GetUserRequest) returns (GetUserReply) {
     option (google.api.http) = {
@@ -50,13 +57,6 @@ service User {
     option (google.api.http) = {
       post: "/v1/user/login"
       body: "*"
-    };
-  }
-  
-  // 获取当前用户信息
-  rpc GetMe(GetMeRequest) returns (GetMeReply) {
-    option (google.api.http) = {
-      get: "/v1/user/me"
     };
   }
   

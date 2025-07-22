@@ -19,13 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	User_GetMe_FullMethodName      = "/user.v1.User/GetMe"
 	User_GetUser_FullMethodName    = "/user.v1.User/GetUser"
 	User_CreateUser_FullMethodName = "/user.v1.User/CreateUser"
 	User_UpdateUser_FullMethodName = "/user.v1.User/UpdateUser"
 	User_DeleteUser_FullMethodName = "/user.v1.User/DeleteUser"
 	User_ListUsers_FullMethodName  = "/user.v1.User/ListUsers"
 	User_Login_FullMethodName      = "/user.v1.User/Login"
-	User_GetMe_FullMethodName      = "/user.v1.User/GetMe"
 	User_Register_FullMethodName   = "/user.v1.User/Register"
 )
 
@@ -35,6 +35,8 @@ const (
 //
 // 用户服务定义
 type UserClient interface {
+	// 获取当前用户信息
+	GetMe(ctx context.Context, in *GetMeRequest, opts ...grpc.CallOption) (*GetMeReply, error)
 	// 获取用户信息
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserReply, error)
 	// 创建用户
@@ -47,8 +49,6 @@ type UserClient interface {
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersReply, error)
 	// 用户登录
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginReply, error)
-	// 获取当前用户信息
-	GetMe(ctx context.Context, in *GetMeRequest, opts ...grpc.CallOption) (*GetMeReply, error)
 	// 用户注册
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterReply, error)
 }
@@ -59,6 +59,16 @@ type userClient struct {
 
 func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 	return &userClient{cc}
+}
+
+func (c *userClient) GetMe(ctx context.Context, in *GetMeRequest, opts ...grpc.CallOption) (*GetMeReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetMeReply)
+	err := c.cc.Invoke(ctx, User_GetMe_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *userClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserReply, error) {
@@ -121,16 +131,6 @@ func (c *userClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.C
 	return out, nil
 }
 
-func (c *userClient) GetMe(ctx context.Context, in *GetMeRequest, opts ...grpc.CallOption) (*GetMeReply, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetMeReply)
-	err := c.cc.Invoke(ctx, User_GetMe_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RegisterReply)
@@ -147,6 +147,8 @@ func (c *userClient) Register(ctx context.Context, in *RegisterRequest, opts ...
 //
 // 用户服务定义
 type UserServer interface {
+	// 获取当前用户信息
+	GetMe(context.Context, *GetMeRequest) (*GetMeReply, error)
 	// 获取用户信息
 	GetUser(context.Context, *GetUserRequest) (*GetUserReply, error)
 	// 创建用户
@@ -159,8 +161,6 @@ type UserServer interface {
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersReply, error)
 	// 用户登录
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
-	// 获取当前用户信息
-	GetMe(context.Context, *GetMeRequest) (*GetMeReply, error)
 	// 用户注册
 	Register(context.Context, *RegisterRequest) (*RegisterReply, error)
 	mustEmbedUnimplementedUserServer()
@@ -173,6 +173,9 @@ type UserServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUserServer struct{}
 
+func (UnimplementedUserServer) GetMe(context.Context, *GetMeRequest) (*GetMeReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMe not implemented")
+}
 func (UnimplementedUserServer) GetUser(context.Context, *GetUserRequest) (*GetUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
@@ -190,9 +193,6 @@ func (UnimplementedUserServer) ListUsers(context.Context, *ListUsersRequest) (*L
 }
 func (UnimplementedUserServer) Login(context.Context, *LoginRequest) (*LoginReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
-}
-func (UnimplementedUserServer) GetMe(context.Context, *GetMeRequest) (*GetMeReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMe not implemented")
 }
 func (UnimplementedUserServer) Register(context.Context, *RegisterRequest) (*RegisterReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
@@ -216,6 +216,24 @@ func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&User_ServiceDesc, srv)
+}
+
+func _User_GetMe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetMe(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetMe_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetMe(ctx, req.(*GetMeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _User_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -326,24 +344,6 @@ func _User_Login_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_GetMe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetMeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).GetMe(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_GetMe_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetMe(ctx, req.(*GetMeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _User_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RegisterRequest)
 	if err := dec(in); err != nil {
@@ -370,6 +370,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "GetMe",
+			Handler:    _User_GetMe_Handler,
+		},
+		{
 			MethodName: "GetUser",
 			Handler:    _User_GetUser_Handler,
 		},
@@ -392,10 +396,6 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Login",
 			Handler:    _User_Login_Handler,
-		},
-		{
-			MethodName: "GetMe",
-			Handler:    _User_GetMe_Handler,
 		},
 		{
 			MethodName: "Register",

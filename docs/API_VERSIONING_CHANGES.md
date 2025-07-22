@@ -26,7 +26,7 @@
 - `DELETE /user/{id}` → `DELETE /v1/user/{id}`
 - `GET /users` → `GET /v1/users`
 - `POST /user/login` → `POST /v1/user/login`
-- 新增: `GET /v1/user/me` - 获取当前用户信息（需要 JWT 认证）
+- 新增: `GET /v1/account/me` - 获取当前用户信息（需要 JWT 认证）
 
 ### 3. 错误服务 (Error Service)
 

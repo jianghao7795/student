@@ -78,7 +78,7 @@ func (e *UserAPIExample) GetMe() error {
 		return fmt.Errorf("token is required, please login first")
 	}
 
-	req, err := http.NewRequest("GET", e.BaseURL+"/v1/user/me", nil)
+	req, err := http.NewRequest("GET", e.BaseURL+"/v1/account/me", nil)
 	if err != nil {
 		return fmt.Errorf("create request failed: %v", err)
 	}

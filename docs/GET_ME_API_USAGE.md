@@ -9,7 +9,7 @@
 ### 请求信息
 
 - **方法**: `GET`
-- **路径**: `/v1/user/me`
+- **路径**: `/v1/account/me`
 - **认证**: 需要 JWT token（Authorization 头）
 
 ### 请求头
@@ -64,7 +64,7 @@ curl -X POST http://localhost:8000/v1/user/login \
   }'
 
 # 使用返回的 token 调用 GetMe 接口
-curl -X GET http://localhost:8000/v1/user/me \
+curl -X GET http://localhost:8600/v1/account/me \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
   -H "Content-Type: application/json"
 ```
@@ -88,7 +88,7 @@ const loginData = await loginResponse.json();
 const token = loginData.token;
 
 // 使用 token 获取当前用户信息
-const meResponse = await fetch("/v1/user/me", {
+const meResponse = await fetch("/v1/account/me", {
   method: "GET",
   headers: {
     Authorization: `Bearer ${token}`,
@@ -112,7 +112,7 @@ login_data = {
 }
 
 login_response = requests.post(
-    "http://localhost:8000/v1/user/login",
+    "http://localhost:8600/v1/user/login",
     json=login_data
 )
 
@@ -125,7 +125,7 @@ headers = {
 }
 
 me_response = requests.get(
-    "http://localhost:8000/v1/user/me",
+    "http://localhost:8600/v1/account/me",
     headers=headers
 )
 
