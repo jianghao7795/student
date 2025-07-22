@@ -49,7 +49,7 @@ func wireApp(bootstrap *conf.Bootstrap, logger log.Logger) (*kratos.App, func(),
 	jwtUtil := jwt.NewJWTUtil(config)
 	userUsecase := biz.NewUserUsecase(userRepo, rbacUsecase, jwtUtil, logger)
 	userService := service.NewUserService(userUsecase, logger)
-	grpcServer := server.NewGRPCServer(bootstrap, studentService, userService, logger)
+	grpcServer := server.NewGRPCServer(bootstrap, studentService, userService, rbacUsecase, jwtUtil, logger)
 	rbacService := service.NewRBACService(rbacUsecase, logger)
 	httpServer := server.NewHTTPServer(bootstrap, studentService, userService, rbacService, rbacUsecase, jwtUtil, logger)
 	app := newApp(logger, grpcServer, httpServer)
