@@ -3,24 +3,32 @@ FROM golang:latest AS builder
 LABEL org.opencontainers.image.authors="jianghao"
 
 ENV GOPROXY=https://goproxy.cn,direct
-# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 ENV GO111MODULE=on
 
 WORKDIR /app
 COPY . /app
 RUN go mod download
-RUN make build
+
+# 构建所有微服务
+ARG SERVICE
+RUN make build-microservices
 
 FROM rockylinux:9-minimal AS runner
 WORKDIR /app
 
-COPY --from=builder /app/bin/student .
+# 复制配置文件
 COPY --from=builder /app/configs ./configs
 COPY --from=builder /app/rbac_policy.csv ./rbac_policy.csv
 COPY --from=builder /app/rbac_model.conf ./rbac_model.conf
 
-EXPOSE 8600
-CMD ["./student", "-conf", "./configs/"]
+# 复制对应的服务二进制文件
+ARG SERVICE
+COPY --from=builder /app/bin/${SERVICE} ./${SERVICE}
+
+EXPOSE 8600 8601 8602 8603 9600 9601 9602 9603
+
+# 默认启动网关服务
+CMD ["./gateway-service", "-conf", "./configs/gateway-service.yaml"]
 # ENTRYPOINT ["/app/server-fiber", "-c", "config.yaml"]
 
 

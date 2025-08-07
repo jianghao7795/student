@@ -81,9 +81,29 @@ help:
 
 wire:
 	cd cmd/student && wire
+	cd cmd/user-service && wire
+	cd cmd/student-service && wire
+	cd cmd/rbac-service && wire
+	cd cmd/gateway-service && wire
+
+# build microservices
+build-microservices:
+	mkdir -p bin/
+	go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/user-service ./cmd/user-service
+	go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/student-service ./cmd/student-service
+	go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/rbac-service ./cmd/rbac-service
+	go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/gateway-service ./cmd/gateway-service
+
 # run
 run:
 	go run ./cmd/student/... -conf ./configs
+
+# run microservices
+run-microservices:
+	./bin/gateway-service -conf ./configs/gateway-service.yaml &
+	./bin/user-service -conf ./configs/user-service.yaml &
+	./bin/student-service -conf ./configs/student-service.yaml &
+	./bin/rbac-service -conf ./configs/rbac-service.yaml &
 air:
 	air -c .air.toml
 swagger:

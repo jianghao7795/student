@@ -1,6 +1,7 @@
 package server
 
 import (
+	stdhttp "net/http"
 	errorsV1 "student/api/errors/v1"
 	rbacV1 "student/api/rbac/v1"
 	v1 "student/api/student/v1"
@@ -50,6 +51,12 @@ func NewHTTPServer(c *conf.Bootstrap, student *service.StudentService, user *ser
 	userV1.RegisterUserHTTPServer(srv, user)
 	rbacV1.RegisterRBACServiceHTTPServer(srv, rbac)
 	errorsV1.RegisterErrorServiceHTTPServer(srv, errorService)
+
+	// 添加健康检查端点
+	srv.HandleFunc("/health", func(w stdhttp.ResponseWriter, r *stdhttp.Request) {
+		w.WriteHeader(stdhttp.StatusOK)
+		w.Write([]byte("OK"))
+	})
 
 	return srv
 }

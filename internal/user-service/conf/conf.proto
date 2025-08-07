@@ -1,7 +1,7 @@
 syntax = "proto3";
 package kratos.api;
 
-option go_package = "student/internal/conf;conf";
+option go_package = "student/internal/user-service/conf;conf";
 
 import "google/protobuf/duration.proto";
 
@@ -9,9 +9,7 @@ message Bootstrap {
   Server server = 1;
   Data data = 2;
   JWT jwt = 3;
-  RBAC rbac = 4;
-  Nacos nacos = 5;
-  Services services = 6;
+  Nacos nacos = 4;
 }
 
 message Server {
@@ -54,12 +52,6 @@ message JWT {
   google.protobuf.Duration expire = 2;
 }
 
-message RBAC {
-  string model_path = 1;
-  string policy_path = 2;
-  bool enabled = 3;
-}
-
 message Nacos {
   Discovery discovery = 1;
   Config config = 2;
@@ -83,10 +75,4 @@ message Config {
   string data_id = 5;
   int32 timeout_ms = 6;
   string log_level = 7;
-}
-
-message Services {
-  string user_service = 1;
-  string student_service = 2;
-  string rbac_service = 3;
 }

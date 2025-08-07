@@ -6,6 +6,3 @@ import (
 
 // ProviderSet is server providers.
 var ProviderSet = wire.NewSet(NewGRPCServer, NewHTTPServer)
-
-// GatewayProviderSet is gateway server providers.
-var GatewayProviderSet = wire.NewSet(NewGatewayHTTPServer)

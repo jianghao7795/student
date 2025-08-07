@@ -1,0 +1,143 @@
+version: "3.8"
+
+services:
+  # Nacos 服务注册与配置中心
+  nacos:
+    image: nacos/nacos-server:v2.2.3
+    container_name: nacos-server
+    environment:
+      - MODE=standalone
+      - SPRING_DATASOURCE_PLATFORM=mysql
+      - MYSQL_SERVICE_HOST=mysql
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_DB_NAME=nacos
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=123456
+      - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    depends_on:
+      - mysql
+    networks:
+      - student-network
+
+  # MySQL 数据库
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: student
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./migrate:/docker-entrypoint-initdb.d
+    networks:
+      - student-network
+
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - student-network
+
+  # 用户服务
+  user-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE: user-service
+    container_name: user-service
+    environment:
+      - NACOS_HOST=nacos
+      - NACOS_PORT=8848
+    ports:
+      - "8601:8601"
+      - "9601:9601"
+    depends_on:
+      - nacos
+      - mysql
+      - redis
+    networks:
+      - student-network
+    command: ["./user-service", "-conf", "/app/configs/user-service.yaml"]
+
+  # 学生服务
+  student-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE: student-service
+    container_name: student-service
+    environment:
+      - NACOS_HOST=nacos
+      - NACOS_PORT=8848
+    ports:
+      - "8602:8602"
+      - "9602:9602"
+    depends_on:
+      - nacos
+      - mysql
+      - redis
+    networks:
+      - student-network
+    command: ["./student-service", "-conf", "/app/configs/student-service.yaml"]
+
+  # RBAC服务
+  rbac-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE: rbac-service
+    container_name: rbac-service
+    environment:
+      - NACOS_HOST=nacos
+      - NACOS_PORT=8848
+    ports:
+      - "8603:8603"
+      - "9603:9603"
+    depends_on:
+      - nacos
+      - mysql
+      - redis
+    networks:
+      - student-network
+    command: ["./rbac-service", "-conf", "/app/configs/rbac-service.yaml"]
+
+  # API网关
+  gateway-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE: gateway-service
+    container_name: gateway-service
+    environment:
+      - NACOS_HOST=nacos
+      - NACOS_PORT=8848
+    ports:
+      - "8600:8600"
+      - "9600:9600"
+    depends_on:
+      - nacos
+      - user-service
+      - student-service
+      - rbac-service
+    networks:
+      - student-network
+    command: ["./gateway-service", "-conf", "/app/configs/gateway-service.yaml"]
+
+volumes:
+  mysql_data:
+
+networks:
+  student-network:
+    driver: bridge

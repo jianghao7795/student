@@ -1,6 +1,14 @@
 # Student Management System
 
-基于 Kratos 框架开发的学生管理系统，包含用户管理、学生管理、RBAC 权限控制等功能。
+基于 Kratos 框架开发的学生管理系统，采用微服务架构，包含用户管理、学生管理、RBAC 权限控制等功能。
+
+## 🏗️ 架构特性
+
+- **微服务架构**: 服务拆分，独立部署
+- **服务注册**: 基于 Nacos 的服务发现
+- **API 网关**: 统一入口，路由转发
+- **容器化部署**: Docker + Docker Compose
+- **高可用性**: 支持水平扩展和负载均衡
 
 ## 项目结构
 
@@ -42,8 +50,10 @@ student/
 ### 环境要求
 
 - Go 1.23+
+- Docker & Docker Compose
 - MySQL 8.0+
 - Redis 6.0+
+- Nacos 2.2.3+
 
 ### 安装依赖
 
@@ -69,6 +79,8 @@ make init
 
 ### 运行项目
 
+#### 单体模式（原有方式）
+
 ```bash
 # 生成代码
 make api
@@ -82,6 +94,19 @@ make build
 # 运行项目
 ./bin/student -conf ./configs
 ```
+
+#### 微服务模式（推荐）
+
+```bash
+# 一键部署微服务架构
+./deploy-microservices.sh
+
+# 或手动部署
+make build-microservices
+docker-compose up -d
+```
+
+详细说明请查看 [微服务架构文档](docs/MICROSERVICES_README.md)
 
 ## API 接口
 
@@ -114,6 +139,7 @@ make build
 
 详细文档请查看 `docs/` 目录：
 
+- [微服务架构文档](docs/MICROSERVICES_README.md) - 微服务架构详细说明
 - [RBAC 权限系统文档](docs/RBAC_README.md)
 - [API 版本化更改说明](docs/API_VERSIONING_CHANGES.md)
 - [GetMe API 使用指南](docs/GET_ME_API_USAGE.md)
