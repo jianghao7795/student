@@ -1,0 +1,36 @@
+server:
+  http:
+    addr: 0.0.0.0:8600
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9600
+    timeout: 1s
+
+jwt:
+  secret_key: "your-secret-key-here-make-it-long-and-secure"
+  expire: 86400s
+
+nacos:
+  discovery:
+    ip: "localhost"
+    port: 8848
+    namespace_id: "public"
+    group: "DEFAULT_GROUP"
+    cluster_name: "DEFAULT"
+    weight: 10
+    metadata:
+      version: "1.0.0"
+      zone: "zone1"
+  config:
+    ip: "localhost"
+    port: 8848
+    namespace_id: "public"
+    group: "DEFAULT_GROUP"
+    data_id: "gateway-service"
+    timeout_ms: 5000
+    log_level: "debug"
+
+services:
+  user_service: "user-service"
+  student_service: "student-service"
+  rbac_service: "rbac-service"

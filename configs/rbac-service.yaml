@@ -1,0 +1,49 @@
+server:
+  http:
+    addr: 0.0.0.0:8603
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9603
+    timeout: 1s
+
+data:
+  database:
+    driver: mysql
+    source: root:123456@tcp(192.168.56.162:3306)/student?parseTime=True&loc=Local
+    debug: true
+    max_idle_conns: 20
+    max_open_conns: 50
+  redis:
+    addr: 192.168.56.162:6379
+    dial_timeout: 0.2s
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+
+jwt:
+  secret_key: "your-secret-key-here-make-it-long-and-secure"
+  expire: 86400s
+
+rbac:
+  model_path: "rbac_model.conf"
+  policy_path: "rbac_policy.csv"
+  enabled: true
+
+nacos:
+  discovery:
+    ip: "localhost"
+    port: 8848
+    namespace_id: "public"
+    group: "DEFAULT_GROUP"
+    cluster_name: "DEFAULT"
+    weight: 10
+    metadata:
+      version: "1.0.0"
+      zone: "zone1"
+  config:
+    ip: "localhost"
+    port: 8848
+    namespace_id: "public"
+    group: "DEFAULT_GROUP"
+    data_id: "rbac-service"
+    timeout_ms: 5000
+    log_level: "debug"
