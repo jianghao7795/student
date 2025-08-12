@@ -22,6 +22,103 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// 健康检查相关消息
+type HealthCheckRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HealthCheckRequest) Reset() {
+	*x = HealthCheckRequest{}
+	mi := &file_student_v1_student_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HealthCheckRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HealthCheckRequest) ProtoMessage() {}
+
+func (x *HealthCheckRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_student_v1_student_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HealthCheckRequest.ProtoReflect.Descriptor instead.
+func (*HealthCheckRequest) Descriptor() ([]byte, []int) {
+	return file_student_v1_student_proto_rawDescGZIP(), []int{0}
+}
+
+type HealthCheckReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        string                 `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Timestamp     string                 `protobuf:"bytes,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HealthCheckReply) Reset() {
+	*x = HealthCheckReply{}
+	mi := &file_student_v1_student_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HealthCheckReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HealthCheckReply) ProtoMessage() {}
+
+func (x *HealthCheckReply) ProtoReflect() protoreflect.Message {
+	mi := &file_student_v1_student_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HealthCheckReply.ProtoReflect.Descriptor instead.
+func (*HealthCheckReply) Descriptor() ([]byte, []int) {
+	return file_student_v1_student_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *HealthCheckReply) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *HealthCheckReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *HealthCheckReply) GetTimestamp() string {
+	if x != nil {
+		return x.Timestamp
+	}
+	return ""
+}
+
 // The request message containing the user's name.
 type GetStudentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -32,7 +129,7 @@ type GetStudentRequest struct {
 
 func (x *GetStudentRequest) Reset() {
 	*x = GetStudentRequest{}
-	mi := &file_student_v1_student_proto_msgTypes[0]
+	mi := &file_student_v1_student_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +141,7 @@ func (x *GetStudentRequest) String() string {
 func (*GetStudentRequest) ProtoMessage() {}
 
 func (x *GetStudentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_student_v1_student_proto_msgTypes[0]
+	mi := &file_student_v1_student_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +154,7 @@ func (x *GetStudentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetStudentRequest.ProtoReflect.Descriptor instead.
 func (*GetStudentRequest) Descriptor() ([]byte, []int) {
-	return file_student_v1_student_proto_rawDescGZIP(), []int{0}
+	return file_student_v1_student_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetStudentRequest) GetId() int32 {
@@ -83,7 +180,7 @@ type GetStudentReply struct {
 
 func (x *GetStudentReply) Reset() {
 	*x = GetStudentReply{}
-	mi := &file_student_v1_student_proto_msgTypes[1]
+	mi := &file_student_v1_student_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -95,7 +192,7 @@ func (x *GetStudentReply) String() string {
 func (*GetStudentReply) ProtoMessage() {}
 
 func (x *GetStudentReply) ProtoReflect() protoreflect.Message {
-	mi := &file_student_v1_student_proto_msgTypes[1]
+	mi := &file_student_v1_student_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -108,7 +205,7 @@ func (x *GetStudentReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetStudentReply.ProtoReflect.Descriptor instead.
 func (*GetStudentReply) Descriptor() ([]byte, []int) {
-	return file_student_v1_student_proto_rawDescGZIP(), []int{1}
+	return file_student_v1_student_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetStudentReply) GetName() string {
@@ -172,7 +269,7 @@ type CreateStudentRequest struct {
 
 func (x *CreateStudentRequest) Reset() {
 	*x = CreateStudentRequest{}
-	mi := &file_student_v1_student_proto_msgTypes[2]
+	mi := &file_student_v1_student_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -184,7 +281,7 @@ func (x *CreateStudentRequest) String() string {
 func (*CreateStudentRequest) ProtoMessage() {}
 
 func (x *CreateStudentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_student_v1_student_proto_msgTypes[2]
+	mi := &file_student_v1_student_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -197,7 +294,7 @@ func (x *CreateStudentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateStudentRequest.ProtoReflect.Descriptor instead.
 func (*CreateStudentRequest) Descriptor() ([]byte, []int) {
-	return file_student_v1_student_proto_rawDescGZIP(), []int{2}
+	return file_student_v1_student_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateStudentRequest) GetName() string {
@@ -237,7 +334,7 @@ type CreateStudentReply struct {
 
 func (x *CreateStudentReply) Reset() {
 	*x = CreateStudentReply{}
-	mi := &file_student_v1_student_proto_msgTypes[3]
+	mi := &file_student_v1_student_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -249,7 +346,7 @@ func (x *CreateStudentReply) String() string {
 func (*CreateStudentReply) ProtoMessage() {}
 
 func (x *CreateStudentReply) ProtoReflect() protoreflect.Message {
-	mi := &file_student_v1_student_proto_msgTypes[3]
+	mi := &file_student_v1_student_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -262,7 +359,7 @@ func (x *CreateStudentReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateStudentReply.ProtoReflect.Descriptor instead.
 func (*CreateStudentReply) Descriptor() ([]byte, []int) {
-	return file_student_v1_student_proto_rawDescGZIP(), []int{3}
+	return file_student_v1_student_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateStudentReply) GetMessage() string {
@@ -285,7 +382,7 @@ type UpdateStudentRequest struct {
 
 func (x *UpdateStudentRequest) Reset() {
 	*x = UpdateStudentRequest{}
-	mi := &file_student_v1_student_proto_msgTypes[4]
+	mi := &file_student_v1_student_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -297,7 +394,7 @@ func (x *UpdateStudentRequest) String() string {
 func (*UpdateStudentRequest) ProtoMessage() {}
 
 func (x *UpdateStudentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_student_v1_student_proto_msgTypes[4]
+	mi := &file_student_v1_student_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -310,7 +407,7 @@ func (x *UpdateStudentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateStudentRequest.ProtoReflect.Descriptor instead.
 func (*UpdateStudentRequest) Descriptor() ([]byte, []int) {
-	return file_student_v1_student_proto_rawDescGZIP(), []int{4}
+	return file_student_v1_student_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UpdateStudentRequest) GetId() int32 {
@@ -357,7 +454,7 @@ type UpdateStudentReply struct {
 
 func (x *UpdateStudentReply) Reset() {
 	*x = UpdateStudentReply{}
-	mi := &file_student_v1_student_proto_msgTypes[5]
+	mi := &file_student_v1_student_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -369,7 +466,7 @@ func (x *UpdateStudentReply) String() string {
 func (*UpdateStudentReply) ProtoMessage() {}
 
 func (x *UpdateStudentReply) ProtoReflect() protoreflect.Message {
-	mi := &file_student_v1_student_proto_msgTypes[5]
+	mi := &file_student_v1_student_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -382,7 +479,7 @@ func (x *UpdateStudentReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateStudentReply.ProtoReflect.Descriptor instead.
 func (*UpdateStudentReply) Descriptor() ([]byte, []int) {
-	return file_student_v1_student_proto_rawDescGZIP(), []int{5}
+	return file_student_v1_student_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateStudentReply) GetMessage() string {
@@ -401,7 +498,7 @@ type DeleteStudentRequest struct {
 
 func (x *DeleteStudentRequest) Reset() {
 	*x = DeleteStudentRequest{}
-	mi := &file_student_v1_student_proto_msgTypes[6]
+	mi := &file_student_v1_student_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -413,7 +510,7 @@ func (x *DeleteStudentRequest) String() string {
 func (*DeleteStudentRequest) ProtoMessage() {}
 
 func (x *DeleteStudentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_student_v1_student_proto_msgTypes[6]
+	mi := &file_student_v1_student_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -426,7 +523,7 @@ func (x *DeleteStudentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteStudentRequest.ProtoReflect.Descriptor instead.
 func (*DeleteStudentRequest) Descriptor() ([]byte, []int) {
-	return file_student_v1_student_proto_rawDescGZIP(), []int{6}
+	return file_student_v1_student_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteStudentRequest) GetId() int32 {
@@ -445,7 +542,7 @@ type DeleteStudentReply struct {
 
 func (x *DeleteStudentReply) Reset() {
 	*x = DeleteStudentReply{}
-	mi := &file_student_v1_student_proto_msgTypes[7]
+	mi := &file_student_v1_student_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -457,7 +554,7 @@ func (x *DeleteStudentReply) String() string {
 func (*DeleteStudentReply) ProtoMessage() {}
 
 func (x *DeleteStudentReply) ProtoReflect() protoreflect.Message {
-	mi := &file_student_v1_student_proto_msgTypes[7]
+	mi := &file_student_v1_student_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -470,7 +567,7 @@ func (x *DeleteStudentReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteStudentReply.ProtoReflect.Descriptor instead.
 func (*DeleteStudentReply) Descriptor() ([]byte, []int) {
-	return file_student_v1_student_proto_rawDescGZIP(), []int{7}
+	return file_student_v1_student_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteStudentReply) GetMessage() string {
@@ -495,7 +592,7 @@ type Students struct {
 
 func (x *Students) Reset() {
 	*x = Students{}
-	mi := &file_student_v1_student_proto_msgTypes[8]
+	mi := &file_student_v1_student_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -507,7 +604,7 @@ func (x *Students) String() string {
 func (*Students) ProtoMessage() {}
 
 func (x *Students) ProtoReflect() protoreflect.Message {
-	mi := &file_student_v1_student_proto_msgTypes[8]
+	mi := &file_student_v1_student_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -520,7 +617,7 @@ func (x *Students) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Students.ProtoReflect.Descriptor instead.
 func (*Students) Descriptor() ([]byte, []int) {
-	return file_student_v1_student_proto_rawDescGZIP(), []int{8}
+	return file_student_v1_student_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *Students) GetName() string {
@@ -583,7 +680,7 @@ type ListStudentsRequest struct {
 
 func (x *ListStudentsRequest) Reset() {
 	*x = ListStudentsRequest{}
-	mi := &file_student_v1_student_proto_msgTypes[9]
+	mi := &file_student_v1_student_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -595,7 +692,7 @@ func (x *ListStudentsRequest) String() string {
 func (*ListStudentsRequest) ProtoMessage() {}
 
 func (x *ListStudentsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_student_v1_student_proto_msgTypes[9]
+	mi := &file_student_v1_student_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -608,7 +705,7 @@ func (x *ListStudentsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListStudentsRequest.ProtoReflect.Descriptor instead.
 func (*ListStudentsRequest) Descriptor() ([]byte, []int) {
-	return file_student_v1_student_proto_rawDescGZIP(), []int{9}
+	return file_student_v1_student_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ListStudentsRequest) GetPageSize() string {
@@ -642,7 +739,7 @@ type ListStudentsReply struct {
 
 func (x *ListStudentsReply) Reset() {
 	*x = ListStudentsReply{}
-	mi := &file_student_v1_student_proto_msgTypes[10]
+	mi := &file_student_v1_student_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -654,7 +751,7 @@ func (x *ListStudentsReply) String() string {
 func (*ListStudentsReply) ProtoMessage() {}
 
 func (x *ListStudentsReply) ProtoReflect() protoreflect.Message {
-	mi := &file_student_v1_student_proto_msgTypes[10]
+	mi := &file_student_v1_student_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -667,7 +764,7 @@ func (x *ListStudentsReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListStudentsReply.ProtoReflect.Descriptor instead.
 func (*ListStudentsReply) Descriptor() ([]byte, []int) {
-	return file_student_v1_student_proto_rawDescGZIP(), []int{10}
+	return file_student_v1_student_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ListStudentsReply) GetData() []*Students {
@@ -689,7 +786,12 @@ var File_student_v1_student_proto protoreflect.FileDescriptor
 const file_student_v1_student_proto_rawDesc = "" +
 	"\n" +
 	"\x18student/v1/student.proto\x12\n" +
-	"student.v1\x1a\x1cgoogle/api/annotations.proto\"#\n" +
+	"student.v1\x1a\x1cgoogle/api/annotations.proto\"\x14\n" +
+	"\x12HealthCheckRequest\"b\n" +
+	"\x10HealthCheckReply\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\tR\x06status\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1c\n" +
+	"\ttimestamp\x18\x03 \x01(\tR\ttimestamp\"#\n" +
 	"\x11GetStudentRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\"\xb3\x01\n" +
 	"\x0fGetStudentReply\x12\x12\n" +
@@ -739,8 +841,9 @@ const file_student_v1_student_proto_rawDesc = "" +
 	"\x04name\x18\x03 \x01(\tR\x04name\"S\n" +
 	"\x11ListStudentsReply\x12(\n" +
 	"\x04data\x18\x01 \x03(\v2\x14.student.v1.StudentsR\x04data\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x05R\x05total2\x9b\x04\n" +
-	"\aStudent\x12b\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total2\x85\x05\n" +
+	"\aStudent\x12h\n" +
+	"\vHealthCheck\x12\x1e.student.v1.HealthCheckRequest\x1a\x1c.student.v1.HealthCheckReply\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/students/health\x12b\n" +
 	"\n" +
 	"GetStudent\x12\x1d.student.v1.GetStudentRequest\x1a\x1b.student.v1.GetStudentReply\"\x18\x82\xd3\xe4\x93\x02\x12\x12\x10/v1/student/{id}\x12i\n" +
 	"\rCreateStudent\x12 .student.v1.CreateStudentRequest\x1a\x1e.student.v1.CreateStudentReply\"\x16\x82\xd3\xe4\x93\x02\x10:\x01*\"\v/v1/student\x12n\n" +
@@ -760,34 +863,38 @@ func file_student_v1_student_proto_rawDescGZIP() []byte {
 	return file_student_v1_student_proto_rawDescData
 }
 
-var file_student_v1_student_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_student_v1_student_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_student_v1_student_proto_goTypes = []any{
-	(*GetStudentRequest)(nil),    // 0: student.v1.GetStudentRequest
-	(*GetStudentReply)(nil),      // 1: student.v1.GetStudentReply
-	(*CreateStudentRequest)(nil), // 2: student.v1.CreateStudentRequest
-	(*CreateStudentReply)(nil),   // 3: student.v1.CreateStudentReply
-	(*UpdateStudentRequest)(nil), // 4: student.v1.UpdateStudentRequest
-	(*UpdateStudentReply)(nil),   // 5: student.v1.UpdateStudentReply
-	(*DeleteStudentRequest)(nil), // 6: student.v1.DeleteStudentRequest
-	(*DeleteStudentReply)(nil),   // 7: student.v1.DeleteStudentReply
-	(*Students)(nil),             // 8: student.v1.Students
-	(*ListStudentsRequest)(nil),  // 9: student.v1.ListStudentsRequest
-	(*ListStudentsReply)(nil),    // 10: student.v1.ListStudentsReply
+	(*HealthCheckRequest)(nil),   // 0: student.v1.HealthCheckRequest
+	(*HealthCheckReply)(nil),     // 1: student.v1.HealthCheckReply
+	(*GetStudentRequest)(nil),    // 2: student.v1.GetStudentRequest
+	(*GetStudentReply)(nil),      // 3: student.v1.GetStudentReply
+	(*CreateStudentRequest)(nil), // 4: student.v1.CreateStudentRequest
+	(*CreateStudentReply)(nil),   // 5: student.v1.CreateStudentReply
+	(*UpdateStudentRequest)(nil), // 6: student.v1.UpdateStudentRequest
+	(*UpdateStudentReply)(nil),   // 7: student.v1.UpdateStudentReply
+	(*DeleteStudentRequest)(nil), // 8: student.v1.DeleteStudentRequest
+	(*DeleteStudentReply)(nil),   // 9: student.v1.DeleteStudentReply
+	(*Students)(nil),             // 10: student.v1.Students
+	(*ListStudentsRequest)(nil),  // 11: student.v1.ListStudentsRequest
+	(*ListStudentsReply)(nil),    // 12: student.v1.ListStudentsReply
 }
 var file_student_v1_student_proto_depIdxs = []int32{
-	8,  // 0: student.v1.ListStudentsReply.data:type_name -> student.v1.Students
-	0,  // 1: student.v1.Student.GetStudent:input_type -> student.v1.GetStudentRequest
-	2,  // 2: student.v1.Student.CreateStudent:input_type -> student.v1.CreateStudentRequest
-	4,  // 3: student.v1.Student.UpdateStudent:input_type -> student.v1.UpdateStudentRequest
-	6,  // 4: student.v1.Student.DeleteStudent:input_type -> student.v1.DeleteStudentRequest
-	9,  // 5: student.v1.Student.ListStudents:input_type -> student.v1.ListStudentsRequest
-	1,  // 6: student.v1.Student.GetStudent:output_type -> student.v1.GetStudentReply
-	3,  // 7: student.v1.Student.CreateStudent:output_type -> student.v1.CreateStudentReply
-	5,  // 8: student.v1.Student.UpdateStudent:output_type -> student.v1.UpdateStudentReply
-	7,  // 9: student.v1.Student.DeleteStudent:output_type -> student.v1.DeleteStudentReply
-	10, // 10: student.v1.Student.ListStudents:output_type -> student.v1.ListStudentsReply
-	6,  // [6:11] is the sub-list for method output_type
-	1,  // [1:6] is the sub-list for method input_type
+	10, // 0: student.v1.ListStudentsReply.data:type_name -> student.v1.Students
+	0,  // 1: student.v1.Student.HealthCheck:input_type -> student.v1.HealthCheckRequest
+	2,  // 2: student.v1.Student.GetStudent:input_type -> student.v1.GetStudentRequest
+	4,  // 3: student.v1.Student.CreateStudent:input_type -> student.v1.CreateStudentRequest
+	6,  // 4: student.v1.Student.UpdateStudent:input_type -> student.v1.UpdateStudentRequest
+	8,  // 5: student.v1.Student.DeleteStudent:input_type -> student.v1.DeleteStudentRequest
+	11, // 6: student.v1.Student.ListStudents:input_type -> student.v1.ListStudentsRequest
+	1,  // 7: student.v1.Student.HealthCheck:output_type -> student.v1.HealthCheckReply
+	3,  // 8: student.v1.Student.GetStudent:output_type -> student.v1.GetStudentReply
+	5,  // 9: student.v1.Student.CreateStudent:output_type -> student.v1.CreateStudentReply
+	7,  // 10: student.v1.Student.UpdateStudent:output_type -> student.v1.UpdateStudentReply
+	9,  // 11: student.v1.Student.DeleteStudent:output_type -> student.v1.DeleteStudentReply
+	12, // 12: student.v1.Student.ListStudents:output_type -> student.v1.ListStudentsReply
+	7,  // [7:13] is the sub-list for method output_type
+	1,  // [1:7] is the sub-list for method input_type
 	1,  // [1:1] is the sub-list for extension type_name
 	1,  // [1:1] is the sub-list for extension extendee
 	0,  // [0:1] is the sub-list for field type_name
@@ -804,7 +911,7 @@ func file_student_v1_student_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_student_v1_student_proto_rawDesc), len(file_student_v1_student_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

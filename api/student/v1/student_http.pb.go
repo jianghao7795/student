@@ -22,6 +22,7 @@ const _ = http.SupportPackageIsVersion1
 const OperationStudentCreateStudent = "/student.v1.Student/CreateStudent"
 const OperationStudentDeleteStudent = "/student.v1.Student/DeleteStudent"
 const OperationStudentGetStudent = "/student.v1.Student/GetStudent"
+const OperationStudentHealthCheck = "/student.v1.Student/HealthCheck"
 const OperationStudentListStudents = "/student.v1.Student/ListStudents"
 const OperationStudentUpdateStudent = "/student.v1.Student/UpdateStudent"
 
@@ -30,17 +31,39 @@ type StudentHTTPServer interface {
 	DeleteStudent(context.Context, *DeleteStudentRequest) (*DeleteStudentReply, error)
 	// GetStudent Sends a greeting
 	GetStudent(context.Context, *GetStudentRequest) (*GetStudentReply, error)
+	// HealthCheck 健康检查
+	HealthCheck(context.Context, *HealthCheckRequest) (*HealthCheckReply, error)
 	ListStudents(context.Context, *ListStudentsRequest) (*ListStudentsReply, error)
 	UpdateStudent(context.Context, *UpdateStudentRequest) (*UpdateStudentReply, error)
 }
 
 func RegisterStudentHTTPServer(s *http.Server, srv StudentHTTPServer) {
 	r := s.Route("/")
+	r.GET("/v1/students/health", _Student_HealthCheck0_HTTP_Handler(srv))
 	r.GET("/v1/student/{id}", _Student_GetStudent0_HTTP_Handler(srv))
 	r.POST("/v1/student", _Student_CreateStudent0_HTTP_Handler(srv))
 	r.PUT("/v1/student/{id}", _Student_UpdateStudent0_HTTP_Handler(srv))
 	r.DELETE("/v1/student/{id}", _Student_DeleteStudent0_HTTP_Handler(srv))
 	r.GET("/v1/students", _Student_ListStudents0_HTTP_Handler(srv))
+}
+
+func _Student_HealthCheck0_HTTP_Handler(srv StudentHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in HealthCheckRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationStudentHealthCheck)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.HealthCheck(ctx, req.(*HealthCheckRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*HealthCheckReply)
+		return ctx.Result(200, reply)
+	}
 }
 
 func _Student_GetStudent0_HTTP_Handler(srv StudentHTTPServer) func(ctx http.Context) error {
@@ -157,6 +180,7 @@ type StudentHTTPClient interface {
 	CreateStudent(ctx context.Context, req *CreateStudentRequest, opts ...http.CallOption) (rsp *CreateStudentReply, err error)
 	DeleteStudent(ctx context.Context, req *DeleteStudentRequest, opts ...http.CallOption) (rsp *DeleteStudentReply, err error)
 	GetStudent(ctx context.Context, req *GetStudentRequest, opts ...http.CallOption) (rsp *GetStudentReply, err error)
+	HealthCheck(ctx context.Context, req *HealthCheckRequest, opts ...http.CallOption) (rsp *HealthCheckReply, err error)
 	ListStudents(ctx context.Context, req *ListStudentsRequest, opts ...http.CallOption) (rsp *ListStudentsReply, err error)
 	UpdateStudent(ctx context.Context, req *UpdateStudentRequest, opts ...http.CallOption) (rsp *UpdateStudentReply, err error)
 }
@@ -200,6 +224,19 @@ func (c *StudentHTTPClientImpl) GetStudent(ctx context.Context, in *GetStudentRe
 	pattern := "/v1/student/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationStudentGetStudent))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *StudentHTTPClientImpl) HealthCheck(ctx context.Context, in *HealthCheckRequest, opts ...http.CallOption) (*HealthCheckReply, error) {
+	var out HealthCheckReply
+	pattern := "/v1/students/health"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationStudentHealthCheck))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

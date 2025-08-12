@@ -9,10 +9,13 @@ package main
 import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
+	biz2 "student/internal/biz"
 	"student/internal/conf"
+	"student/internal/data"
+	"student/internal/pkg/jwt"
 	"student/internal/pkg/nacos"
 	"student/internal/student-service/biz"
-	"student/internal/student-service/data"
+	data2 "student/internal/student-service/data"
 	"student/internal/student-service/server"
 	"student/internal/student-service/service"
 )
@@ -25,19 +28,37 @@ import (
 
 // wireApp init kratos application.
 func wireApp(bootstrap *conf.Bootstrap, logger log.Logger, discovery *nacos.Discovery) (*kratos.App, func(), error) {
-	db := data.NewGormDB(bootstrap)
-	client := data.NewRedis(bootstrap)
-	dataData, cleanup, err := data.NewData(logger, db, client)
+	db, err := data.NewGormDB(bootstrap)
 	if err != nil {
 		return nil, nil, err
 	}
-	studentRepo := data.NewStudentRepo(dataData, logger)
+	client, err := data.NewRedis(bootstrap)
+	if err != nil {
+		return nil, nil, err
+	}
+	dataData, cleanup, err := data2.NewData(logger, db, client)
+	if err != nil {
+		return nil, nil, err
+	}
+	studentRepo := data2.NewStudentRepo(dataData, logger)
 	studentUsecase := biz.NewStudentUsecase(studentRepo, logger)
 	studentService := service.NewStudentService(studentUsecase, logger)
-	grpcServer := server.NewGRPCServer(bootstrap, studentService, logger)
-	httpServer := server.NewHTTPServer(bootstrap, studentService, logger)
+	data3, cleanup2, err := data.NewData(logger, db, client)
+	if err != nil {
+		cleanup()
+		return nil, nil, err
+	}
+	string2 := data.NewRBACModelPath(bootstrap)
+	rbacRepo := data.NewRBACRepo(data3, logger, string2)
+	rbac := data.NewRBACConfig(bootstrap)
+	rbacUsecase := biz2.NewRBACUsecase(rbacRepo, logger, rbac)
+	config := data.NewJWTConfig(bootstrap)
+	jwtUtil := jwt.NewJWTUtil(config)
+	grpcServer := server.NewGRPCServer(bootstrap, studentService, rbacUsecase, jwtUtil, logger)
+	httpServer := server.NewHTTPServer(bootstrap, studentService, rbacUsecase, jwtUtil, logger)
 	app := newApp(logger, grpcServer, httpServer, discovery, bootstrap)
 	return app, func() {
+		cleanup2()
 		cleanup()
 	}, nil
 }

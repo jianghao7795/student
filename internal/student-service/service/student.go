@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	pb "student/api/student/v1"
 	"student/internal/student-service/biz"
@@ -21,6 +22,15 @@ func NewStudentService(uc *biz.StudentUsecase, logger log.Logger) *StudentServic
 		uc:  uc,
 		log: log.NewHelper(logger),
 	}
+}
+
+// HealthCheck 健康检查
+func (s *StudentService) HealthCheck(ctx context.Context, req *pb.HealthCheckRequest) (*pb.HealthCheckReply, error) {
+	return &pb.HealthCheckReply{
+		Status:    "OK",
+		Message:   "Student service is healthy",
+		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
+	}, nil
 }
 
 func (s *StudentService) CreateStudent(ctx context.Context, req *pb.CreateStudentRequest) (*pb.CreateStudentReply, error) {
@@ -88,15 +98,17 @@ func (s *StudentService) GetStudent(ctx context.Context, req *pb.GetStudentReque
 	}, nil
 }
 
-func (s *StudentService) ListStudent(ctx context.Context, req *pb.ListStudentsRequest) (*pb.ListStudentsReply, error) {
+func (s *StudentService) ListStudents(ctx context.Context, req *pb.ListStudentsRequest) (*pb.ListStudentsReply, error) {
+	// 获取学生列表
 	students, err := s.uc.ListStudent(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	var pbStudents []*pb.Students
+	// 转换为proto消息
+	var studentsProto []*pb.Students
 	for _, student := range students {
-		pbStudents = append(pbStudents, &pb.Students{
+		studentsProto = append(studentsProto, &pb.Students{
 			Id:        int32(student.ID),
 			Name:      student.Name,
 			Info:      student.Info,
@@ -108,7 +120,7 @@ func (s *StudentService) ListStudent(ctx context.Context, req *pb.ListStudentsRe
 	}
 
 	return &pb.ListStudentsReply{
-		Data:  pbStudents,
-		Total: int32(len(pbStudents)),
+		Data:  studentsProto,
+		Total: int32(len(studentsProto)), // 这里应该返回总数，暂时返回当前页数量
 	}, nil
 }

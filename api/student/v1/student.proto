@@ -8,6 +8,13 @@ option go_package = "student/api/student/v1;v1";
 
 // The greeting service definition.
 service Student {
+  // 健康检查
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckReply) {
+    option (google.api.http) = {
+      get: "/v1/students/health"
+    };
+  }
+  
   // Sends a greeting
   rpc GetStudent(GetStudentRequest) returns (GetStudentReply) {
     option (google.api.http) = {
@@ -36,6 +43,15 @@ service Student {
       get: "/v1/students"
     };
   }
+}
+
+// 健康检查相关消息
+message HealthCheckRequest {}
+
+message HealthCheckReply {
+  string status = 1;
+  string message = 2;
+  string timestamp = 3;
 }
 
 // The request message containing the user's name.

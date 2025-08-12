@@ -6,6 +6,8 @@
 package main
 
 import (
+	globalbiz "student/internal/biz"
+	globaldata "student/internal/data"
 	"student/internal/conf"
 	"student/internal/pkg/nacos"
 	"student/internal/student-service/biz"
@@ -20,5 +22,14 @@ import (
 
 // wireApp init kratos application.
 func wireApp(*conf.Bootstrap, log.Logger, *nacos.Discovery) (*kratos.App, func(), error) {
-	panic(wire.Build(server.ProviderSet, data.ProviderSet, biz.ProviderSet, service.ProviderSet, newApp))
+	panic(wire.Build(
+		server.ProviderSet,
+		data.ProviderSet,
+		biz.ProviderSet,
+		service.ProviderSet,
+		// 添加全局依赖
+		globaldata.ProviderSet,
+		globalbiz.ProviderSet,
+		newApp,
+	))
 }

@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	Student_HealthCheck_FullMethodName   = "/student.v1.Student/HealthCheck"
 	Student_GetStudent_FullMethodName    = "/student.v1.Student/GetStudent"
 	Student_CreateStudent_FullMethodName = "/student.v1.Student/CreateStudent"
 	Student_UpdateStudent_FullMethodName = "/student.v1.Student/UpdateStudent"
@@ -32,6 +33,8 @@ const (
 //
 // The greeting service definition.
 type StudentClient interface {
+	// 健康检查
+	HealthCheck(ctx context.Context, in *HealthCheckRequest, opts ...grpc.CallOption) (*HealthCheckReply, error)
 	// Sends a greeting
 	GetStudent(ctx context.Context, in *GetStudentRequest, opts ...grpc.CallOption) (*GetStudentReply, error)
 	CreateStudent(ctx context.Context, in *CreateStudentRequest, opts ...grpc.CallOption) (*CreateStudentReply, error)
@@ -46,6 +49,16 @@ type studentClient struct {
 
 func NewStudentClient(cc grpc.ClientConnInterface) StudentClient {
 	return &studentClient{cc}
+}
+
+func (c *studentClient) HealthCheck(ctx context.Context, in *HealthCheckRequest, opts ...grpc.CallOption) (*HealthCheckReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(HealthCheckReply)
+	err := c.cc.Invoke(ctx, Student_HealthCheck_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *studentClient) GetStudent(ctx context.Context, in *GetStudentRequest, opts ...grpc.CallOption) (*GetStudentReply, error) {
@@ -104,6 +117,8 @@ func (c *studentClient) ListStudents(ctx context.Context, in *ListStudentsReques
 //
 // The greeting service definition.
 type StudentServer interface {
+	// 健康检查
+	HealthCheck(context.Context, *HealthCheckRequest) (*HealthCheckReply, error)
 	// Sends a greeting
 	GetStudent(context.Context, *GetStudentRequest) (*GetStudentReply, error)
 	CreateStudent(context.Context, *CreateStudentRequest) (*CreateStudentReply, error)
@@ -120,6 +135,9 @@ type StudentServer interface {
 // pointer dereference when methods are called.
 type UnimplementedStudentServer struct{}
 
+func (UnimplementedStudentServer) HealthCheck(context.Context, *HealthCheckRequest) (*HealthCheckReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HealthCheck not implemented")
+}
 func (UnimplementedStudentServer) GetStudent(context.Context, *GetStudentRequest) (*GetStudentReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStudent not implemented")
 }
@@ -154,6 +172,24 @@ func RegisterStudentServer(s grpc.ServiceRegistrar, srv StudentServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&Student_ServiceDesc, srv)
+}
+
+func _Student_HealthCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HealthCheckRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StudentServer).HealthCheck(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Student_HealthCheck_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StudentServer).HealthCheck(ctx, req.(*HealthCheckRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Student_GetStudent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -253,6 +289,10 @@ var Student_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "student.v1.Student",
 	HandlerType: (*StudentServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "HealthCheck",
+			Handler:    _Student_HealthCheck_Handler,
+		},
 		{
 			MethodName: "GetStudent",
 			Handler:    _Student_GetStudent_Handler,

@@ -499,6 +499,19 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/student.v1.ListStudentsReply'
+    /v1/students/health:
+        get:
+            tags:
+                - Student
+            description: 健康检查
+            operationId: Student_HealthCheck
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/student.v1.HealthCheckReply'
     /v1/user:
         post:
             tags:
@@ -1102,6 +1115,15 @@ components:
                 updated_at:
                     type: string
             description: The response message containing the greetings
+        student.v1.HealthCheckReply:
+            type: object
+            properties:
+                status:
+                    type: string
+                message:
+                    type: string
+                timestamp:
+                    type: string
         student.v1.ListStudentsReply:
             type: object
             properties:
