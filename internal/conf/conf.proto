@@ -56,8 +56,7 @@ message JWT {
 
 message RBAC {
   string model_path = 1;
-  string policy_path = 2;
-  bool enabled = 3;
+  bool enabled = 2;
 }
 
 message Nacos {

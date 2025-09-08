@@ -265,8 +265,7 @@ func (x *JWT) GetExpire() *durationpb.Duration {
 type RBAC struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ModelPath     string                 `protobuf:"bytes,1,opt,name=model_path,json=modelPath,proto3" json:"model_path,omitempty"`
-	PolicyPath    string                 `protobuf:"bytes,2,opt,name=policy_path,json=policyPath,proto3" json:"policy_path,omitempty"`
-	Enabled       bool                   `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Enabled       bool                   `protobuf:"varint,2,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -304,13 +303,6 @@ func (*RBAC) Descriptor() ([]byte, []int) {
 func (x *RBAC) GetModelPath() string {
 	if x != nil {
 		return x.ModelPath
-	}
-	return ""
-}
-
-func (x *RBAC) GetPolicyPath() string {
-	if x != nil {
-		return x.PolicyPath
 	}
 	return ""
 }
@@ -942,13 +934,11 @@ const file_conf_proto_rawDesc = "" +
 	"\x03JWT\x12\x1d\n" +
 	"\n" +
 	"secret_key\x18\x01 \x01(\tR\tsecretKey\x121\n" +
-	"\x06expire\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\x06expire\"`\n" +
+	"\x06expire\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\x06expire\"?\n" +
 	"\x04RBAC\x12\x1d\n" +
 	"\n" +
-	"model_path\x18\x01 \x01(\tR\tmodelPath\x12\x1f\n" +
-	"\vpolicy_path\x18\x02 \x01(\tR\n" +
-	"policyPath\x12\x18\n" +
-	"\aenabled\x18\x03 \x01(\bR\aenabled\"h\n" +
+	"model_path\x18\x01 \x01(\tR\tmodelPath\x12\x18\n" +
+	"\aenabled\x18\x02 \x01(\bR\aenabled\"h\n" +
 	"\x05Nacos\x123\n" +
 	"\tdiscovery\x18\x01 \x01(\v2\x15.kratos.api.DiscoveryR\tdiscovery\x12*\n" +
 	"\x06config\x18\x02 \x01(\v2\x12.kratos.api.ConfigR\x06config\"\xa1\x02\n" +
